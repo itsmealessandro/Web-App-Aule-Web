@@ -44,7 +44,7 @@ public class Welcome extends HttpServlet {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
             try (
-                    Connection c = DriverManager.getConnection("jdbc:mysql://localhost/dbtest?connectionTimeZone=LOCAL","root","SQLpass");
+                    Connection c = DriverManager.getConnection("jdbc:mysql://localhost/auleDB?connectionTimeZone=LOCAL","root","SQLpass");
                     Statement s = c.createStatement();
                     ResultSet r = s.executeQuery("SELECT * FROM user");) {
                 
