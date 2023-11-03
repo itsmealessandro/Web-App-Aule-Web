@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 03, 2023 at 11:31 AM
+-- Generation Time: Nov 03, 2023 at 02:43 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -111,6 +111,95 @@ INSERT INTO `Dipartimento` (`ID`, `Nome`, `Descrizione`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `Eventi`
+--
+
+CREATE TABLE `Eventi` (
+  `ID` int(11) NOT NULL,
+  `nome` varchar(100) DEFAULT NULL,
+  `oraInizio` time DEFAULT NULL,
+  `oraFine` time DEFAULT NULL,
+  `descrizione` text DEFAULT NULL,
+  `IDAula` int(11) DEFAULT NULL,
+  `IDTipologiaEvento` int(11) DEFAULT NULL,
+  `Ricorrente` enum('SI','NO') NOT NULL DEFAULT 'NO',
+  `DataInizio` date DEFAULT NULL,
+  `DataFine` date DEFAULT NULL,
+  `IDResponsabile` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `Eventi`
+--
+
+INSERT INTO `Eventi` (`ID`, `nome`, `oraInizio`, `oraFine`, `descrizione`, `IDAula`, `IDTipologiaEvento`, `Ricorrente`, `DataInizio`, `DataFine`, `IDResponsabile`) VALUES
+(1, 'Evento 1', '08:00:00', '10:00:00', 'Descrizione dell\'evento 1', 8, 1, 'NO', '2023-11-27', '2023-12-26', 5),
+(2, 'Evento 2', '10:30:00', '12:30:00', 'Descrizione dell\'evento 2', 13, 5, 'SI', '2023-11-16', '2023-11-21', 9),
+(3, 'Evento 3', '14:00:00', '16:00:00', 'Descrizione dell\'evento 3', 4, 3, 'NO', '2023-11-13', '2023-12-14', 9),
+(4, 'Evento 4', '09:00:00', '11:00:00', 'Descrizione dell\'evento 4', 7, 3, 'NO', '2023-11-28', '2023-12-04', 7),
+(5, 'Evento 5', '13:30:00', '15:30:00', 'Descrizione dell\'evento 5', 10, 1, 'NO', '2023-11-21', '2024-01-01', 8),
+(6, 'Evento 6', '12:00:00', '14:00:00', 'Descrizione dell\'evento 6', 7, 1, 'NO', '2023-11-04', '2023-12-10', 9),
+(7, 'Evento 7', '10:00:00', '12:00:00', 'Descrizione dell\'evento 7', 3, 1, 'SI', '2023-11-24', '2023-11-29', 2),
+(8, 'Evento 8', '14:30:00', '16:30:00', 'Descrizione dell\'evento 8', 7, 7, 'NO', '2023-11-06', '2023-12-26', 1),
+(9, 'Evento 9', '11:30:00', '13:30:00', 'Descrizione dell\'evento 9', 8, 7, 'NO', '2023-11-19', '2023-12-12', 7),
+(10, 'Evento 10', '08:30:00', '10:30:00', 'Descrizione dell\'evento 10', 2, 6, 'SI', '2023-11-05', '2023-11-08', 4);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Responsabili`
+--
+
+CREATE TABLE `Responsabili` (
+  `ID` int(11) NOT NULL,
+  `Nome` varchar(50) NOT NULL,
+  `Cognome` varchar(50) NOT NULL,
+  `Email` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `Responsabili`
+--
+
+INSERT INTO `Responsabili` (`ID`, `Nome`, `Cognome`, `Email`) VALUES
+(1, 'John', 'Doe', 'john.doe@gmail.com'),
+(2, 'Jane', 'Smith', 'jane.smith@gmail.com'),
+(3, 'Robert', 'Johnson', 'robert.johnson@outlook.com'),
+(4, 'Emily', 'Williams', 'emily.williams@outlook.com'),
+(5, 'Michael', 'Brown', 'michael.brown@protonmail.com'),
+(6, 'Jessica', 'Taylor', 'jessica.taylor@protonmail.com'),
+(7, 'David', 'Martinez', 'david.martinez@gmail.com'),
+(8, 'Sarah', 'Anderson', 'sarah.anderson@outlook.com'),
+(9, 'William', 'Wilson', 'william.wilson@protonmail.com'),
+(10, 'Olivia', 'Davis', 'olivia.davis@gmail.com');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `TipologiaEvento`
+--
+
+CREATE TABLE `TipologiaEvento` (
+  `ID` int(11) NOT NULL,
+  `Nome` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `TipologiaEvento`
+--
+
+INSERT INTO `TipologiaEvento` (`ID`, `Nome`) VALUES
+(1, 'Lezione'),
+(2, 'Esame'),
+(3, 'Seminario'),
+(4, 'Parziale'),
+(5, 'Riunione'),
+(6, 'Lauree'),
+(7, 'Altro');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `user`
 --
 
@@ -155,6 +244,27 @@ ALTER TABLE `Dipartimento`
   ADD PRIMARY KEY (`ID`);
 
 --
+-- Indexes for table `Eventi`
+--
+ALTER TABLE `Eventi`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `FK_Eventi_Aule` (`IDAula`),
+  ADD KEY `FK_Eventi_TipologiaEvento` (`IDTipologiaEvento`),
+  ADD KEY `FK_Eventi_Responsabile` (`IDResponsabile`);
+
+--
+-- Indexes for table `Responsabili`
+--
+ALTER TABLE `Responsabili`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indexes for table `TipologiaEvento`
+--
+ALTER TABLE `TipologiaEvento`
+  ADD PRIMARY KEY (`ID`);
+
+--
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
@@ -183,6 +293,24 @@ ALTER TABLE `Dipartimento`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT for table `Eventi`
+--
+ALTER TABLE `Eventi`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `Responsabili`
+--
+ALTER TABLE `Responsabili`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `TipologiaEvento`
+--
+ALTER TABLE `TipologiaEvento`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
@@ -198,6 +326,14 @@ ALTER TABLE `user`
 ALTER TABLE `Aule`
   ADD CONSTRAINT `FK_Aule_Attrezzature` FOREIGN KEY (`IDAttrezzatura`) REFERENCES `AttrezzatureDisponibili` (`ID`),
   ADD CONSTRAINT `FK_Aule_Dipartimento` FOREIGN KEY (`IDDipartimento`) REFERENCES `Dipartimento` (`ID`);
+
+--
+-- Constraints for table `Eventi`
+--
+ALTER TABLE `Eventi`
+  ADD CONSTRAINT `FK_Eventi_Aule` FOREIGN KEY (`IDAula`) REFERENCES `Aule` (`ID`),
+  ADD CONSTRAINT `FK_Eventi_Responsabile` FOREIGN KEY (`IDResponsabile`) REFERENCES `Responsabili` (`ID`),
+  ADD CONSTRAINT `FK_Eventi_TipologiaEvento` FOREIGN KEY (`IDTipologiaEvento`) REFERENCES `TipologiaEvento` (`ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -46,11 +46,11 @@ public class Welcome extends HttpServlet {
             try (
                     Connection c = DriverManager.getConnection("jdbc:mysql://localhost/auleDB?connectionTimeZone=LOCAL","root","SQLpass");
                     Statement s = c.createStatement();
-                    ResultSet r = s.executeQuery("SELECT * FROM user");) {
+                    ResultSet r = s.executeQuery("SELECT * FROM Aule");) {
                 
                 r.next();
                 
-                info = r.getString("username");
+                info = r.getString("Nome");
 
             } catch (SQLException ex) {
                 Logger.getLogger(Welcome.class.getName()).log(Level.SEVERE, null, ex);
@@ -81,7 +81,7 @@ public class Welcome extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet Welcome at " + request.getContextPath() + "</h1>");
-            out.println("<h2>username: "  + info + "</h2>");
+            out.println("<h2>Nome aula: "  + info + "</h2>");
             out.println("</body>");
             out.println("</html>");
         }
