@@ -20,7 +20,7 @@
     </context-param>
     <context-param>
         <param-name>view.outline_template</param-name>
-        <param-value>outline.ftl.html</param-value>
+        <param-value>layout.ftl.html</param-value>
     </context-param>
     <context-param>
         <param-name>view.date_format</param-name>

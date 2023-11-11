@@ -4,8 +4,9 @@
  */
 package controller;
 
+import framework.result.TemplateManagerException;
+import framework.result.TemplateResult;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -48,7 +49,9 @@ public class Welcome extends HttpServlet {
                     Statement s = c.createStatement();
                     ResultSet r = s.executeQuery("SELECT * FROM Aule");) {
                 
-                r.next();
+                    
+                    r.next(); 
+                    
                 
                 info = r.getString("Nome");
 
@@ -70,20 +73,16 @@ public class Welcome extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         
         String info = this.getDBInfo();
+
+        // Inoltre, specifica il nome del template Freemarker da utilizzare per la pagina di benvenuto.
+        String templateName = "welcome.ftl.html";
         
-        
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Welcome</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Welcome at " + request.getContextPath() + "</h1>");
-            out.println("<h2>Nome aula: "  + info + "</h2>");
-            out.println("</body>");
-            out.println("</html>");
+        // Qui puoi utilizzare la classe TemplateResult per attivare il template e generare la risposta.
+        TemplateResult templateResult = new TemplateResult(getServletContext());
+        try {
+            templateResult.activate(templateName, request, response);
+        } catch (TemplateManagerException ex) {
+            Logger.getLogger(Welcome.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
