@@ -18,6 +18,8 @@ Il progetto fa ampio uso delle seguenti tecnologie:
 
 - **Database**: La Web App fa ampio uso di un database per la memorizzazione dei dati relativi alle aule, alle prenotazioni e alle informazioni dei dipartimenti.
 
+- **FreeMarker**: Libreria utilizzata per gestire layout e templates.
+
 L'uso combinato di queste tecnologie permette una realizzazione efficace e scalabile della Web App.
 
 Per ulteriori dettagli sulla configurazione e l'installazione delle tecnologie, si prega di fare riferimento alla documentazione specifica di ciascuna.

@@ -59,11 +59,9 @@ public class ModelloFTL {
 
     
     // metodo che renderizza le viste
-    public void renderview(String viewName, HttpServletRequest request, HttpServletResponse response, Writer out) {
+    public void renderview(String viewName, Map localdatamodel , HttpServletRequest request, HttpServletResponse response, Writer out) {
 
         try {
-            
-            Map localdatamodel = new HashMap();
             
             localdatamodel.put("layout", "layout.ftl.html");
 
@@ -74,7 +72,7 @@ public class ModelloFTL {
             localdatamodel.put("center_view", viewName);
             
             // inseriamo un parametro a caso giusto per vedere che si può fare
-            localdatamodel.put("argomento","sono l'argomento");
+            // localdatamodel.put("argomento","sono l'argomento");
 
             // lancio la vista
             t.process(localdatamodel, out);

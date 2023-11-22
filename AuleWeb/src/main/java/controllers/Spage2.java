@@ -7,6 +7,8 @@ package controllers;
 import freemakerTemplate.ModelloFTL;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -31,8 +33,11 @@ public class Spage2 extends HttpServlet {
             throws ServletException, IOException {
         
         ModelloFTL modelloFTL = new ModelloFTL(this.getServletContext());
+       
         
-        modelloFTL.renderview("page2.ftl.html", request, response, response.getWriter());
+        Map ld = new HashMap();
+        
+        modelloFTL.renderview("page2.ftl.html", ld,request, response, response.getWriter());
         
     }
 
