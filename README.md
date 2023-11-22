@@ -24,5 +24,4 @@ L'uso combinato di queste tecnologie permette una realizzazione efficace e scala
 
 Per ulteriori dettagli sulla configurazione e l'installazione delle tecnologie, si prega di fare riferimento alla documentazione specifica di ciascuna.
 
-
 Grazie per l'interesse nel progetto!
