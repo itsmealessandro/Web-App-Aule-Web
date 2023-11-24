@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 03, 2023 at 02:43 PM
+-- Generation Time: Nov 24, 2023 at 06:09 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -24,19 +24,19 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `AttrezzatureDisponibili`
+-- Table structure for table `AttrezzaturaDisponibile`
 --
 
-CREATE TABLE `AttrezzatureDisponibili` (
+CREATE TABLE `AttrezzaturaDisponibile` (
   `ID` int(11) NOT NULL,
   `NomeAttrezzatura` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `AttrezzatureDisponibili`
+-- Dumping data for table `AttrezzaturaDisponibile`
 --
 
-INSERT INTO `AttrezzatureDisponibili` (`ID`, `NomeAttrezzatura`) VALUES
+INSERT INTO `AttrezzaturaDisponibile` (`ID`, `NomeAttrezzatura`) VALUES
 (1, 'Proiettore'),
 (2, 'Schermo Motorizzato'),
 (3, 'Schermo Manuale'),
@@ -50,10 +50,10 @@ INSERT INTO `AttrezzatureDisponibili` (`ID`, `NomeAttrezzatura`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Aule`
+-- Table structure for table `Aula`
 --
 
-CREATE TABLE `Aule` (
+CREATE TABLE `Aula` (
   `ID` int(11) NOT NULL,
   `Nome` varchar(100) NOT NULL,
   `Luogo` varchar(50) NOT NULL,
@@ -62,30 +62,41 @@ CREATE TABLE `Aule` (
   `Capienza` int(11) NOT NULL,
   `PreseElettriche` int(11) DEFAULT NULL,
   `PreseRete` int(11) DEFAULT NULL,
-  `EmailResponsabile` varchar(255) DEFAULT NULL,
   `Note` text DEFAULT NULL,
   `IDAttrezzatura` int(11) DEFAULT NULL,
   `IDDipartimento` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `Aule`
+-- Dumping data for table `Aula`
 --
 
-INSERT INTO `Aule` (`ID`, `Nome`, `Luogo`, `Edificio`, `Piano`, `Capienza`, `PreseElettriche`, `PreseRete`, `EmailResponsabile`, `Note`, `IDAttrezzatura`, `IDDipartimento`) VALUES
-(1, 'Aula 1', 'Luogo C', 'Edificio B', 'Terzo', 50, 10, 5, 'responsabile1@example.com', 'Questa è un\'aula di prova 1.', 3, 2),
-(2, 'Aula 2', 'Luogo A', 'Edificio B', 'Primo', 30, 8, 4, 'responsabile2@example.com', 'Questa è un\'aula di prova 2.', 4, 2),
-(3, 'Aula 3', 'Luogo C', 'Edificio B', 'Secondo', 40, 12, 6, 'responsabile3@example.com', 'Questa è un\'aula di prova 3.', 2, 3),
-(4, 'Aula 4', 'Luogo B', 'Edificio A', 'Secondo', 50, 10, 5, 'responsabile4@example.com', 'Questa è un\'aula di prova 4.', 6, 1),
-(5, 'Aula 5', 'Luogo B', 'Edificio A', 'Terzo', 30, 8, 4, 'responsabile5@example.com', 'Questa è un\'aula di prova 5.', 5, 1),
-(6, 'Aula 6', 'Luogo C', 'Edificio C', 'Primo', 40, 12, 6, 'responsabile6@example.com', 'Questa è un\'aula di prova 6.', 5, 2),
-(7, 'Aula 7', 'Luogo B', 'Edificio B', 'Terzo', 60, 15, 8, 'responsabile7@example.com', 'Questa è un\'aula di prova 7.', 8, 1),
-(8, 'Aula 8', 'Luogo B', 'Edificio C', 'Terzo', 45, 9, 7, 'responsabile8@example.com', 'Questa è un\'aula di prova 8.', 9, 3),
-(9, 'Aula 9', 'Luogo B', 'Edificio C', 'Terzo', 70, 20, 10, 'responsabile9@example.com', 'Questa è un\'aula di prova 9.', 8, 1),
-(10, 'Aula 10', 'Luogo A', 'Edificio C', 'Terzo', 35, 7, 6, 'responsabile10@example.com', 'Questa è un\'aula di prova 10.', 6, 1),
-(11, 'Aula 11', 'Luogo C', 'Edificio A', 'Secondo', 55, 12, 9, 'responsabile11@example.com', 'Questa è un\'aula di prova 11.', 2, 1),
-(12, 'Aula 12', 'Luogo C', 'Edificio B', 'Terzo', 42, 11, 6, 'responsabile12@example.com', 'Questa è un\'aula di prova 12.', 2, 3),
-(13, 'Aula 13', 'Luogo A', 'Edificio B', 'Terzo', 38, 10, 5, 'responsabile13@example.com', 'Questa è un\'aula di prova 13.', 2, 3);
+INSERT INTO `Aula` (`ID`, `Nome`, `Luogo`, `Edificio`, `Piano`, `Capienza`, `PreseElettriche`, `PreseRete`, `Note`, `IDAttrezzatura`, `IDDipartimento`) VALUES
+(1, 'Aula 1', 'Luogo C', 'Edificio B', 'Terzo', 50, 10, 5, 'Questa è un\'aula di prova 1.', 3, 2),
+(2, 'Aula 2', 'Luogo A', 'Edificio B', 'Primo', 30, 8, 4, 'Questa è un\'aula di prova 2.', 4, 2),
+(3, 'Aula 3', 'Luogo C', 'Edificio B', 'Secondo', 40, 12, 6, 'Questa è un\'aula di prova 3.', 2, 3),
+(4, 'Aula 4', 'Luogo B', 'Edificio A', 'Secondo', 50, 10, 5, 'Questa è un\'aula di prova 4.', 6, 1),
+(5, 'Aula 5', 'Luogo B', 'Edificio A', 'Terzo', 30, 8, 4, 'Questa è un\'aula di prova 5.', 5, 1),
+(6, 'Aula 6', 'Luogo C', 'Edificio C', 'Primo', 40, 12, 6, 'Questa è un\'aula di prova 6.', 5, 2),
+(7, 'Aula 7', 'Luogo B', 'Edificio B', 'Terzo', 60, 15, 8, 'Questa è un\'aula di prova 7.', 8, 1),
+(8, 'Aula 8', 'Luogo B', 'Edificio C', 'Terzo', 45, 9, 7, 'Questa è un\'aula di prova 8.', 9, 3),
+(9, 'Aula 9', 'Luogo B', 'Edificio C', 'Terzo', 70, 20, 10, 'Questa è un\'aula di prova 9.', 8, 1),
+(10, 'Aula 10', 'Luogo A', 'Edificio C', 'Terzo', 35, 7, 6, 'Questa è un\'aula di prova 10.', 6, 1),
+(11, 'Aula 11', 'Luogo C', 'Edificio A', 'Secondo', 55, 12, 9, 'Questa è un\'aula di prova 11.', 2, 1),
+(12, 'Aula 12', 'Luogo C', 'Edificio B', 'Terzo', 42, 11, 6, 'Questa è un\'aula di prova 12.', 2, 3),
+(13, 'Aula 13', 'Luogo A', 'Edificio B', 'Terzo', 38, 10, 5, 'Questa è un\'aula di prova 13.', 2, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Corso`
+--
+
+CREATE TABLE `Corso` (
+  `ID` int(11) NOT NULL,
+  `Nome` varchar(100) NOT NULL,
+  `IDResponsabile` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -111,46 +122,47 @@ INSERT INTO `Dipartimento` (`ID`, `Nome`, `Descrizione`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Eventi`
+-- Table structure for table `Evento`
 --
 
-CREATE TABLE `Eventi` (
+CREATE TABLE `Evento` (
   `ID` int(11) NOT NULL,
   `nome` varchar(100) DEFAULT NULL,
   `oraInizio` time DEFAULT NULL,
   `oraFine` time DEFAULT NULL,
   `descrizione` text DEFAULT NULL,
   `IDAula` int(11) DEFAULT NULL,
-  `IDTipologiaEvento` int(11) DEFAULT NULL,
   `Ricorrente` enum('SI','NO') NOT NULL DEFAULT 'NO',
   `DataInizio` date DEFAULT NULL,
   `DataFine` date DEFAULT NULL,
-  `IDResponsabile` int(11) DEFAULT NULL
+  `IDResponsabile` int(11) DEFAULT NULL,
+  `IDCorso` int(11) DEFAULT NULL,
+  `IDTipologiaEvento` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `Eventi`
+-- Dumping data for table `Evento`
 --
 
-INSERT INTO `Eventi` (`ID`, `nome`, `oraInizio`, `oraFine`, `descrizione`, `IDAula`, `IDTipologiaEvento`, `Ricorrente`, `DataInizio`, `DataFine`, `IDResponsabile`) VALUES
-(1, 'Evento 1', '08:00:00', '10:00:00', 'Descrizione dell\'evento 1', 8, 1, 'NO', '2023-11-27', '2023-12-26', 5),
-(2, 'Evento 2', '10:30:00', '12:30:00', 'Descrizione dell\'evento 2', 13, 5, 'SI', '2023-11-16', '2023-11-21', 9),
-(3, 'Evento 3', '14:00:00', '16:00:00', 'Descrizione dell\'evento 3', 4, 3, 'NO', '2023-11-13', '2023-12-14', 9),
-(4, 'Evento 4', '09:00:00', '11:00:00', 'Descrizione dell\'evento 4', 7, 3, 'NO', '2023-11-28', '2023-12-04', 7),
-(5, 'Evento 5', '13:30:00', '15:30:00', 'Descrizione dell\'evento 5', 10, 1, 'NO', '2023-11-21', '2024-01-01', 8),
-(6, 'Evento 6', '12:00:00', '14:00:00', 'Descrizione dell\'evento 6', 7, 1, 'NO', '2023-11-04', '2023-12-10', 9),
-(7, 'Evento 7', '10:00:00', '12:00:00', 'Descrizione dell\'evento 7', 3, 1, 'SI', '2023-11-24', '2023-11-29', 2),
-(8, 'Evento 8', '14:30:00', '16:30:00', 'Descrizione dell\'evento 8', 7, 7, 'NO', '2023-11-06', '2023-12-26', 1),
-(9, 'Evento 9', '11:30:00', '13:30:00', 'Descrizione dell\'evento 9', 8, 7, 'NO', '2023-11-19', '2023-12-12', 7),
-(10, 'Evento 10', '08:30:00', '10:30:00', 'Descrizione dell\'evento 10', 2, 6, 'SI', '2023-11-05', '2023-11-08', 4);
+INSERT INTO `Evento` (`ID`, `nome`, `oraInizio`, `oraFine`, `descrizione`, `IDAula`, `Ricorrente`, `DataInizio`, `DataFine`, `IDResponsabile`, `IDCorso`, `IDTipologiaEvento`) VALUES
+(1, 'Evento 1', '08:00:00', '10:00:00', 'Descrizione dell\'evento 1', 8, 'NO', '2023-11-27', '2023-12-26', 5, NULL, NULL),
+(2, 'Evento 2', '10:30:00', '12:30:00', 'Descrizione dell\'evento 2', 13, 'SI', '2023-11-16', '2023-11-21', 9, NULL, NULL),
+(3, 'Evento 3', '14:00:00', '16:00:00', 'Descrizione dell\'evento 3', 4, 'NO', '2023-11-13', '2023-12-14', 9, NULL, NULL),
+(4, 'Evento 4', '09:00:00', '11:00:00', 'Descrizione dell\'evento 4', 7, 'NO', '2023-11-28', '2023-12-04', 7, NULL, NULL),
+(5, 'Evento 5', '13:30:00', '15:30:00', 'Descrizione dell\'evento 5', 10, 'NO', '2023-11-21', '2024-01-01', 8, NULL, NULL),
+(6, 'Evento 6', '12:00:00', '14:00:00', 'Descrizione dell\'evento 6', 7, 'NO', '2023-11-04', '2023-12-10', 9, NULL, NULL),
+(7, 'Evento 7', '10:00:00', '12:00:00', 'Descrizione dell\'evento 7', 3, 'SI', '2023-11-24', '2023-11-29', 2, NULL, NULL),
+(8, 'Evento 8', '14:30:00', '16:30:00', 'Descrizione dell\'evento 8', 7, 'NO', '2023-11-06', '2023-12-26', 1, NULL, NULL),
+(9, 'Evento 9', '11:30:00', '13:30:00', 'Descrizione dell\'evento 9', 8, 'NO', '2023-11-19', '2023-12-12', 7, NULL, NULL),
+(10, 'Evento 10', '08:30:00', '10:30:00', 'Descrizione dell\'evento 10', 2, 'SI', '2023-11-05', '2023-11-08', 4, NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Responsabili`
+-- Table structure for table `Responsabile`
 --
 
-CREATE TABLE `Responsabili` (
+CREATE TABLE `Responsabile` (
   `ID` int(11) NOT NULL,
   `Nome` varchar(50) NOT NULL,
   `Cognome` varchar(50) NOT NULL,
@@ -158,10 +170,10 @@ CREATE TABLE `Responsabili` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `Responsabili`
+-- Dumping data for table `Responsabile`
 --
 
-INSERT INTO `Responsabili` (`ID`, `Nome`, `Cognome`, `Email`) VALUES
+INSERT INTO `Responsabile` (`ID`, `Nome`, `Cognome`, `Email`) VALUES
 (1, 'John', 'Doe', 'john.doe@gmail.com'),
 (2, 'Jane', 'Smith', 'jane.smith@gmail.com'),
 (3, 'Robert', 'Johnson', 'robert.johnson@outlook.com'),
@@ -176,6 +188,17 @@ INSERT INTO `Responsabili` (`ID`, `Nome`, `Cognome`, `Email`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `Ruolo`
+--
+
+CREATE TABLE `Ruolo` (
+  `ID` int(11) NOT NULL,
+  `Nome` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `TipologiaEvento`
 --
 
@@ -184,58 +207,52 @@ CREATE TABLE `TipologiaEvento` (
   `Nome` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `TipologiaEvento`
---
-
-INSERT INTO `TipologiaEvento` (`ID`, `Nome`) VALUES
-(1, 'Lezione'),
-(2, 'Esame'),
-(3, 'Seminario'),
-(4, 'Parziale'),
-(5, 'Riunione'),
-(6, 'Lauree'),
-(7, 'Altro');
-
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user`
+-- Table structure for table `Utente`
 --
 
-CREATE TABLE `user` (
+CREATE TABLE `Utente` (
   `ID` int(11) NOT NULL,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `ruolo` varchar(255) NOT NULL
+  `IDRuolo` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `user`
+-- Dumping data for table `Utente`
 --
 
-INSERT INTO `user` (`ID`, `username`, `password`, `ruolo`) VALUES
-(1, 'a', 'a', 'ADMIN'),
-(2, 'b', 'b', 'ADMIN'),
-(3, 'c', 'c', 'ADMIN');
+INSERT INTO `Utente` (`ID`, `username`, `password`, `IDRuolo`) VALUES
+(1, 'a', 'a', NULL),
+(2, 'b', 'b', NULL),
+(3, 'c', 'c', NULL);
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `AttrezzatureDisponibili`
+-- Indexes for table `AttrezzaturaDisponibile`
 --
-ALTER TABLE `AttrezzatureDisponibili`
+ALTER TABLE `AttrezzaturaDisponibile`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indexes for table `Aule`
+-- Indexes for table `Aula`
 --
-ALTER TABLE `Aule`
+ALTER TABLE `Aula`
   ADD PRIMARY KEY (`ID`),
   ADD KEY `FK_Aule_Attrezzature` (`IDAttrezzatura`),
   ADD KEY `FK_Aule_Dipartimento` (`IDDipartimento`);
+
+--
+-- Indexes for table `Corso`
+--
+ALTER TABLE `Corso`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `FK_Corso_Responsabile` (`IDResponsabile`);
 
 --
 -- Indexes for table `Dipartimento`
@@ -244,18 +261,25 @@ ALTER TABLE `Dipartimento`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indexes for table `Eventi`
+-- Indexes for table `Evento`
 --
-ALTER TABLE `Eventi`
+ALTER TABLE `Evento`
   ADD PRIMARY KEY (`ID`),
   ADD KEY `FK_Eventi_Aule` (`IDAula`),
-  ADD KEY `FK_Eventi_TipologiaEvento` (`IDTipologiaEvento`),
-  ADD KEY `FK_Eventi_Responsabile` (`IDResponsabile`);
+  ADD KEY `FK_Eventi_Responsabile` (`IDResponsabile`),
+  ADD KEY `FK_Evento_Corso` (`IDCorso`),
+  ADD KEY `FK_Evento_TipologiaEvento` (`IDTipologiaEvento`);
 
 --
--- Indexes for table `Responsabili`
+-- Indexes for table `Responsabile`
 --
-ALTER TABLE `Responsabili`
+ALTER TABLE `Responsabile`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indexes for table `Ruolo`
+--
+ALTER TABLE `Ruolo`
   ADD PRIMARY KEY (`ID`);
 
 --
@@ -265,26 +289,33 @@ ALTER TABLE `TipologiaEvento`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indexes for table `user`
+-- Indexes for table `Utente`
 --
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`ID`);
+ALTER TABLE `Utente`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `FK_Utente_Ruolo` (`IDRuolo`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `AttrezzatureDisponibili`
+-- AUTO_INCREMENT for table `AttrezzaturaDisponibile`
 --
-ALTER TABLE `AttrezzatureDisponibili`
+ALTER TABLE `AttrezzaturaDisponibile`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT for table `Aule`
+-- AUTO_INCREMENT for table `Aula`
 --
-ALTER TABLE `Aule`
+ALTER TABLE `Aula`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+
+--
+-- AUTO_INCREMENT for table `Corso`
+--
+ALTER TABLE `Corso`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `Dipartimento`
@@ -293,27 +324,33 @@ ALTER TABLE `Dipartimento`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `Eventi`
+-- AUTO_INCREMENT for table `Evento`
 --
-ALTER TABLE `Eventi`
+ALTER TABLE `Evento`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT for table `Responsabili`
+-- AUTO_INCREMENT for table `Responsabile`
 --
-ALTER TABLE `Responsabili`
+ALTER TABLE `Responsabile`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `Ruolo`
+--
+ALTER TABLE `Ruolo`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `TipologiaEvento`
 --
 ALTER TABLE `TipologiaEvento`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `user`
+-- AUTO_INCREMENT for table `Utente`
 --
-ALTER TABLE `user`
+ALTER TABLE `Utente`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
@@ -321,19 +358,32 @@ ALTER TABLE `user`
 --
 
 --
--- Constraints for table `Aule`
+-- Constraints for table `Aula`
 --
-ALTER TABLE `Aule`
-  ADD CONSTRAINT `FK_Aule_Attrezzature` FOREIGN KEY (`IDAttrezzatura`) REFERENCES `AttrezzatureDisponibili` (`ID`),
+ALTER TABLE `Aula`
+  ADD CONSTRAINT `FK_Aule_Attrezzature` FOREIGN KEY (`IDAttrezzatura`) REFERENCES `AttrezzaturaDisponibile` (`ID`),
   ADD CONSTRAINT `FK_Aule_Dipartimento` FOREIGN KEY (`IDDipartimento`) REFERENCES `Dipartimento` (`ID`);
 
 --
--- Constraints for table `Eventi`
+-- Constraints for table `Corso`
 --
-ALTER TABLE `Eventi`
-  ADD CONSTRAINT `FK_Eventi_Aule` FOREIGN KEY (`IDAula`) REFERENCES `Aule` (`ID`),
-  ADD CONSTRAINT `FK_Eventi_Responsabile` FOREIGN KEY (`IDResponsabile`) REFERENCES `Responsabili` (`ID`),
-  ADD CONSTRAINT `FK_Eventi_TipologiaEvento` FOREIGN KEY (`IDTipologiaEvento`) REFERENCES `TipologiaEvento` (`ID`);
+ALTER TABLE `Corso`
+  ADD CONSTRAINT `FK_Corso_Responsabile` FOREIGN KEY (`IDResponsabile`) REFERENCES `Responsabile` (`ID`);
+
+--
+-- Constraints for table `Evento`
+--
+ALTER TABLE `Evento`
+  ADD CONSTRAINT `FK_Eventi_Aule` FOREIGN KEY (`IDAula`) REFERENCES `Aula` (`ID`),
+  ADD CONSTRAINT `FK_Eventi_Responsabile` FOREIGN KEY (`IDResponsabile`) REFERENCES `Responsabile` (`ID`),
+  ADD CONSTRAINT `FK_Evento_Corso` FOREIGN KEY (`IDCorso`) REFERENCES `Corso` (`ID`),
+  ADD CONSTRAINT `FK_Evento_TipologiaEvento` FOREIGN KEY (`IDTipologiaEvento`) REFERENCES `TipologiaEvento` (`ID`);
+
+--
+-- Constraints for table `Utente`
+--
+ALTER TABLE `Utente`
+  ADD CONSTRAINT `FK_Utente_Ruolo` FOREIGN KEY (`IDRuolo`) REFERENCES `Ruolo` (`ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
