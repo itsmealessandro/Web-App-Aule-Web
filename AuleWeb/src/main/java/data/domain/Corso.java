@@ -4,37 +4,22 @@
  */
 package data.domain;
 
+import data.domainImpl.ResponsabileImpl;
+
 /**
  *
- * @author user
+ * @author Administrator
  */
-public class Corso {
-    private int id;
-    private String nome;
-    private Responsabile responsabile;
+public interface Corso {
+     public int getId();
+     
+    public String getNome();
 
-    public int getId() {
-        return id;
-    }
+    public ResponsabileImpl getResponsabile();
 
-    public String getNome() {
-        return nome;
-    }
+    public void setId(int id);
 
-    public Responsabile getResponsabile() {
-        return responsabile;
-    }
+    public void setNome(String nome);
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public void setResponsabile(Responsabile responsabile) {
-        this.responsabile = responsabile;
-    }
-    
+    public void setResponsabile(ResponsabileImpl responsabile);
 }

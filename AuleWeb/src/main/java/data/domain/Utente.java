@@ -4,46 +4,27 @@
  */
 package data.domain;
 
+import data.domainImpl.RuoloImpl;
+
 /**
  *
- * @author alessandro
+ * @author Administrator
  */
-public class Utente {
-    private int id;
-    private String username;
-    private String password;
-    private Ruolo ruolo;
+public interface Utente {
+     public int getId();
 
-    public int getId() {
-        return id;
-    }
+    public String getUsername();
 
-    public String getUsername() {
-        return username;
-    }
+    public String getPassword();
 
-    public String getPassword() {
-        return password;
-    }
+    public RuoloImpl getRuolo();
 
-    public Ruolo getRuolo() {
-        return ruolo;
-    }
+    public void setId(int id);
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public void setUsername(String username);
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+    public void setPassword(String password);
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setRuolo(Ruolo ruolo) {
-        this.ruolo = ruolo;
-    }
+    public void setRuolo(RuoloImpl ruolo);
     
 }

@@ -4,123 +4,64 @@
  */
 package data.domain;
 
-import java.sql.Time;
+import data.domainImpl.AulaImpl;
+import data.domainImpl.CorsoImpl;
+import data.domainImpl.ResponsabileImpl;
+import data.domainImpl.RicorrenzaImpl;
+import data.domainImpl.TipologiaEventoImpl;
 import java.sql.Date;
+import java.sql.Time;
 
 /**
  *
- * @author user
+ * @author Administrator
  */
-public class Evento {
-    
-    private int id;
-    private String nome;
-    private Time oraInizio;
-    private Time oraFine;
-    private String descrizione; //Text 
-    private Aula aula;
-    private Ricorrente ricorrente; //Enumerazione
-    private Date dataInizio;
-    private Date dataFine; 
-    private Responsabile responsabile;
-    private Corso corso; 
-    private TipologiaEvento tipologiaEvento;
+public interface Evento {
+    public int getId();
 
-    public int getId() {
-        return id;
-    }
+    public void setId(int id);
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public String getNome();
 
-    public String getNome() {
-        return nome;
-    }
+    public void setNome(String nome);
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+    public Time getOraInizio();
 
-    public Time getOraInizio() {
-        return oraInizio;
-    }
+    public void setOraInizio(Time oraInizio);
 
-    public void setOraInizio(Time oraInizio) {
-        this.oraInizio = oraInizio;
-    }
+    public Time getOraFine();
 
-    public Time getOraFine() {
-        return oraFine;
-    }
+    public void setOraFine(Time oraFine);
 
-    public void setOraFine(Time oraFine) {
-        this.oraFine = oraFine;
-    }
+    public String getDescrizione();
 
-    public String getDescrizione() {
-        return descrizione;
-    }
+    public void setDescrizione(String descrizione);
 
-    public void setDescrizione(String descrizione) {
-        this.descrizione = descrizione;
-    }
+    public AulaImpl getAula();
 
-    public Aula getAula() {
-        return aula;
-    }
+    public void setAula(AulaImpl aula);
 
-    public void setAula(Aula aula) {
-        this.aula = aula;
-    }
+    public RicorrenzaImpl getRicorrenza();
 
-    public Ricorrente getRicorrente() {
-        return ricorrente;
-    }
+    public void setRicorrenza(RicorrenzaImpl ricorrenza);
 
-    public void setRicorrente(Ricorrente ricorrente) {
-        this.ricorrente = ricorrente;
-    }
+    public Date getDataInizio();
 
-    public Date getDataInizio() {
-        return dataInizio;
-    }
+    public void setDataInizio(Date dataInizio);
 
-    public void setDataInizio(Date dataInizio) {
-        this.dataInizio = dataInizio;
-    }
+    public Date getDataFine() ;
 
-    public Date getDataFine() {
-        return dataFine;
-    }
+    public void setDataFine(Date dataFine);
 
-    public void setDataFine(Date dataFine) {
-        this.dataFine = dataFine;
-    }
+    public ResponsabileImpl getResponsabile();
 
-    public Responsabile getResponsabile() {
-        return responsabile;
-    }
+    public void setResponsabile(ResponsabileImpl responsabile);
 
-    public void setResponsabile(Responsabile responsabile) {
-        this.responsabile = responsabile;
-    }
+    public CorsoImpl getCorso();
 
-    public Corso getCorso() {
-        return corso;
-    }
+    public void setCorso(CorsoImpl corso);
 
-    public void setCorso(Corso corso) {
-        this.corso = corso;
-    }
+    public TipologiaEventoImpl getTipologiaEvento() ;
 
-    public TipologiaEvento getTipologiaEvento() {
-        return tipologiaEvento;
+    public void setTipologiaEvento(TipologiaEventoImpl tipologiaEvento);
     }
-
-    public void setTipologiaEvento(TipologiaEvento tipologiaEvento) {
-        this.tipologiaEvento = tipologiaEvento;
-    }
-    
-    
-}

@@ -6,44 +6,23 @@ package data.domain;
 
 /**
  *
- * @author user
+ * @author Administrator
  */
-public class Responsabile {
-    private int id;
-    private String nome;
-    private String cognome;
-    private String email;
+public interface Responsabile {
+      public int getId();
 
-    public int getId() {
-        return id;
-    }
+    public String getNome();
 
-    public String getNome() {
-        return nome;
-    }
+    public String getCognome();
 
-    public String getCognome() {
-        return cognome;
-    }
+    public String getEmail();
 
-    public String getEmail() {
-        return email;
-    }
+    public void setId(int id);
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public void setNome(String nome);
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+    public void setCognome(String cognome);
 
-    public void setCognome(String cognome) {
-        this.cognome = cognome;
-    }
+    public void setEmail(String email);
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    
 }

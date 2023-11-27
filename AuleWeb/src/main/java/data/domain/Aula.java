@@ -4,111 +4,55 @@
  */
 package data.domain;
 
+import data.domainImpl.AttrezzaturaImpl;
+import data.domainImpl.DipartimentoImpl;
+
 /**
  *
- * @author user
+ * @author Administrator
  */
-public class Aula {
+public interface Aula {
+    public int getId();
+
+    public void setId(int id);
+
+    public String getNome();
+
+    public void setNome(String nome);
+
+    public String getLuogo();
+
+    public void setLuogo(String luogo);
+
+    public String getEdificio();
     
-    private int id;
-    private String nome;
-    private String luogo;
-    private String edificio;
-    private String piano;
-    private int capienza;
-    private int presaElettrica;
-    private int preseRete;
-    private String note; //Text
-    private Attrezzatura attrezzatura;
-    private Dipartimento dipartimento;
+    public void setEdificio(String edificio);
 
-    public int getId() {
-        return id;
-    }
+    public String getPiano();
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public void setPiano(String piano);
 
-    public String getNome() {
-        return nome;
-    }
+    public int getCapienza();
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getLuogo() {
-        return luogo;
-    }
-
-    public void setLuogo(String luogo) {
-        this.luogo = luogo;
-    }
-
-    public String getEdificio() {
-        return edificio;
-    }
-
-    public void setEdificio(String edificio) {
-        this.edificio = edificio;
-    }
-
-    public String getPiano() {
-        return piano;
-    }
-
-    public void setPiano(String piano) {
-        this.piano = piano;
-    }
-
-    public int getCapienza() {
-        return capienza;
-    }
-
-    public void setCapienza(int capienza) {
-        this.capienza = capienza;
-    }
-
-    public int getPresaElettrica() {
-        return presaElettrica;
-    }
-
-    public void setPresaElettrica(int presaElettrica) {
-        this.presaElettrica = presaElettrica;
-    }
-
-    public int getPreseRete() {
-        return preseRete;
-    }
-
-    public void setPreseRete(int preseRete) {
-        this.preseRete = preseRete;
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
-    }
-
-    public Attrezzatura getAttrezzatura() {
-        return attrezzatura;
-    }
-
-    public void setAttrezzatura(Attrezzatura attrezzatura) {
-        this.attrezzatura = attrezzatura;
-    }
-
-    public Dipartimento getDipartimento() {
-        return dipartimento;
-    }
-
-    public void setDipartimento(Dipartimento dipartimento) {
-        this.dipartimento = dipartimento;
-    }
+    public void setCapienza(int capienza);
     
+    public int getPresaElettrica();
+
+    public void setPresaElettrica(int presaElettrica);
     
+    public int getPreseRete();
+
+    public void setPreseRete(int preseRete);
+
+    public String getNote();
+
+    public void setNote(String note);
+
+    public AttrezzaturaImpl getAttrezzatura();
+
+    public void setAttrezzatura(AttrezzaturaImpl attrezzatura);
+
+    public DipartimentoImpl getDipartimento();
+
+    public void setDipartimento(DipartimentoImpl dipartimento);
 }
