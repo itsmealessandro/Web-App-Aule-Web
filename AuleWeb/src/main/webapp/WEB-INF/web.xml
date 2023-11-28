@@ -8,6 +8,10 @@
         <servlet-name>Spage2</servlet-name>
         <servlet-class>controllers.Spage2</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Shomepage</servlet-name>
+        <servlet-class>controllers.Shomepage</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Spage1</servlet-name>
         <url-pattern>/Spage1</url-pattern>
@@ -16,6 +20,10 @@
         <servlet-name>Spage2</servlet-name>
         <url-pattern>/Spage2</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Shomepage</servlet-name>
+        <url-pattern>/Shomepage</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
@@ -23,6 +31,6 @@
     </session-config>
     <!-- Servlet di avvio quando si entra nel path generico dell'app -->
     <welcome-file-list>
-        <welcome-file>Homepage.html</welcome-file>
+        <welcome-file>Shomepage</welcome-file>
     </welcome-file-list>
 </web-app>
