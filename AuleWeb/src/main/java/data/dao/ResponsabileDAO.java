@@ -18,13 +18,13 @@ public interface ResponsabileDAO {
     Responsabile creaNuovoResponsabile();
 
     // Restituisce il responsabile corrente
-    Responsabile ottieniResponsabileCorrente();
+    Responsabile getResponsabileCorrente();
 
     // Restituisce il responsabile associato a un evento specifico
-    Responsabile ottieniResponsabilePerEvento(Evento evento);
+    Responsabile getResponsabilePerEvento(Evento evento);
 
     // Restituisce tutti i responsabili disponibili
-    List<Responsabile> ottieniTuttiIResponsabili();
+    List<Responsabile> getTuttiIResponsabili();
 
     // Salva il responsabile corrente
     void salvaResponsabileCorrente(); 

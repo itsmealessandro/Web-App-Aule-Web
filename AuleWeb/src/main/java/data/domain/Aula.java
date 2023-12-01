@@ -13,6 +13,7 @@ import data.domainImpl.DipartimentoImpl;
  */
 public interface Aula {
     
+    
     public int getId();
 
     public void setId(int id);

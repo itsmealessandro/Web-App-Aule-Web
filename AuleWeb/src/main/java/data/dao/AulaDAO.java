@@ -6,6 +6,7 @@ package data.dao;
 
 import data.domain.Attrezzatura;
 import data.domain.Aula;
+import data.domain.Dipartimento;
 import data.domain.Evento;
 import framework.data.DataException;
 import java.util.List;
@@ -15,25 +16,38 @@ import java.util.List;
  * @author emanu
  */
 public interface AulaDAO {
-    
+
     // Crea e restituisce una nuova aula
     Aula creaNuovaAula() throws DataException;
 
     // Restituisce l'aula corrente
-    Aula ottieniAulaCorrente();
+    Aula getAulaCorrente();
 
     // Restituisce tutte le aule disponibili
-    List<Aula> ottieniTutteLeAule();
+    List<Aula> getTutteLeAule();
 
     // Restituisce tutte le aule che contengono una specifica attrezzatura
-    List<Aula> ottieniAulePerAttrezzatura(Attrezzatura attrezzatura);
+    List<Aula> getAulePerAttrezzatura(Attrezzatura attrezzatura);
 
     // Restituisce tutte le aule associate a un evento specifico
-    List<Aula> ottieniAulePerEvento(Evento evento);
+    List<Aula> getAulePerEvento(Evento evento);
 
-    // Salva l'aula corrente
-    void salvaAulaCorrente();
+    // Crea e restituisce un nuovo dipartimento
+    Dipartimento creaNuovoDipartimento() throws DataException;
 
-    // Elimina l'aula corrente
-    void eliminaAulaCorrente();    
+    // Restituisce il dipartimento corrente
+    Dipartimento getDipartimentoCorrente();
+
+    // Restituisce tutti i dipartimenti disponibili
+    List<Dipartimento> getTuttiIDipartimenti();
+
+    // Restituisce l'aula associata a un dipartimento specifico
+    Aula getAulaPerDipartimento(Dipartimento dipartimento);
+
+    // Salva il dipartimento corrente
+    void salvaDipartimentoCorrente();
+
+    // Elimina il dipartimento corrente
+    void eliminaDipartimentoCorrente();
 }
+

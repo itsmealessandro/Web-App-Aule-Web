@@ -18,16 +18,16 @@ public interface CorsoDAO {
     Corso creaNuovoCorso();
 
     // Restituisce il corso corrente
-    Corso ottieniCorsoCorrente();
+    Corso getCorsoCorrente();
 
     // Restituisce il corso associato a un evento specifico
-    Corso ottieniCorsoPerEvento(Evento evento);
+    Corso getCorsoPerEvento(Evento evento);
 
     // Restituisce il corso associato a un nome specifico
-    Corso ottieniCorsoPerNome(String nomeCorso);
+    Corso getCorsoPerNome(String nomeCorso);
 
     // Restituisce tutti i corsi disponibili
-    List<Corso> ottieniTuttiICorsi();
+    List<Corso> getTuttiICorsi();
 
     // Salva il corso corrente
     void salvaCorsoCorrente();

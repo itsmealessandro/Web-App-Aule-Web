@@ -15,13 +15,13 @@ public interface AttrezzaturaDAO {
     Attrezzatura creaNuovaAttrezzatura();
 
     // Restituisce l'attrezzatura corrente
-    Attrezzatura ottieniAttrezzaturaCorrente();
+    Attrezzatura getAttrezzaturaCorrente();
 
     // Restituisce tutte le attrezzature disponibili
-    List<Attrezzatura> ottieniTutteLeAttrezzature();
+    List<Attrezzatura> getTutteLeAttrezzature();
 
     // Restituisce tutte le attrezzature associate a un'aula specifica
-    List<Attrezzatura> ottieniAttrezzaturePerAula(Aula aula);
+    List<Attrezzatura> getAttrezzaturePerAula(Aula aula);
 
     // Salva l'attrezzatura corrente
     void salvaAttrezzaturaCorrente();

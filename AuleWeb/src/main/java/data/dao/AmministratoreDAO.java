@@ -13,13 +13,13 @@ public interface AmministratoreDAO {
     Amministratore creaNuovoAmministratore();
 
     // Restituisce l'amministratore corrente
-    Amministratore ottieniAmministratoreCorrente();
+    Amministratore getAmministratoreCorrente();
 
     // Salva l'amministratore corrente
     void salvaAmministratoreCorrente();
 
     // Restituisce l'amministratore in base al nome utente
-    Amministratore ottieniAmministratoreDaUsername(String username);
+    Amministratore getAmministratoreDaUsername(String username);
 
     
 }

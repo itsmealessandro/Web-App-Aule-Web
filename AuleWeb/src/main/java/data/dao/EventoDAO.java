@@ -20,28 +20,28 @@ public interface EventoDAO {
     Evento creaNuovoEvento();
 
     // Restituisce l'evento corrente
-    Evento ottieniEventoCorrente();
+    Evento getEventoCorrente();
 
     // Restituisce tutti gli eventi associati a un corso specifico
-    List<Evento> ottieniEventiPerCorso(Corso corso);
+    List<Evento> getEventiPerCorso(Corso corso);
 
     // Restituisce tutti gli eventi gestiti da un responsabile specifico
-    List<Evento> ottieniEventiPerResponsabile(Responsabile responsabile);
+    List<Evento> getEventiPerResponsabile(Responsabile responsabile);
 
     // Restituisce tutti gli eventi disponibili
-    List<Evento> ottieniTuttiGliEventi();
+    List<Evento> getTuttiGliEventi();
 
     // Restituisce tutti gli eventi in una settimana specifica
-    List<Evento> ottieniEventiPerSettimana(int numeroSettimana);
+    List<Evento> getEventiPerSettimana(int numeroSettimana);
 
     // Restituisce tutti gli eventi ricorrenti
-    List<Evento> ottieniEventiRicorrenti();
+    List<Evento> getEventiRicorrenti();
 
     // Restituisce tutti gli eventi in una specifica data
-    List<Evento> ottieniEventiPerGiorno(LocalDate data);
+    List<Evento> getEventiPerGiorno(LocalDate data);
 
     // Restituisce tutti gli eventi in una settimana specifica associati a un corso specifico
-    List<Evento> ottieniEventiPerSettimanaECorso(int numeroSettimana, Corso corso);
+    List<Evento> getEventiPerSettimanaECorso(int numeroSettimana, Corso corso);
 
     // Salva l'evento corrente
     void salvaEventoCorrente();
