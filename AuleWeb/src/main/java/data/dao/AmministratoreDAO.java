@@ -1,5 +1,5 @@
 
-package dao;
+package data.dao;
 
 import data.domain.Amministratore;
 

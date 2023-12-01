@@ -1,5 +1,5 @@
 
-package dao;
+package data.dao;
 
 import data.domain.Attrezzatura;
 import data.domain.Aula;
