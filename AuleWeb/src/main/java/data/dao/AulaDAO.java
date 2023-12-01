@@ -7,8 +7,6 @@ package data.dao;
 import data.domain.Attrezzatura;
 import data.domain.Aula;
 import data.domain.Evento;
-import data.domain.Gruppo;
-import data.domain.Posizione;
 import framework.data.DataException;
 import java.util.List;
 
@@ -29,12 +27,6 @@ public interface AulaDAO {
 
     // Restituisce tutte le aule che contengono una specifica attrezzatura
     List<Aula> ottieniAulePerAttrezzatura(Attrezzatura attrezzatura);
-
-    // Restituisce tutte le aule in base alla posizione geografica
-    List<Aula> ottieniAulePerPosizione(Posizione posizione);
-
-    // Restituisce tutte le aule associate a un gruppo specifico
-    List<Aula> ottieniAulePerGruppo(Gruppo gruppo);
 
     // Restituisce tutte le aule associate a un evento specifico
     List<Aula> ottieniAulePerEvento(Evento evento);

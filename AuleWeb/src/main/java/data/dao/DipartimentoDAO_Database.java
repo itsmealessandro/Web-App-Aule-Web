@@ -8,6 +8,6 @@ package data.dao;
  *
  * @author emanu
  */
-public class GruppoDAO_Database {
+public class DipartimentoDAO_Database {
     
 }
