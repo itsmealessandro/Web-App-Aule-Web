@@ -4,7 +4,7 @@
  */
 package controllers;
 
-import template.ModelloFTL;
+import framework.result.TemplateResult;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -33,7 +33,7 @@ public class Spage1 extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        ModelloFTL modello = new ModelloFTL(this.getServletContext());
+        TemplateResult modello = new TemplateResult(this.getServletContext());
         
          
         Map ld = new HashMap();
@@ -42,7 +42,7 @@ public class Spage1 extends HttpServlet {
         
         ld.put("nomeAula",nomeAula);
         
-        modello.renderview("page1.ftl.html", ld,request, response, response.getWriter());
+        //modello.renderview("page1.ftl.html", ld,request, response, response.getWriter());
         
         
         
