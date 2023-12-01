@@ -2,6 +2,7 @@ package framework.controller;
 
 
 import framework.data.DataLayer;
+import framework.result.FailureResult;
 import framework.security.SecurityHelpers;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -83,7 +84,7 @@ public abstract class AbstractBaseController extends HttpServlet {
                 accessCheckFailed(request, response);
             }
         } catch (Exception ex) {
-            ex.printStackTrace(); //for debugging only
+            ex.printStackTrace(); //for debugging only Da rimuovere
             handleError(ex, request, response);
         }
     }
