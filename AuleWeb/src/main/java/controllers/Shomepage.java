@@ -4,6 +4,9 @@
  */
 package controllers;
 
+import framework.data.DataException;
+import framework.result.TemplateManagerException;
+import framework.result.TemplateResult;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -25,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author alessandro
  */
-public class Shomepage extends HttpServlet {
+public class Shomepage extends AuleWebBaseController {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,44 +40,6 @@ public class Shomepage extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
 
-    public List<String> getNomiDipartiementi() {
-        
-        List<String> nomi = new ArrayList<>();
-        
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-
-            try ( Connection c = DriverManager.getConnection(
-                    "jdbc:mysql://localhost/auleDB?connectionTimeZone=LOCAL&amp", "root", "SQLpass");
-                    Statement s = c.createStatement();
-                    ResultSet r = s.executeQuery("SELECT `Nome` FROM `Dipartimento`;");) {
-                
-                while(r.next()){
-                    nomi.add(r.getString("Nome"));
-                }
-                
-
-            } catch (SQLException ex) {
-                Logger.getLogger(Shomepage.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Shomepage.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return nomi;
-    }
-
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-
-        RequestDispatcher rd = request.getRequestDispatcher("/Homepage.html");
-        rd.include(request, response);
-
-        System.out.println("nomi Dipartimenti");
-        System.out.println(getNomiDipartiementi());
-
-    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -114,5 +79,10 @@ public class Shomepage extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    @Override
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
 }

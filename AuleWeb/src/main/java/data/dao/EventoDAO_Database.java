@@ -4,77 +4,76 @@
  */
 package data.dao;
 
-import data.domain.Attrezzatura;
-import data.domain.Aula;
-import data.domain.Dipartimento;
+import data.domain.Corso;
 import data.domain.Evento;
+import data.domain.Responsabile;
 import framework.data.DAO;
-import framework.data.DataException;
 import framework.data.DataLayer;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
  *
  * @author emanu
  */
-public class AulaDAO_Database extends DAO implements AulaDAO{
+public class EventoDAO_Database extends DAO implements EventoDAO{
 
-    public AulaDAO_Database(DataLayer d) {
+    public EventoDAO_Database(DataLayer d) {
         super(d);
     }
 
     @Override
-    public Aula creaNuovaAula() throws DataException {
+    public Evento creaNuovoEvento() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public Aula getAulaCorrente() {
+    public Evento getEventoCorrente() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public List<Aula> getTutteLeAule() {
+    public List<Evento> getEventiPerCorso(Corso corso) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public List<Aula> getAulePerAttrezzatura(Attrezzatura attrezzatura) {
+    public List<Evento> getEventiPerResponsabile(Responsabile responsabile) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public List<Aula> getAulePerEvento(Evento evento) {
+    public List<Evento> getTuttiGliEventi() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public Dipartimento creaNuovoDipartimento() throws DataException {
+    public List<Evento> getEventiPerSettimana(int numeroSettimana) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public Dipartimento getDipartimentoCorrente() {
+    public List<Evento> getEventiRicorrenti() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public List<Dipartimento> getTuttiIDipartimenti() {
+    public List<Evento> getEventiPerGiorno(LocalDate data) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public Aula getAulaPerDipartimento(Dipartimento dipartimento) {
+    public List<Evento> getEventiPerSettimanaECorso(int numeroSettimana, Corso corso) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public void salvaDipartimentoCorrente() {
+    public void salvaEventoCorrente() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public void eliminaDipartimentoCorrente() {
+    public void eliminaEventoCorrente() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
