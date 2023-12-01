@@ -14,17 +14,17 @@ import java.util.List;
 public interface DipartimentoDAO {
     
     // Crea e restituisce un nuovo gruppo
-    Dipartimento creaNuovoGruppo();
+    Dipartimento creaNuovoDipartimento();
 
     // Restituisce il gruppo corrente
-    Dipartimento ottieniGruppoCorrente();
+    Dipartimento ottieniDipartimentoCorrente();
 
     // Restituisce tutti i gruppi disponibili
-    List<Dipartimento> ottieniTuttiIGruppi();
+    List<Dipartimento> ottieniTuttiIDipartimenti();
 
     // Salva il gruppo corrente
-    void salvaGruppoCorrente();
+    void salvaDipartimentoCorrente();
 
     // Elimina il gruppo corrente
-    void eliminaGruppoCorrente();    
+    void eliminaDipartimentoCorrente();    
 }
