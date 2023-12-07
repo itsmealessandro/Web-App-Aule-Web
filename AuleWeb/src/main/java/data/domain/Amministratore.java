@@ -1,13 +1,17 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package data.domain;
 
 /**
  *
- * @author emanu
+ * @author alessandro
  */
 public interface Amministratore {
+    
+    public String getUseraname();
+    
+    public String getPassword();
+    
+    public void setUsername(String username);
+    
+    public void setPassword(String password);
     
 }

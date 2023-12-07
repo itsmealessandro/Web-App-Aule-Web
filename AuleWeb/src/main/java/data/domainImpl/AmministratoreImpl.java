@@ -4,41 +4,28 @@
  */
 package data.domainImpl;
 
-import data.domain.Utente;
+import data.domain.Amministratore;
 
 /**
  *
  * @author alessandro
  */
-public class UtenteImpl implements Utente {
-    private int id;
+public class AmministratoreImpl implements Amministratore{
+
+    
     private String username;
+    
     private String password;
-    private RuoloImpl ruolo;
-
+    
+    
     @Override
-    public int getId() {
-        return id;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
+    public String getUseraname() {
+        return this.username;
     }
 
     @Override
     public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public RuoloImpl getRuolo() {
-        return ruolo;
-    }
-
-    @Override
-    public void setId(int id) {
-        this.id = id;
+        return this.password;
     }
 
     @Override
@@ -50,10 +37,6 @@ public class UtenteImpl implements Utente {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    @Override
-    public void setRuolo(RuoloImpl ruolo) {
-        this.ruolo = ruolo;
-    }
+    
     
 }
