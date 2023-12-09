@@ -64,7 +64,7 @@ public class AmministratoreDAO_Database extends DAO implements AmministratoreDAO
             a.setVersion(rs.getLong("version"));
             return a;
         } catch (SQLException ex) {
-            throw new DataException("Unable to create user object form ResultSet", ex);
+            throw new DataException("Unable to create Amministratore object form ResultSet", ex);
         }
     }
 
