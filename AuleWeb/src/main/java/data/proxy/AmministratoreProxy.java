@@ -18,6 +18,12 @@ public class AmministratoreProxy extends AmministratoreImpl implements DataItemP
         this.dataLayer = d;
         this.modified = false;
     }
+    
+    @Override
+    public void setKey(Integer key) {
+        super.setKey(key);
+        this.modified = true;
+    }
 
     @Override
     public void setUsername(String username) {
