@@ -1,31 +1,24 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package data.dao;
 
 import data.domain.Evento;
 import data.domain.Responsabile;
+import framework.data.DataException;
 import java.util.List;
 
-/**
- *
- * @author emanu
- */
 public interface ResponsabileDAO {
     
     // Crea e restituisce un nuovo responsabile
-    Responsabile creaNuovoResponsabile();
+    Responsabile createResponsabile();
 
     // Restituisce il responsabile corrente
-    Responsabile getResponsabileCorrente();
+    Responsabile getResponsabile(int resp_key)  throws DataException;
 
     // Restituisce il responsabile associato a un evento specifico
-    Responsabile getResponsabilePerEvento(Evento evento);
+    Responsabile getResponsabileByEvento(Evento evento)  throws DataException;
 
     // Restituisce tutti i responsabili disponibili
-    List<Responsabile> getTuttiIResponsabili();
+    List<Responsabile> getAllResponsabili()  throws DataException;
 
     // Salva il responsabile corrente
-    void salvaResponsabileCorrente(); 
+    void storeResponsabile(Responsabile r)  throws DataException; 
 }
