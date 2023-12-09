@@ -5,12 +5,13 @@
 package data.domainImpl;
 
 import data.domain.Amministratore;
+import framework.data.DataItemImpl;
 
 /**
  *
  * @author alessandro
  */
-public class AmministratoreImpl implements Amministratore{
+public class AmministratoreImpl extends DataItemImpl<Integer> implements Amministratore{
 
     
     private String username;
@@ -19,7 +20,7 @@ public class AmministratoreImpl implements Amministratore{
     
     
     @Override
-    public String getUseraname() {
+    public String getUsername() {
         return this.username;
     }
 
@@ -37,6 +38,8 @@ public class AmministratoreImpl implements Amministratore{
     public void setPassword(String password) {
         this.password = password;
     }
+
+    
     
     
 }

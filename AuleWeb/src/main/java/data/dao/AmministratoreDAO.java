@@ -2,6 +2,7 @@
 package data.dao;
 
 import data.domain.Amministratore;
+import framework.data.DataException;
 
 /**
  *
@@ -10,16 +11,12 @@ import data.domain.Amministratore;
 public interface AmministratoreDAO {
     
     // Crea e restituisce un nuovo amministratore
-    Amministratore creaNuovoAmministratore();
+    Amministratore createAmministratore();
 
     // Restituisce l'amministratore corrente
-    Amministratore getAmministratoreCorrente();
+    Amministratore getAmministratore(int admin_key) throws DataException;
 
     // Salva l'amministratore corrente
-    void salvaAmministratoreCorrente();
-
-    // Restituisce l'amministratore in base al nome utente
-    Amministratore getAmministratoreDaUsername(String username);
-
+    void storeAmministratore(Amministratore a) throws DataException;
     
 }
