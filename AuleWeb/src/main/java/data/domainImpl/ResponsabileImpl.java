@@ -1,25 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package data.domainImpl;
 
 import data.domain.Responsabile;
+import framework.data.DataItemImpl;
 
-/**
- *
- * @author user
- */
-public class ResponsabileImpl implements Responsabile {
-    private int id;
+public class ResponsabileImpl extends DataItemImpl<Integer> implements Responsabile {
+
     private String nome;
     private String cognome;
     private String email;
-
-    @Override
-    public int getId() {
-        return id;
-    }
 
     @Override
     public String getNome() {
@@ -34,11 +22,6 @@ public class ResponsabileImpl implements Responsabile {
     @Override
     public String getEmail() {
         return email;
-    }
-
-    @Override
-    public void setId(int id) {
-        this.id = id;
     }
 
     @Override
