@@ -33,7 +33,7 @@ public class AmministratoreDAO_Database extends DAO implements AmministratoreDAO
             iAmministratore = connection.prepareStatement("INSERT INTO Amministratore (username,password) VALUES(?,?)", Statement.RETURN_GENERATED_KEYS);
             uAmministratore = connection.prepareStatement("UPDATE Amministratore SET username=?,password=?,version=? WHERE ID=? and version=?");
         } catch (SQLException ex) {
-            throw new DataException("Error initializing newspaper data layer", ex);
+            throw new DataException("Error initializing AuleWeb data layer", ex);
         }
     }
 
