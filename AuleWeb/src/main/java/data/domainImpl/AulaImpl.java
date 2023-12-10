@@ -11,8 +11,6 @@ import data.domain.Aula;
  * @author user
  */
 public class AulaImpl implements Aula {
-    
-    private int id;
     private String nome;
     private String luogo;
     private String edificio;
@@ -23,16 +21,6 @@ public class AulaImpl implements Aula {
     private String note; //Text
     private AttrezzaturaImpl attrezzatura;
     private DipartimentoImpl dipartimento;
-
-    @Override
-    public int getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(int id) {
-        this.id = id;
-    }
 
     @Override
     public String getNome() {
