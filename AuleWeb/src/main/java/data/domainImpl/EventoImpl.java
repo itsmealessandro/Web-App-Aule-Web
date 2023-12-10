@@ -129,5 +129,4 @@ public class EventoImpl extends DataItemImpl<Integer> implements Evento {
         this.tipologiaEvento = tipologiaEvento;
     }
     
-    
 }
