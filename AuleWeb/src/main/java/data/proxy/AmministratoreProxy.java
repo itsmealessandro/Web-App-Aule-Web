@@ -4,10 +4,6 @@ import data.domainImpl.AmministratoreImpl;
 import framework.data.DataItemProxy;
 import framework.data.DataLayer;
 
-/**
- *
- * @author alessandro
- */
 public class AmministratoreProxy extends AmministratoreImpl implements DataItemProxy {
 
     protected boolean modified;

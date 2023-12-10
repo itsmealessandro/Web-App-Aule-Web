@@ -1,37 +1,25 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package data.proxy;
 
 import data.domainImpl.AulaImpl;
 import data.domainImpl.CorsoImpl;
 import data.domainImpl.EventoImpl;
 import data.domainImpl.ResponsabileImpl;
-import data.domainImpl.RicorrenzaImpl;
+import data.domainImpl.Ricorrenza;
 import data.domainImpl.TipologiaEventoImpl;
 import framework.data.DataItemProxy;
 import framework.data.DataLayer;
 import java.sql.Date;
 import java.sql.Time;
 
-/**
- *
- * @author Administrator
- */
 public class EventoProxy extends EventoImpl implements DataItemProxy {
+
     protected boolean modified;
-     protected DataLayer dataLayer;
-     
-     public EventoProxy(DataLayer d) {
+    protected DataLayer dataLayer;
+
+    public EventoProxy(DataLayer d) {
         super();
         this.dataLayer = d;
         this.modified = false;
-    }    
-@Override
-    public void setId(int id) {
-        super.setId(id);
-        this.modified = true;
     }
 
     @Override
@@ -65,7 +53,7 @@ public class EventoProxy extends EventoImpl implements DataItemProxy {
     }
 
     @Override
-    public void setRicorrenza(RicorrenzaImpl ricorrenza) {
+    public void setRicorrenza(Ricorrenza ricorrenza) {
         super.setRicorrenza(ricorrenza);
         this.modified = true;
     }
@@ -75,7 +63,7 @@ public class EventoProxy extends EventoImpl implements DataItemProxy {
         super.setDataInizio(dataInizio);
         this.modified = true;
     }
-    
+
     @Override
     public void setDataFine(Date dataFine) {
         super.setDataFine(dataFine);
@@ -100,7 +88,7 @@ public class EventoProxy extends EventoImpl implements DataItemProxy {
         this.modified = true;
     }
 
-//METODI DEL PROXY
+    //METODI DEL PROXY
     //PROXY-ONLY METHODS
     @Override
     public void setModified(boolean dirty) {

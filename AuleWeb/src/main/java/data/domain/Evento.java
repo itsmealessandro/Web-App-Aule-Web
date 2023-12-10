@@ -1,25 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package data.domain;
 
 import data.domainImpl.AulaImpl;
 import data.domainImpl.CorsoImpl;
 import data.domainImpl.ResponsabileImpl;
-import data.domainImpl.RicorrenzaImpl;
+import data.domainImpl.Ricorrenza;
 import data.domainImpl.TipologiaEventoImpl;
+import framework.data.DataItem;
 import java.sql.Date;
 import java.sql.Time;
 
-/**
- *
- * @author Administrator
- */
-public interface Evento {
-    public int getId();
-
-    public void setId(int id);
+public interface Evento extends DataItem<Integer>{
 
     public String getNome();
 
@@ -41,9 +31,9 @@ public interface Evento {
 
     public void setAula(AulaImpl aula);
 
-    public RicorrenzaImpl getRicorrenza();
+    public Ricorrenza getRicorrenza();
 
-    public void setRicorrenza(RicorrenzaImpl ricorrenza);
+    public void setRicorrenza(Ricorrenza ricorrenza);
 
     public Date getDataInizio();
 
