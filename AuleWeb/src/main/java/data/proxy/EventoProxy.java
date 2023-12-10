@@ -14,6 +14,11 @@ import java.sql.Time;
 public class EventoProxy extends EventoImpl implements DataItemProxy {
 
     protected boolean modified;
+    protected int aula_key = 0;
+    
+    // TODO da inserire tutte le chiavi degli oggetti conessi a evento
+    
+    
     protected DataLayer dataLayer;
 
     public EventoProxy(DataLayer d) {
@@ -87,6 +92,9 @@ public class EventoProxy extends EventoImpl implements DataItemProxy {
         super.setTipologiaEvento(tipologiaEvento);
         this.modified = true;
     }
+    
+
+
 
     //METODI DEL PROXY
     //PROXY-ONLY METHODS
@@ -99,4 +107,6 @@ public class EventoProxy extends EventoImpl implements DataItemProxy {
     public boolean isModified() {
         return modified;
     }
+    
+    
 }
