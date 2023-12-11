@@ -13,11 +13,6 @@ import framework.data.DataItem;
  * @author Administrator
  */
 public interface Aula extends DataItem<Integer>{
-    
-    
-    public int getId();
-
-    public void setId(int id);
 
     public String getNome();
 

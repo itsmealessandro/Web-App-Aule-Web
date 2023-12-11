@@ -24,13 +24,6 @@ public class AulaProxy extends AulaImpl implements DataItemProxy {
         this.dataLayer = d;
         this.modified = false;
     }    
-     
-     
-     @Override
-    public void setId(int id) {
-        super.setId(id);
-        this.modified = true;
-    }
 
     @Override
     public void setNome(String nome) {
