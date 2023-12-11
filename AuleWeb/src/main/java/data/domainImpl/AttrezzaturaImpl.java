@@ -5,12 +5,13 @@
 package data.domainImpl;
 
 import data.domain.Attrezzatura;
+import framework.data.DataItemImpl;
 
 /**
  *
  * @author user
  */
-public class AttrezzaturaImpl implements Attrezzatura {
+public class AttrezzaturaImpl extends DataItemImpl<Integer> implements Attrezzatura {
     
     private int id;
     private String nome;

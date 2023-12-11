@@ -5,6 +5,7 @@
 package data.dao;
 
 import data.domain.Dipartimento;
+import data.proxy.DipartimentoProxy;
 import framework.data.DAO;
 import framework.data.DataLayer;
 import java.util.List;
@@ -21,7 +22,7 @@ public class DipartimentoDAO_Database extends DAO implements DipartimentoDAO{
 
     @Override
     public Dipartimento creaNuovoDipartimento() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return new DipartimentoProxy(getDataLayer());
     }
 
     @Override

@@ -6,12 +6,13 @@ package data.domain;
 
 import data.domainImpl.AttrezzaturaImpl;
 import data.domainImpl.DipartimentoImpl;
+import framework.data.DataItem;
 
 /**
  *
  * @author Administrator
  */
-public interface Aula {
+public interface Aula extends DataItem<Integer>{
     
     
     public int getId();
