@@ -11,12 +11,23 @@ public class AulaProxy extends AulaImpl implements DataItemProxy {
      protected boolean modified;
      protected DataLayer dataLayer;
      
+     protected int dipartimento_key = 0;
+    protected int attrezzatura_key = 0;
+     
      public AulaProxy(DataLayer d) {
         super();
         this.dataLayer = d;
         this.modified = false;
+        this.attrezzatura_key = 0;
+        this.dipartimento_key = 0;
     }    
-
+     
+     @Override
+    public void setKey(Integer key) {
+        super.setKey(key);
+        this.modified = true;
+    }
+    
     @Override
     public void setNome(String nome) {
         super.setNome(nome);
@@ -88,5 +99,15 @@ public class AulaProxy extends AulaImpl implements DataItemProxy {
     @Override
     public boolean isModified() {
         return modified;
+    }
+    
+    public void setDipartimentoKey(int gruppo_key) {
+        this.dipartimento_key = dipartimento_key;
+        super.setDipartimento(null);
+    }
+
+    public void setAttrezzaturaKey(int attrezzatura_key) {
+        this.attrezzatura_key = attrezzatura_key;
+        super.setAttrezzatura(null);
     }
 }

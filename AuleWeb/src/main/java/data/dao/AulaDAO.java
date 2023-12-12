@@ -21,16 +21,16 @@ public interface AulaDAO {
     Aula creaNuovaAula() throws DataException;
 
     // Restituisce l'aula corrente
-    Aula getAulaCorrente();
+    Aula getAulaCorrente(int aula_key) throws DataException;
 
     // Restituisce tutte le aule disponibili
-    List<Aula> getTutteLeAule();
+    List<Aula> getTutteLeAule() throws DataException;
 
     // Restituisce tutte le aule che contengono una specifica attrezzatura
-    List<Aula> getAulePerAttrezzatura(Attrezzatura attrezzatura);
+    List<Aula> getAulePerAttrezzatura(Attrezzatura attrezzatura)throws DataException;
 
     // Restituisce tutte le aule associate a un evento specifico
-    List<Aula> getAulePerEvento(Evento evento);
+    List<Aula> getAulePerEvento(Evento evento)throws DataException ;
 
     // Crea e restituisce un nuovo dipartimento
     Dipartimento creaNuovoDipartimento() throws DataException;
