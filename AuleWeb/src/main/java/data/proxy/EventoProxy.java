@@ -1,9 +1,6 @@
 package data.proxy;
 
-import data.domainImpl.AulaImpl;
-import data.domainImpl.CorsoImpl;
 import data.domainImpl.EventoImpl;
-import data.domainImpl.ResponsabileImpl;
 import data.domainImpl.Ricorrenza;
 import data.domainImpl.TipologiaEvento;
 import framework.data.DataItemProxy;
@@ -15,16 +12,26 @@ public class EventoProxy extends EventoImpl implements DataItemProxy {
 
     protected boolean modified;
     protected int aula_key = 0;
-    
+    protected int responsabile_key = 0;
+    protected int corso_key = 0;
+    protected int tipologia_key = 0;
+
     // TODO da inserire tutte le chiavi degli oggetti conessi a evento
-    
-    
     protected DataLayer dataLayer;
 
     public EventoProxy(DataLayer d) {
         super();
         this.dataLayer = d;
         this.modified = false;
+        this.aula_key = 0;
+        this.responsabile_key = 0;
+        this.corso_key = 0;
+    }
+
+    @Override
+    public void setKey(Integer key) {
+        super.setKey(key);
+        this.modified = true;
     }
 
     @Override
@@ -51,10 +58,9 @@ public class EventoProxy extends EventoImpl implements DataItemProxy {
         this.modified = true;
     }
 
-    @Override
-    public void setAula(AulaImpl aula) {
-        super.setAula(aula);
-        this.modified = true;
+    public void setAulaKey(int aula_key) {
+        this.aula_key = aula_key;
+        super.setAula(null);
     }
 
     @Override
@@ -75,26 +81,20 @@ public class EventoProxy extends EventoImpl implements DataItemProxy {
         this.modified = true;
     }
 
-    @Override
-    public void setResponsabile(ResponsabileImpl responsabile) {
-        super.setResponsabile(responsabile);
-        this.modified = true;
+    public void setResponsabileKey(int responsabile_key) {
+        this.responsabile_key = responsabile_key;
+        super.setResponsabile(null);
     }
 
-    @Override
-    public void setCorso(CorsoImpl corso) {
-        super.setCorso(corso);
-        this.modified = true;
+    public void setCorsoKey(int corso_key) {
+        this.corso_key = corso_key;
+        super.setCorso(null);
     }
 
-    @Override
-    public void setTipologiaEvento(TipologiaEvento tipologiaEvento) {
-        super.setTipologiaEvento(tipologiaEvento);
-        this.modified = true;
+    public void setTipologiaEventoKey(int tipologia_key) {
+        this.tipologia_key = tipologia_key;
+        super.setTipologiaEvento(null);
     }
-    
-
-
 
     //METODI DEL PROXY
     //PROXY-ONLY METHODS
@@ -107,6 +107,5 @@ public class EventoProxy extends EventoImpl implements DataItemProxy {
     public boolean isModified() {
         return modified;
     }
-    
-    
+
 }
