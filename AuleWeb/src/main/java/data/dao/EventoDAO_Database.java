@@ -121,14 +121,17 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
                 uEvento.setTime(2, e.getOraInizio());
                 uEvento.setTime(3, e.getOraFine());
                 uEvento.setString(4, e.getDescrizione());
-                uEvento.setObject(5, e.getAula());  // Assumi che l'oggetto AulaImpl possa essere convertito in un formato adatto per il database
-                uEvento.setObject(6, e.getRicorrenza());  // Assumi che l'oggetto Ricorrenza possa essere convertito in un formato adatto per il database
                 uEvento.setDate(7, e.getDataInizio());
                 uEvento.setDate(8, e.getDataFine());
+                
+                /* Questi vanno gestiti con le chiavi e blabla
                 uEvento.setObject(9, e.getResponsabile());  // Assumi che l'oggetto ResponsabileImpl possa essere convertito in un formato adatto per il database
                 uEvento.setObject(10, e.getCorso());  // Assumi che l'oggetto CorsoImpl possa essere convertito in un formato adatto per il database
                 uEvento.setObject(11, e.getTipologiaEvento());  // Assumi che l'oggetto TipologiaEventoImpl possa essere convertito in un formato adatto per il database
                 uEvento.setLong(12, e.getVersion());
+                uEvento.setObject(5, e.getAula());  // Assumi che l'oggetto AulaImpl possa essere convertito in un formato adatto per il database
+                uEvento.setObject(6, e.getRicorrenza());  // Assumi che l'oggetto Ricorrenza possa essere convertito in un formato adatto per il database
+                */
                 uEvento.setInt(13, e.getKey());
                 uEvento.setLong(14, e.getVersion());
 
@@ -142,14 +145,16 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
                 iEvento.setTime(2, e.getOraInizio());
                 iEvento.setTime(3, e.getOraFine());
                 iEvento.setString(4, e.getDescrizione());
-                iEvento.setObject(5, e.getAula());  // Assumi che l'oggetto AulaImpl possa essere convertito in un formato adatto per il database
-                iEvento.setObject(6, e.getRicorrenza());  // Assumi che l'oggetto Ricorrenza possa essere convertito in un formato adatto per il database
                 iEvento.setDate(7, e.getDataInizio());
                 iEvento.setDate(8, e.getDataFine());
+                
+                /*
+                iEvento.setObject(5, e.getAula());  // Assumi che l'oggetto AulaImpl possa essere convertito in un formato adatto per il database
+                iEvento.setObject(6, e.getRicorrenza());  // Assumi che l'oggetto Ricorrenza possa essere convertito in un formato adatto per il database
                 iEvento.setObject(9, e.getResponsabile());  // Assumi che l'oggetto ResponsabileImpl possa essere convertito in un formato adatto per il database
                 iEvento.setObject(10, e.getCorso());  // Assumi che l'oggetto CorsoImpl possa essere convertito in un formato adatto per il database
                 iEvento.setObject(11, e.getTipologiaEvento());  // Assumi che l'oggetto TipologiaEventoImpl possa essere convertito in un formato adatto per il database
-
+                */
                 if (iEvento.executeUpdate() == 1) {
 
                     try (ResultSet keys = iEvento.getGeneratedKeys()) {
