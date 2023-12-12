@@ -23,11 +23,10 @@ public class AttrezzaturaProxy extends AttrezzaturaImpl implements DataItemProxy
         this.modified = false;
     }
      
-     
-     @Override
-    public void setId(int id) {
-        super.setId(id);
-        this.modified = true;
+    @Override
+    public void setKey(Integer key) {
+      super.setKey(key);
+      this.modified = true;
     }
     
     @Override

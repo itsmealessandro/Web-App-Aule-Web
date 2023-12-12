@@ -4,12 +4,14 @@
  */
 package data.domain;
 
+import framework.data.DataItem;
+
 /**
  *
  * @author Administrator
  */
-public interface Attrezzatura {
-     public int getId();
+public interface Attrezzatura extends DataItem<Integer>{
+    public int getId();
 
     public void setId(int id);
 

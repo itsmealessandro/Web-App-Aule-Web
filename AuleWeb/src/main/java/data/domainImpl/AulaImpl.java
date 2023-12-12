@@ -1,16 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package data.domainImpl;
 
 import data.domain.Aula;
+import framework.data.DataItemImpl;
 
-/**
- *
- * @author user
- */
-public class AulaImpl implements Aula {
+public class AulaImpl extends DataItemImpl<Integer> implements Aula {
+
     private String nome;
     private String luogo;
     private String edificio;
@@ -121,6 +115,4 @@ public class AulaImpl implements Aula {
     public void setDipartimento(DipartimentoImpl dipartimento) {
         this.dipartimento = dipartimento;
     }
-    
-    
 }
