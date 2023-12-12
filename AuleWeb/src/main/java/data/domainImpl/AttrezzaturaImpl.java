@@ -1,16 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package data.domainImpl;
 
 import data.domain.Attrezzatura;
 import framework.data.DataItemImpl;
 
-/**
- *
- * @author user
- */
 public class AttrezzaturaImpl extends DataItemImpl<Integer> implements Attrezzatura {
     
     private int id;

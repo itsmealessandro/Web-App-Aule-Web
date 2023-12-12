@@ -12,10 +12,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-/**
- *
- * @author emanu
- */
 public class AmministratoreDAO_Database extends DAO implements AmministratoreDAO {
 
     private PreparedStatement iAmministratore, uAmministratore, sAmministratoreByID;

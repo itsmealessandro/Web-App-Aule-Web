@@ -2,10 +2,6 @@ package data.domain;
 
 import framework.data.DataItem;
 
-/**
- *
- * @author alessandro
- */
 public interface Amministratore extends DataItem<Integer>{
     
     public String getUsername();

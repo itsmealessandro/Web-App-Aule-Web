@@ -1,4 +1,3 @@
-
 package data.dao;
 
 import data.domain.Attrezzatura;
@@ -6,10 +5,6 @@ import data.domain.Aula;
 import framework.data.DataException;
 import java.util.List;
 
-/**
- *
- * @author emanu
- */
 public interface AttrezzaturaDAO {
     
     // Crea e restituisce una nuova attrezzatura

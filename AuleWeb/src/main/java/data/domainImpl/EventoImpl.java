@@ -17,7 +17,7 @@ public class EventoImpl extends DataItemImpl<Integer> implements Evento {
     private Date dataFine; 
     private ResponsabileImpl responsabile;
     private CorsoImpl corso; 
-    private TipologiaEventoImpl tipologiaEvento;
+    private TipologiaEvento tipologiaEvento;
 
     @Override
     public String getNome() {
@@ -120,12 +120,12 @@ public class EventoImpl extends DataItemImpl<Integer> implements Evento {
     }
 
     @Override
-    public TipologiaEventoImpl getTipologiaEvento() {
+    public TipologiaEvento getTipologiaEvento() {
         return tipologiaEvento;
     }
 
     @Override
-    public void setTipologiaEvento(TipologiaEventoImpl tipologiaEvento) {
+    public void setTipologiaEvento(TipologiaEvento tipologiaEvento) {
         this.tipologiaEvento = tipologiaEvento;
     }
     

@@ -8,7 +8,7 @@ package data.domainImpl;
  *
  * @author user
  */
-public enum TipologiaEventoImpl {
+public enum TipologiaEvento {
     LEZIONE,
     ESAME,
     SEMINARIO,

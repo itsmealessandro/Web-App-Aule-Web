@@ -4,7 +4,7 @@ import data.domainImpl.AulaImpl;
 import data.domainImpl.CorsoImpl;
 import data.domainImpl.ResponsabileImpl;
 import data.domainImpl.Ricorrenza;
-import data.domainImpl.TipologiaEventoImpl;
+import data.domainImpl.TipologiaEvento;
 import framework.data.DataItem;
 import java.sql.Date;
 import java.sql.Time;
@@ -51,7 +51,7 @@ public interface Evento extends DataItem<Integer>{
 
     public void setCorso(CorsoImpl corso);
 
-    public TipologiaEventoImpl getTipologiaEvento() ;
+    public TipologiaEvento getTipologiaEvento();
 
-    public void setTipologiaEvento(TipologiaEventoImpl tipologiaEvento);
+    public void setTipologiaEvento(TipologiaEvento tipologiaEvento);
     }

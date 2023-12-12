@@ -5,8 +5,8 @@ data/dao/ResponsabileDAO_Database.class
 framework/data/OptimisticLockException.class
 data/proxy/ResponsabileProxy.class
 framework/result/DataModelFiller.class
+data/domainImpl/TipologiaEvento.class
 data/dao/AuleWebDataLayer.class
-data/domainImpl/RuoloImpl.class
 data/dao/AttrezzaturaDAO_Database.class
 framework/data/DataItem.class
 controllers/Spage1.class
@@ -14,7 +14,6 @@ data/domainImpl/AttrezzaturaImpl.class
 data/domain/Evento.class
 framework/data/DAO.class
 data/domain/Dipartimento.class
-data/domainImpl/TipologiaEventoImpl.class
 data/dao/EventoDAO_Database.class
 data/domainImpl/AulaImpl.class
 data/proxy/AttrezzaturaProxy.class
@@ -31,6 +30,7 @@ data/domainImpl/DipartimentoImpl.class
 data/domainImpl/AmministratoreImpl.class
 framework/data/DataCache.class
 data/proxy/DipartimentoProxy.class
+data/domainImpl/Ricorrenza.class
 data/dao/AttrezzaturaDAO.class
 data/dao/EventoDAO.class
 data/domain/Aula.class
@@ -45,7 +45,6 @@ framework/result/TemplateResult.class
 controllers/AuleWebBaseController.class
 data/dao/ResponsabileDAO.class
 framework/result/TemplateManagerException.class
-data/domainImpl/RicorrenzaImpl.class
 framework/result/FailureResult.class
 data/proxy/CorsoProxy.class
 controllers/Shomepage.class

@@ -1,13 +1,8 @@
-
 package data.dao;
 
 import data.domain.Amministratore;
 import framework.data.DataException;
 
-/**
- *
- * @author emanu
- */
 public interface AmministratoreDAO {
     
     // Crea e restituisce un nuovo amministratore

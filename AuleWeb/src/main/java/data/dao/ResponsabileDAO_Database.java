@@ -2,7 +2,6 @@ package data.dao;
 
 import data.domain.Evento;
 import data.domain.Responsabile;
-import data.proxy.AmministratoreProxy;
 import data.proxy.ResponsabileProxy;
 import framework.data.DAO;
 import framework.data.DataException;

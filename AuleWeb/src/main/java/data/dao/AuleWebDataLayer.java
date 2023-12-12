@@ -6,10 +6,6 @@ import framework.data.DataLayer;
 import java.sql.SQLException;
 import javax.sql.DataSource;
 
-/**
- *
- * @author Giuseppe Della Penna
- */
 public class AuleWebDataLayer extends DataLayer {
 
     public AuleWebDataLayer(DataSource datasource) throws SQLException {

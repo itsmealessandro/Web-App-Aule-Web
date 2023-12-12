@@ -5,7 +5,7 @@ import data.domainImpl.CorsoImpl;
 import data.domainImpl.EventoImpl;
 import data.domainImpl.ResponsabileImpl;
 import data.domainImpl.Ricorrenza;
-import data.domainImpl.TipologiaEventoImpl;
+import data.domainImpl.TipologiaEvento;
 import framework.data.DataItemProxy;
 import framework.data.DataLayer;
 import java.sql.Date;
@@ -88,7 +88,7 @@ public class EventoProxy extends EventoImpl implements DataItemProxy {
     }
 
     @Override
-    public void setTipologiaEvento(TipologiaEventoImpl tipologiaEvento) {
+    public void setTipologiaEvento(TipologiaEvento tipologiaEvento) {
         super.setTipologiaEvento(tipologiaEvento);
         this.modified = true;
     }
