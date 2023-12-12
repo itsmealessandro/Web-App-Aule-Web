@@ -64,8 +64,11 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
         e.setDataInizio(rs.getDate("dataInizio"));
         e.setDataFine(rs.getDate("dataFine"));
         /*
-        // TODO da impostare le chiavi nei proxy e tutto blablabla
         e.setRicorrenza( Imposta l'oggetto Ricorrenza in base ai dati del ResultSet );
+        CAPIRE COME GESTIRLO
+        */
+        // TODO da impostare le chiavi nei proxy e tutto blablabla
+        
         e.setAula(/* Imposta l'oggetto AulaImpl in base ai dati del ResultSet );
         e.setResponsabile(/* Imposta l'oggetto ResponsabileImpl in base ai dati del ResultSet );
         e.setCorso(/* Imposta l'oggetto CorsoImpl in base ai dati del ResultSet );
