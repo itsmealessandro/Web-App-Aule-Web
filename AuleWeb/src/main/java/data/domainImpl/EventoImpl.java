@@ -1,41 +1,23 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package data.domainImpl;
 
 import data.domain.Evento;
+import framework.data.DataItemImpl;
 import java.sql.Time;
 import java.sql.Date;
 
-/**
- *
- * @author user
- */
-public class EventoImpl implements Evento {
+public class EventoImpl extends DataItemImpl<Integer> implements Evento {
     
-    private int id;
     private String nome;
     private Time oraInizio;
     private Time oraFine;
     private String descrizione; //Text 
     private AulaImpl aula;
-    private RicorrenzaImpl ricorrenza; //Enumerazione
+    private Ricorrenza ricorrenza; //Enumerazione
     private Date dataInizio;
     private Date dataFine; 
     private ResponsabileImpl responsabile;
     private CorsoImpl corso; 
     private TipologiaEventoImpl tipologiaEvento;
-
-    @Override
-    public int getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(int id) {
-        this.id = id;
-    }
 
     @Override
     public String getNome() {
@@ -88,12 +70,12 @@ public class EventoImpl implements Evento {
     }
 
     @Override
-    public RicorrenzaImpl getRicorrenza() {
+    public Ricorrenza getRicorrenza() {
         return ricorrenza;
     }
 
     @Override
-    public void setRicorrenza(RicorrenzaImpl ricorrenza) {
+    public void setRicorrenza(Ricorrenza ricorrenza) {
         this.ricorrenza = ricorrenza;
     }
 
@@ -146,6 +128,5 @@ public class EventoImpl implements Evento {
     public void setTipologiaEvento(TipologiaEventoImpl tipologiaEvento) {
         this.tipologiaEvento = tipologiaEvento;
     }
-    
     
 }

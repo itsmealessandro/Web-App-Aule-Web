@@ -7,6 +7,7 @@ package data.dao;
 import data.domain.Corso;
 import data.domain.Evento;
 import data.domain.Responsabile;
+import framework.data.DataException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -17,11 +18,15 @@ import java.util.List;
 public interface EventoDAO {
     
     // Crea e restituisce un nuovo evento
-    Evento creaNuovoEvento();
-
+    Evento createEvento() throws DataException;
+    
+    // Salva l'evento corrente
+    void storeEvento(Evento evento) throws DataException;
+    
     // Restituisce l'evento corrente
-    Evento getEventoCorrente();
-
+    Evento getEventoByID(int evento_key) throws DataException;
+    
+    /*   
     // Restituisce tutti gli eventi associati a un corso specifico
     List<Evento> getEventiPerCorso(Corso corso);
 
@@ -42,10 +47,10 @@ public interface EventoDAO {
 
     // Restituisce tutti gli eventi in una settimana specifica associati a un corso specifico
     List<Evento> getEventiPerSettimanaECorso(int numeroSettimana, Corso corso);
-
-    // Salva l'evento corrente
-    void salvaEventoCorrente();
-
+    
     // Elimina l'evento corrente
-    void eliminaEventoCorrente();
+    void eliminaEventoCorrente() throws DataException;
+    */
+
+    
 }
