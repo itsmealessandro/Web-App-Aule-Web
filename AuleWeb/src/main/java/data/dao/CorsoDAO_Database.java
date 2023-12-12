@@ -5,10 +5,16 @@
 package data.dao;
 
 import data.domain.Corso;
-import data.domain.Evento;
+import data.proxy.CorsoProxy;
 import framework.data.DAO;
+import framework.data.DataException;
+import framework.data.DataItemProxy;
 import framework.data.DataLayer;
-import java.util.List;
+import framework.data.OptimisticLockException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  *
@@ -16,38 +22,131 @@ import java.util.List;
  */
 public class CorsoDAO_Database extends DAO implements CorsoDAO{
 
+    private PreparedStatement iCorso, uCorso, sCorsoByID;
+    
     public CorsoDAO_Database(DataLayer d) {
         super(d);
     }
-
+    
     @Override
-    public Corso creaNuovoCorso() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void init() throws DataException {
+        try {
+            super.init();
+
+            sCorsoByID = connection.prepareStatement("SELECT * FROM Corso WHERE ID=?");
+            iCorso = connection.prepareStatement("INSERT INTO Corso (nome,responsabileID) VALUES(?,?)", Statement.RETURN_GENERATED_KEYS);
+            uCorso = connection.prepareStatement("UPDATE Corso SET nome=?,responsabileID=?,version=? WHERE ID=? and version=?");
+        } catch (SQLException ex) {
+            throw new DataException("Error initializing AuleWeb data layer", ex);
+        }
+        }
+        
+        @Override
+    public void destroy() throws DataException {
+        try {
+            sCorsoByID.close();
+            iCorso.close();
+            uCorso.close();
+
+        } catch (SQLException ex) {
+            // TODO gestire l'eccezione
+        }
+        super.destroy();
     }
 
     @Override
-    public Corso getCorsoCorrente() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Corso createCorso() {
+        return new CorsoProxy(getDataLayer());
+    }
+
+    private CorsoProxy createCorso(ResultSet rs) throws DataException {
+        try {
+            CorsoProxy corsoProxy = (CorsoProxy) createCorso();
+            corsoProxy.setKey(rs.getInt("ID"));
+            corsoProxy.setNome(rs.getString("username"));
+            corsoProxy.setResponsabileKey(rs.getInt("IDresponasbile"));
+            corsoProxy.setVersion(rs.getLong("version"));
+            return corsoProxy;
+        } catch (SQLException ex) {
+            throw new DataException("Unable to create Amministratore object form ResultSet", ex);
+        }
     }
 
     @Override
-    public Corso getCorsoPerEvento(Evento evento) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Corso getCorso(int corso_key) throws DataException {
+        Corso corso = null;
+
+        if (dataLayer.getCache().has(Corso.class, corso_key)) {
+
+            corso = dataLayer.getCache().get(Corso.class, corso_key);
+        } else {
+            try {
+                sCorsoByID.setInt(1, corso_key);
+                try (ResultSet rs = sCorsoByID.executeQuery()) {
+                    if (rs.next()) {
+
+                        corso = createCorso(rs);
+
+                        dataLayer.getCache().add(Corso.class, corso);
+                    }
+                }
+            } catch (SQLException ex) {
+                throw new DataException("Unable to load Corso by ID", ex);
+            }
+        }
+        return corso;
     }
 
     @Override
-    public Corso getCorsoPerNome(String nomeCorso) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    public void storeCorso(Corso corso) throws DataException {
 
-    @Override
-    public List<Corso> getTuttiICorsi() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+        try {
+            if (corso.getKey() != null && corso.getKey() > 0) { //update
 
-    @Override
-    public void salvaCorsoCorrente() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                if (corso instanceof DataItemProxy && !((DataItemProxy) corso).isModified()) {
+                    return;
+                }
+                uCorso.setString(1, corso.getNome());
+                uCorso.setInt(2, corso.getResponsabile().getKey());
+
+                long current_version = corso.getVersion();
+                long next_version = current_version + 1;
+
+                uCorso.setLong(3, next_version);
+                uCorso.setInt(4, corso.getKey());
+                uCorso.setLong(5, current_version);
+
+                if (uCorso.executeUpdate() == 0) {
+                    throw new OptimisticLockException(corso);
+                } else {
+                    corso.setVersion(next_version);
+                }
+            } else { //insert
+                iCorso.setString(1, corso.getNome());
+                iCorso.setInt(2, corso.getResponsabile().getKey());
+
+                if (iCorso.executeUpdate() == 1) {
+
+                    try (ResultSet keys = iCorso.getGeneratedKeys()) {
+
+                        if (keys.next()) {
+
+                            int key = keys.getInt(1);
+
+                            corso.setKey(key);
+
+                            dataLayer.getCache().add(Corso.class, corso);
+                        }
+                    }
+                }
+            }
+
+            if (corso instanceof DataItemProxy) {
+                ((DataItemProxy) corso).setModified(false);
+            }
+        } catch (SQLException | OptimisticLockException ex) {
+            throw new DataException("Unable to store Corso", ex);
+        }
+    }
     }
     
-}

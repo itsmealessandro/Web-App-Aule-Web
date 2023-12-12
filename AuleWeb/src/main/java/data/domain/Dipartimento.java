@@ -4,14 +4,13 @@
  */
 package data.domain;
 
+import framework.data.DataItem;
+
 /**
  *
  * @author Administrator
  */
-public interface Dipartimento {
-     public int getId();
-
-    public void setId(int id);
+public interface Dipartimento extends DataItem<Integer> {
 
     public String getNome();
 
@@ -22,3 +21,4 @@ public interface Dipartimento {
     public void setDescrizione(String descrizione);
     
 }
+

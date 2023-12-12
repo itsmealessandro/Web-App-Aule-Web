@@ -21,14 +21,6 @@ public class DipartimentoProxy extends DipartimentoImpl implements DataItemProxy
         this.dataLayer = d;
         this.modified = false;
     }    
-     
-     
-      @Override
-    public void setId(int id) {
-        super.setId(id);
-         this.modified = true;
-    }
-
     @Override
     public void setNome(String nome) {
         super.setNome(nome);

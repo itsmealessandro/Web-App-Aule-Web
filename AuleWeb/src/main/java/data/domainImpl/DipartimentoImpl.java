@@ -5,26 +5,15 @@
 package data.domainImpl;
 
 import data.domain.Dipartimento;
+import framework.data.DataItemImpl;
 
 /**
  *
  * @author user
  */
-public class DipartimentoImpl implements Dipartimento {
-    
-    private int id;
+public class DipartimentoImpl extends DataItemImpl<Integer> implements Dipartimento {
     private String nome;
     private String descrizione;
-
-    @Override
-    public int getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(int id) {
-        this.id = id;
-    }
 
     @Override
     public String getNome() {

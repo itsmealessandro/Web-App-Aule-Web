@@ -5,19 +5,17 @@
 package data.domain;
 
 import data.domainImpl.ResponsabileImpl;
+import framework.data.DataItem;
 
 /**
  *
  * @author Administrator
  */
-public interface Corso {
-     public int getId();
+public interface Corso extends DataItem<Integer> {
      
     public String getNome();
 
     public ResponsabileImpl getResponsabile();
-
-    public void setId(int id);
 
     public void setNome(String nome);
 

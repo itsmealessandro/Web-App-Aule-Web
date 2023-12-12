@@ -5,7 +5,7 @@
 package data.dao;
 
 import data.domain.Dipartimento;
-import java.util.List;
+import framework.data.DataException;
 
 /**
  *
@@ -13,20 +13,13 @@ import java.util.List;
  */
 public interface DipartimentoDAO {
     
-    // Crea e restituisce un nuovo dipartimento
-    Dipartimento creaNuovoDipartimento();
+   // Crea e restituisce un nuovo dipartimento
+    Dipartimento createDipartimento();
 
-    // Restituisce il dipartimento corrente
-    Dipartimento getDipartimentoCorrente();
+    // Restituisce dipartimento corrente
+    Dipartimento getDipartimento(int dipartimento_key) throws DataException;
 
-    // Restituisce tutti i dipartimento disponibili
-    List<Dipartimento> getTuttiIDipartimenti();
-
-    // Salva il dipartimento corrente
-    void salvaDipartimentoCorrente();
-
-    // Elimina il dipartimento corrente
-    void eliminaDipartimentoCorrente();    
-    
+    // Salva dipartimento corrente
+    void storeAmministratore(Dipartimento dipartimento) throws DataException;
     
 }

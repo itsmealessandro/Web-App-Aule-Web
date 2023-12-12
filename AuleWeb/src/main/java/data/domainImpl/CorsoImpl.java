@@ -5,21 +5,16 @@
 package data.domainImpl;
 
 import data.domain.Corso;
+import framework.data.DataItemImpl;
 
 /**
  *
  * @author user
  */
-public class CorsoImpl implements Corso {
+public class CorsoImpl extends DataItemImpl<Integer> implements Corso {
     
-    private int id;
     private String nome;
     private ResponsabileImpl responsabile;
-
-    @Override
-    public int getId() {
-        return id;
-    }
 
     @Override
     public String getNome() {
@@ -29,11 +24,6 @@ public class CorsoImpl implements Corso {
     @Override
     public ResponsabileImpl getResponsabile() {
         return responsabile;
-    }
-
-    @Override
-    public void setId(int id) {
-        this.id = id;
     }
 
     @Override
