@@ -1,5 +1,11 @@
 package data.dao;
 
+import data.domain.Amministratore;
+import data.domain.Aula;
+import data.domain.Corso;
+import data.domain.Dipartimento;
+import data.domain.Evento;
+import data.domain.Responsabile;
 import framework.data.DataException;
 import framework.data.DataLayer;
 
@@ -25,27 +31,30 @@ public class AuleWebDataLayer extends DataLayer {
         registerDAO(ResponsabileDAO.class, new ResponsabileDAO_Database(this));
     }
 
-    //helpers // TODO da modificare
-    /**
-    public ArticleDAO getArticleDAO() {
-        return (ArticleDAO) getDAO(Article.class);
+    //helpers 
+    public AttrezzaturaDAO getAmministratoreDAO() {
+        return (AttrezzaturaDAO) getDAO(Amministratore.class);
     }
 
-    public AuthorDAO getAuthorDAO() {
-        return (AuthorDAO) getDAO(Author.class);
+    public AulaDAO getAulaDAO() {
+        return (AulaDAO) getDAO(Aula.class);
     }
 
-    public IssueDAO getIssueDAO() {
-        return (IssueDAO) getDAO(Issue.class);
+    public CorsoDAO getCorsoDAO() {
+        return (CorsoDAO) getDAO(Corso.class);
     }
 
-    public ImageDAO getImageDAO() {
-        return (ImageDAO) getDAO(Image.class);
+    public DipartimentoDAO getDipartimentoDAO() {
+        return (DipartimentoDAO) getDAO(Dipartimento.class);
+    }
+
+    public EventoDAO getEventoDAO() {
+        return (EventoDAO) getDAO(Evento.class);
+    }
+
+    public ResponsabileDAO getResponsabileDAO() {
+        return (ResponsabileDAO) getDAO(Responsabile.class);
+
     }
     
-     public UserDAO getUserDAO() {
-        return (UserDAO) getDAO(User.class);
-    }
-     **/
-
 }
