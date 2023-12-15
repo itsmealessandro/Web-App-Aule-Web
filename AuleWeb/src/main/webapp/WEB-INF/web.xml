@@ -24,6 +24,9 @@
         <servlet-name>Shomepage</servlet-name>
         <url-pattern>/Shomepage</url-pattern>
     </servlet-mapping>
+    
+    
+    
     <session-config>
         <session-timeout>
             30
@@ -33,4 +36,23 @@
     <welcome-file-list>
         <welcome-file>Shomepage</welcome-file>
     </welcome-file-list>
+    
+    
+    
+    <!-- DA qui incertezze -->
+    
+    
+    <resource-ref>
+        <res-ref-name>jdbc/auleDB</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+        <res-sharing-scope>Shareable</res-sharing-scope>
+    </resource-ref>
+    
+    
+    <context-param>
+        <param-name>data.source</param-name>
+        <!-- qui configuriamo in nome della data source da usare nel codice -->
+        <param-value>jdbc/auleDB</param-value>
+    </context-param>
 </web-app>
