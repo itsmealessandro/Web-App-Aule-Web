@@ -27,7 +27,7 @@ public class Shomepage extends AuleWebBaseController {
         try {
             TemplateResult res = new TemplateResult(getServletContext());
             request.setAttribute("page_title", "Dipartimenti");
-            request.setAttribute("dipartimento", ((AuleWebDataLayer) request.getAttribute("datalayer")).getDipartimentoDAO().getDipartimento(0));
+            request.setAttribute("dipartimento", ((AuleWebDataLayer) request.getAttribute("datalayer")).getDipartimentoDAO().getDipartimento(1));
             res.activate("testDB.ftl.html", request, response);
         } catch (DataException ex) {
             handleError("Data access exception: " + ex.getMessage(), request, response);
