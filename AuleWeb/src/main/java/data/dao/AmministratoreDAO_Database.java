@@ -52,9 +52,10 @@ public class AmministratoreDAO_Database extends DAO implements AmministratoreDAO
     }
 
     private AmministratoreProxy createAmministratore(ResultSet rs) throws DataException {
-        try {
-            AmministratoreProxy a = (AmministratoreProxy) createAmministratore();
+        AmministratoreProxy a = (AmministratoreProxy) createAmministratore();
+        try { 
             a.setKey(rs.getInt("ID"));
+            
             a.setUsername(rs.getString("username"));
             a.setPassword(rs.getString("password"));
             a.setVersion(rs.getLong("version"));

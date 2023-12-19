@@ -1,6 +1,7 @@
 package data.dao;
 
 import data.domain.Amministratore;
+import data.domain.Attrezzatura;
 import data.domain.Aula;
 import data.domain.Corso;
 import data.domain.Dipartimento;
@@ -22,19 +23,20 @@ public class AuleWebDataLayer extends DataLayer {
     public void init() throws DataException {
         //registriamo i nostri dao
         //register our daos
-        registerDAO(AmministratoreDAO.class, new AmministratoreDAO_Database(this));
-        registerDAO(AttrezzaturaDAO.class, new AttrezzaturaDAO_Database(this));
-        registerDAO(AulaDAO.class, new AulaDAO_Database(this));
-        registerDAO(CorsoDAO.class, new CorsoDAO_Database(this));
-        registerDAO(DipartimentoDAO.class, new DipartimentoDAO_Database(this));
-        registerDAO(EventoDAO.class, new EventoDAO_Database(this));
-        registerDAO(ResponsabileDAO.class, new ResponsabileDAO_Database(this));
+        registerDAO(Amministratore.class, new AmministratoreDAO_Database(this));
+        registerDAO(Attrezzatura.class, new AttrezzaturaDAO_Database(this));
+        registerDAO(Aula.class, new AulaDAO_Database(this));
+        registerDAO(Corso.class, new CorsoDAO_Database(this));
+        registerDAO(Dipartimento.class, new DipartimentoDAO_Database(this));
+        registerDAO(Evento.class, new EventoDAO_Database(this));
+        registerDAO(Responsabile.class, new ResponsabileDAO_Database(this));
     }
 
     //helpers 
-    public AttrezzaturaDAO getAmministratoreDAO() {
-        return (AttrezzaturaDAO) getDAO(Amministratore.class);
+    public AmministratoreDAO getAmministratoreDAO() {
+        return (AmministratoreDAO) getDAO(Amministratore.class);
     }
+
 
     public AulaDAO getAulaDAO() {
         return (AulaDAO) getDAO(Aula.class);
