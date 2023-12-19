@@ -37,7 +37,7 @@ public class Shomepage extends AuleWebBaseController {
 
                 request.setAttribute("page_title", "Dipartimenti");
                 //request.setAttribute("dipartimento", dataLayer.getDipartimentoDAO().getDipartimento(1));
-                request.setAttribute("dipartimento", dataLayer.getAmministratoreDAO().getAmministratore(1));
+                request.setAttribute("amministratore", dataLayer.getAmministratoreDAO().getAmministratore(1));
                 res.activate("testDB.ftl.html", request, response);
             } else {
                 System.out.println("datalayer attribute is null");
