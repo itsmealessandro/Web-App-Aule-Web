@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 15, 2023 at 04:25 PM
+-- Generation Time: Dec 19, 2023 at 05:04 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -30,15 +30,16 @@ SET time_zone = "+00:00";
 CREATE TABLE `Amministratore` (
   `ID` int(11) NOT NULL,
   `username` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL
+  `password` varchar(255) NOT NULL,
+  `version` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `Amministratore`
 --
 
-INSERT INTO `Amministratore` (`ID`, `username`, `password`) VALUES
-(1, 'a', 'a');
+INSERT INTO `Amministratore` (`ID`, `username`, `password`, `version`) VALUES
+(1, 'a', 'a', 1);
 
 -- --------------------------------------------------------
 
