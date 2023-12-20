@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 20, 2023 at 10:52 AM
+-- Generation Time: Dec 20, 2023 at 11:07 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -76,14 +76,14 @@ INSERT INTO `AttrezzaturaDisponibile` (`ID`, `nome`, `version`) VALUES
 
 CREATE TABLE `Aula` (
   `ID` int(11) NOT NULL,
-  `Nome` varchar(100) NOT NULL,
-  `Luogo` varchar(50) NOT NULL,
-  `Edificio` varchar(50) NOT NULL,
-  `Piano` varchar(50) NOT NULL,
-  `Capienza` int(11) NOT NULL,
-  `PreseElettriche` int(11) DEFAULT NULL,
-  `PreseRete` int(11) DEFAULT NULL,
-  `Note` text DEFAULT NULL,
+  `nome` varchar(100) NOT NULL,
+  `luogo` varchar(50) NOT NULL,
+  `edificio` varchar(50) NOT NULL,
+  `piano` varchar(50) NOT NULL,
+  `capienza` int(11) NOT NULL,
+  `preseElettriche` int(11) DEFAULT NULL,
+  `preseRete` int(11) DEFAULT NULL,
+  `note` text DEFAULT NULL,
   `IDAttrezzatura` int(11) DEFAULT NULL,
   `IDDipartimento` int(11) DEFAULT NULL,
   `version` int(11) NOT NULL
@@ -93,7 +93,7 @@ CREATE TABLE `Aula` (
 -- Dumping data for table `Aula`
 --
 
-INSERT INTO `Aula` (`ID`, `Nome`, `Luogo`, `Edificio`, `Piano`, `Capienza`, `PreseElettriche`, `PreseRete`, `Note`, `IDAttrezzatura`, `IDDipartimento`, `version`) VALUES
+INSERT INTO `Aula` (`ID`, `nome`, `luogo`, `edificio`, `piano`, `capienza`, `preseElettriche`, `preseRete`, `note`, `IDAttrezzatura`, `IDDipartimento`, `version`) VALUES
 (1, 'Aula 1', 'Luogo C', 'Edificio B', 'Terzo', 50, 10, 5, 'Questa è un\'aula di prova 1.', 3, 2, 0),
 (2, 'Aula 2', 'Luogo A', 'Edificio B', 'Primo', 30, 8, 4, 'Questa è un\'aula di prova 2.', 4, 2, 0),
 (3, 'Aula 3', 'Luogo C', 'Edificio B', 'Secondo', 40, 12, 6, 'Questa è un\'aula di prova 3.', 2, 3, 0),
@@ -186,16 +186,16 @@ CREATE TABLE `Evento` (
 --
 
 INSERT INTO `Evento` (`ID`, `nome`, `oraInizio`, `oraFine`, `descrizione`, `IDAula`, `ricorrenza`, `dataInizio`, `dataFine`, `IDResponsabile`, `IDCorso`, `tipologiaEvento`, `version`) VALUES
-(1, 'Evento 1', '08:00:00', '10:00:00', 'Descrizione dell\'evento 1', 8, 'NON RICORRENTE', '2023-11-27', '2023-12-26', 5, NULL, NULL, 0),
-(2, 'Evento 2', '10:30:00', '12:30:00', 'Descrizione dell\'evento 2', 13, 'RICORRENTE', '2023-11-16', '2023-11-21', 9, NULL, NULL, 0),
-(3, 'Evento 3', '14:00:00', '16:00:00', 'Descrizione dell\'evento 3', 4, 'NON RICORRENTE', '2023-11-13', '2023-12-14', 9, NULL, NULL, 0),
-(4, 'Evento 4', '09:00:00', '11:00:00', 'Descrizione dell\'evento 4', 7, 'NON RICORRENTE', '2023-11-28', '2023-12-04', 7, NULL, NULL, 0),
-(5, 'Evento 5', '13:30:00', '15:30:00', 'Descrizione dell\'evento 5', 10, 'NON RICORRENTE', '2023-11-21', '2024-01-01', 8, NULL, NULL, 0),
-(6, 'Evento 6', '12:00:00', '14:00:00', 'Descrizione dell\'evento 6', 7, 'NON RICORRENTE', '2023-11-04', '2023-12-10', 9, NULL, NULL, 0),
-(7, 'Evento 7', '10:00:00', '12:00:00', 'Descrizione dell\'evento 7', 3, 'RICORRENTE', '2023-11-24', '2023-11-29', 2, NULL, NULL, 0),
-(8, 'Evento 8', '14:30:00', '16:30:00', 'Descrizione dell\'evento 8', 7, 'NON RICORRENTE', '2023-11-06', '2023-12-26', 1, NULL, NULL, 0),
-(9, 'Evento 9', '11:30:00', '13:30:00', 'Descrizione dell\'evento 9', 8, 'NON RICORRENTE', '2023-11-19', '2023-12-12', 7, NULL, NULL, 0),
-(10, 'Evento 10', '08:30:00', '10:30:00', 'Descrizione dell\'evento 10', 2, 'RICORRENTE', '2023-11-05', '2023-11-08', 4, NULL, NULL, 0);
+(1, 'Evento 1', '08:00:00', '10:00:00', 'Descrizione dell\'evento 1', 8, 'NESSUNA', '2023-11-27', '2023-12-26', 5, NULL, NULL, 0),
+(2, 'Evento 2', '10:30:00', '12:30:00', 'Descrizione dell\'evento 2', 13, 'NESSUNA', '2023-11-16', '2023-11-21', 9, NULL, NULL, 0),
+(3, 'Evento 3', '14:00:00', '16:00:00', 'Descrizione dell\'evento 3', 4, 'GIORNALIERA', '2023-11-13', '2023-12-14', 9, NULL, NULL, 0),
+(4, 'Evento 4', '09:00:00', '11:00:00', 'Descrizione dell\'evento 4', 7, 'NESSUNA', '2023-11-28', '2023-12-04', 7, NULL, NULL, 0),
+(5, 'Evento 5', '13:30:00', '15:30:00', 'Descrizione dell\'evento 5', 10, 'MENSILE', '2023-11-21', '2024-01-01', 8, NULL, NULL, 0),
+(6, 'Evento 6', '12:00:00', '14:00:00', 'Descrizione dell\'evento 6', 7, 'SETTIMANALE', '2023-11-04', '2023-12-10', 9, NULL, NULL, 0),
+(7, 'Evento 7', '10:00:00', '12:00:00', 'Descrizione dell\'evento 7', 3, 'NESSUNA', '2023-11-24', '2023-11-29', 2, NULL, NULL, 0),
+(8, 'Evento 8', '14:30:00', '16:30:00', 'Descrizione dell\'evento 8', 7, 'NESSUNA', '2023-11-06', '2023-12-26', 1, NULL, NULL, 0),
+(9, 'Evento 9', '11:30:00', '13:30:00', 'Descrizione dell\'evento 9', 8, 'NESSUNA', '2023-11-19', '2023-12-12', 7, NULL, NULL, 0),
+(10, 'Evento 10', '08:30:00', '10:30:00', 'Descrizione dell\'evento 10', 2, 'NESSUNA', '2023-11-05', '2023-11-08', 4, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
