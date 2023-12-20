@@ -18,10 +18,10 @@ import java.util.List;
 public interface AulaDAO {
 
     // Crea e restituisce una nuova aula
-    Aula creaNuovaAula() throws DataException;
+    Aula createAula() throws DataException;
 
     // Restituisce l'aula corrente
-    Aula getAulaCorrente(int aula_key) throws DataException;
+    Aula getAula(int aula_key) throws DataException;
 
     // Restituisce tutte le aule disponibili
     List<Aula> getTutteLeAule() throws DataException;

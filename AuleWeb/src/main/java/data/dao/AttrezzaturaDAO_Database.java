@@ -34,12 +34,12 @@ public class AttrezzaturaDAO_Database extends DAO implements AttrezzaturaDAO {
         try {
             super.init();
 
-            sAttrezzaturaByID = connection.prepareStatement("SELECT * FROM attrezzatura WHERE ID=?");
-            sAttrezzature = connection.prepareStatement("SELECT ID AS attrezzaturaID FROM attrezzatura");
+            sAttrezzaturaByID = connection.prepareStatement("SELECT * FROM AttrezzaturaDisponibile WHERE ID=?");
+            sAttrezzature = connection.prepareStatement("SELECT ID AS attrezzaturaID FROM AttrezzaturaDisponibile");
             sAttrezzatureByAula = connection.prepareStatement("SELECT attrezzaturaID AS attrezzaturaID FROM Fornito WHERE aulaID=?");
-            iAttrezzatura = connection.prepareStatement("INSERT INTO attrezzatura (nome) VALUES(?)", Statement.RETURN_GENERATED_KEYS);
-            uAttrezzatura = connection.prepareStatement("UPDATE attrezzatura SET nome=?, version=? WHERE ID=? and version=?");
-            dAttrezzatura = connection.prepareStatement("DELETE FROM attrezzatura WHERE ID=?");
+            iAttrezzatura = connection.prepareStatement("INSERT INTO AttrezzaturaDisponibile (nome) VALUES(?)", Statement.RETURN_GENERATED_KEYS);
+            uAttrezzatura = connection.prepareStatement("UPDATE AttrezzaturaDisponibile SET nome=?, version=? WHERE ID=? and version=?");
+            dAttrezzatura = connection.prepareStatement("DELETE FROM AttrezzaturaDisponibile WHERE ID=?");
         } catch (SQLException ex) {
             throw new DataException("Error initializing AuleWeb data layer", ex);
         }
@@ -65,12 +65,12 @@ public class AttrezzaturaDAO_Database extends DAO implements AttrezzaturaDAO {
     }
     
     @Override
-    public Attrezzatura creaNuovaAttrezzatura() {
+    public Attrezzatura createAttrezzatura() {
         return new AttrezzaturaProxy(getDataLayer());
     }
 
     public Attrezzatura creaNuovaAttrezzatura(ResultSet rs) throws DataException {
-        AttrezzaturaProxy a = (AttrezzaturaProxy) creaNuovaAttrezzatura();
+        AttrezzaturaProxy a = (AttrezzaturaProxy) createAttrezzatura();
         try {
             a.setKey(rs.getInt("ID"));
             a.setNome(rs.getString("nome"));
@@ -82,7 +82,7 @@ public class AttrezzaturaDAO_Database extends DAO implements AttrezzaturaDAO {
     }
 
     @Override
-    public Attrezzatura getAttrezzaturaCorrente(int attrezzatura_key) throws DataException  {
+    public Attrezzatura getAttrezzatura(int attrezzatura_key) throws DataException  {
           Attrezzatura a = null;
         //prima vediamo se l'oggetto è già stato caricato
         //first look for this object in the cache
@@ -114,7 +114,7 @@ public class AttrezzaturaDAO_Database extends DAO implements AttrezzaturaDAO {
 
         try (ResultSet rs = sAttrezzature.executeQuery()) {
             while (rs.next()) {
-                result.add((Attrezzatura) getAttrezzaturaCorrente(rs.getInt("attrezzaturaID")));
+                result.add((Attrezzatura) getAttrezzatura(rs.getInt("attrezzaturaID")));
             }
         } catch (SQLException ex) {
             throw new DataException("Unable to load attrezzature", ex);
@@ -130,7 +130,7 @@ public class AttrezzaturaDAO_Database extends DAO implements AttrezzaturaDAO {
             sAttrezzatureByAula.setInt(1, aula.getKey());
             try (ResultSet rs = sAttrezzatureByAula.executeQuery()) {
                 while (rs.next()) {
-                    result.add((Attrezzatura) getAttrezzaturaCorrente(rs.getInt("attrezzaturaID")));
+                    result.add((Attrezzatura) getAttrezzatura(rs.getInt("attrezzaturaID")));
                 }
             }
         } catch (SQLException ex) {

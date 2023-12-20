@@ -8,10 +8,10 @@ import java.util.List;
 public interface AttrezzaturaDAO {
     
     // Crea e restituisce una nuova attrezzatura
-    Attrezzatura creaNuovaAttrezzatura()throws DataException;
+    Attrezzatura createAttrezzatura()throws DataException;
 
     // Restituisce l'attrezzatura corrente
-    Attrezzatura getAttrezzaturaCorrente(int attrezzatura_key) throws DataException;;
+    Attrezzatura getAttrezzatura(int attrezzatura_key) throws DataException;;
 
     // Restituisce tutte le attrezzature disponibili
     List<Attrezzatura> getTutteLeAttrezzature()throws DataException;

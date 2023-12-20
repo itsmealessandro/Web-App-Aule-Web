@@ -43,9 +43,9 @@ public class AulaDAO_Database extends DAO implements AulaDAO{
 
             //precompiliamo tutte le query utilizzate nella classe
             //precompile all the queries uses in this class
-            sAulaPerID = connection.prepareStatement("SELECT * FROM aula WHERE ID=?");
-            sAule = connection.prepareStatement("SELECT ID AS aulaID FROM aula");
-            sAulePerDipartimento = connection.prepareStatement("SELECT ID AS aulaID FROM aula WHERE gruppoID=?");
+            sAulaPerID = connection.prepareStatement("SELECT * FROM Aula WHERE ID=?");
+            sAule = connection.prepareStatement("SELECT ID AS aulaID FROM Aula");
+            sAulePerDipartimento = connection.prepareStatement("SELECT ID AS aulaID FROM Aula WHERE gruppoID=?");
 
             //notare l'ultimo paametro extra di questa chiamata a
             //prepareStatement: lo usiamo per assicurarci che il JDBC
@@ -87,22 +87,22 @@ public class AulaDAO_Database extends DAO implements AulaDAO{
     
     
     @Override
-    public Aula creaNuovaAula() {
+    public Aula createAula() {
         return new AulaProxy(getDataLayer());
     }
     
     public Aula creaNuovaAula(ResultSet rs) throws DataException {
-        AulaProxy a = (AulaProxy) creaNuovaAula();
+        AulaProxy a = (AulaProxy) createAula();
         try {
             a.setKey(rs.getInt("ID"));
-            a.setDipartimentoKey(rs.getInt("dipartimentoID"));
-            a.setAttrezzaturaKey(rs.getInt("attrezzaturaID"));
+            a.setDipartimentoKey(rs.getInt("IDdipartimento"));
+            a.setAttrezzaturaKey(rs.getInt("IDattrezzatura"));
             a.setNome(rs.getString("nome"));
             a.setLuogo(rs.getString("luogo"));
             a.setEdificio(rs.getString("edificio"));
             a.setPiano(rs.getString("piano"));
             a.setCapienza(rs.getInt("capienza"));
-            a.setPresaElettrica(rs.getInt("presaElettrica"));
+            a.setPresaElettrica(rs.getInt("preseElettriche"));
             a.setPreseRete(rs.getInt("preseRete"));
             a.setNote(rs.getString("note"));
             // Non impostiamo il campo version in quanto non presente in AulaProxy
@@ -113,7 +113,7 @@ public class AulaDAO_Database extends DAO implements AulaDAO{
     }
 
     @Override
-    public Aula getAulaCorrente(int aula_key) throws DataException {
+    public Aula getAula(int aula_key) throws DataException {
     Aula a = null;
     // prima vediamo se l'oggetto è già stato caricato
     // first look for this object in the cache
@@ -146,7 +146,7 @@ public class AulaDAO_Database extends DAO implements AulaDAO{
 
         try ( ResultSet rs = sAule.executeQuery()) {
             while (rs.next()) {
-                result.add((Aula) getAulaCorrente(rs.getInt("aulaID")));
+                result.add((Aula) getAula(rs.getInt("aulaID")));
             }
         } catch (SQLException ex) {
             throw new DataException("Unable to load aule", ex);
@@ -170,7 +170,7 @@ public class AulaDAO_Database extends DAO implements AulaDAO{
                     //then getArticle, with its queries, will populate the 
                     //corresponding objects. Less efficient, but in this way
                     //article creation logic is better encapsulated
-                    result.add((Aula) getAulaCorrente(rs.getInt("attrezzaturaID")));
+                    result.add((Aula) getAula(rs.getInt("attrezzaturaID")));
                 }
             }
         } catch (SQLException ex) {
@@ -195,7 +195,7 @@ public class AulaDAO_Database extends DAO implements AulaDAO{
                     //then getArticle, with its queries, will populate the 
                     //corresponding objects. Less efficient, but in this way
                     //article creation logic is better encapsulated
-                    result.add((Aula) getAulaCorrente(rs.getInt("eventoID")));
+                    result.add((Aula) getAula(rs.getInt("eventoID")));
                 }
             }
         } catch (SQLException ex) {
