@@ -37,7 +37,6 @@ public class AuleWebDataLayer extends DataLayer {
         return (AmministratoreDAO) getDAO(Amministratore.class);
     }
 
-
     public AulaDAO getAulaDAO() {
         return (AulaDAO) getDAO(Aula.class);
     }
@@ -57,6 +56,10 @@ public class AuleWebDataLayer extends DataLayer {
     public ResponsabileDAO getResponsabileDAO() {
         return (ResponsabileDAO) getDAO(Responsabile.class);
 
+    }
+    
+    public AttrezzaturaDAO getAttrezzaturaDAO() {
+        return (AttrezzaturaDAO) getDAO(Attrezzatura.class);
     }
     
 }

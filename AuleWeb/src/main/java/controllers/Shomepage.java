@@ -22,34 +22,25 @@ public class Shomepage extends AuleWebBaseController {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
     private void action_default(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, TemplateManagerException {
         try {
             TemplateResult res = new TemplateResult(getServletContext());
 
-            // Log di debug
-            System.out.println("Checking datalayer attribute...");
-
             AuleWebDataLayer dataLayer = (AuleWebDataLayer) request.getAttribute("datalayer");
 
-            if (dataLayer != null) {
-                System.out.println("datalayer attribute is not null");
 
-                request.setAttribute("page_title", "Dipartimenti");
-                //request.setAttribute("dipartimento", dataLayer.getDipartimentoDAO().getDipartimento(1));
-                request.setAttribute("amministratore", dataLayer.getAmministratoreDAO().getAmministratore(1));
-                res.activate("testDB.ftl.html", request, response);
-            } else {
-                System.out.println("datalayer attribute is null");
-                // Gestisci il caso in cui l'attributo "datalayer" è null
-                handleError("Data layer is null", request, response);
-            }
+            request.setAttribute("page_title", "Test");
+            request.setAttribute("dipartimento", dataLayer.getDipartimentoDAO().getDipartimento(1));
+            request.setAttribute("amministratore", dataLayer.getAmministratoreDAO().getAmministratore(1));
+            request.setAttribute("attrezzatura", dataLayer.getAttrezzaturaDAO().getAttrezzatura(1));
+            request.setAttribute("aula", dataLayer.getAulaDAO().getAula(1));
+            request.setAttribute("evento", dataLayer.getEventoDAO().getEventoByID(1));
+            res.activate("testDB.ftl.html", request, response);
 
         } catch (DataException ex) {
             handleError("Data access exception: " + ex.getMessage(), request, response);
         }
     }
-    
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)

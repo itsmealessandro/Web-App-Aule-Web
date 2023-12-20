@@ -65,7 +65,6 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
             e.setAulaKey(rs.getInt("IDAula"));
             e.setResponsabileKey(rs.getInt("IDResponsabile"));
             e.setCorsoKey(rs.getInt("IDCorso"));
-            e.setTipologiaEventoKey(rs.getInt("IDTipologiaEvento"));
             e.setRicorrenza(Ricorrenza.valueOf(rs.getObject("ricorrenza").toString()));
             e.setVersion(rs.getLong("version"));
 
