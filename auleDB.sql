@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 20, 2023 at 10:32 AM
+-- Generation Time: Dec 20, 2023 at 10:52 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -49,7 +49,7 @@ INSERT INTO `Amministratore` (`ID`, `username`, `password`, `version`) VALUES
 
 CREATE TABLE `AttrezzaturaDisponibile` (
   `ID` int(11) NOT NULL,
-  `NomeAttrezzatura` varchar(100) NOT NULL,
+  `nome` varchar(100) NOT NULL,
   `version` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -57,7 +57,7 @@ CREATE TABLE `AttrezzaturaDisponibile` (
 -- Dumping data for table `AttrezzaturaDisponibile`
 --
 
-INSERT INTO `AttrezzaturaDisponibile` (`ID`, `NomeAttrezzatura`, `version`) VALUES
+INSERT INTO `AttrezzaturaDisponibile` (`ID`, `nome`, `version`) VALUES
 (1, 'Proiettore', 0),
 (2, 'Schermo Motorizzato', 0),
 (3, 'Schermo Manuale', 0),
@@ -172,9 +172,9 @@ CREATE TABLE `Evento` (
   `oraFine` time DEFAULT NULL,
   `descrizione` text DEFAULT NULL,
   `IDAula` int(11) DEFAULT NULL,
-  `Ricorrenza` varchar(100) NOT NULL,
-  `DataInizio` date DEFAULT NULL,
-  `DataFine` date DEFAULT NULL,
+  `ricorrenza` varchar(100) NOT NULL,
+  `dataInizio` date DEFAULT NULL,
+  `dataFine` date DEFAULT NULL,
   `IDResponsabile` int(11) DEFAULT NULL,
   `IDCorso` int(11) DEFAULT NULL,
   `tipologiaEvento` varchar(100) DEFAULT NULL,
@@ -185,7 +185,7 @@ CREATE TABLE `Evento` (
 -- Dumping data for table `Evento`
 --
 
-INSERT INTO `Evento` (`ID`, `nome`, `oraInizio`, `oraFine`, `descrizione`, `IDAula`, `Ricorrenza`, `DataInizio`, `DataFine`, `IDResponsabile`, `IDCorso`, `tipologiaEvento`, `version`) VALUES
+INSERT INTO `Evento` (`ID`, `nome`, `oraInizio`, `oraFine`, `descrizione`, `IDAula`, `ricorrenza`, `dataInizio`, `dataFine`, `IDResponsabile`, `IDCorso`, `tipologiaEvento`, `version`) VALUES
 (1, 'Evento 1', '08:00:00', '10:00:00', 'Descrizione dell\'evento 1', 8, 'NON RICORRENTE', '2023-11-27', '2023-12-26', 5, NULL, NULL, 0),
 (2, 'Evento 2', '10:30:00', '12:30:00', 'Descrizione dell\'evento 2', 13, 'RICORRENTE', '2023-11-16', '2023-11-21', 9, NULL, NULL, 0),
 (3, 'Evento 3', '14:00:00', '16:00:00', 'Descrizione dell\'evento 3', 4, 'NON RICORRENTE', '2023-11-13', '2023-12-14', 9, NULL, NULL, 0),
@@ -205,9 +205,9 @@ INSERT INTO `Evento` (`ID`, `nome`, `oraInizio`, `oraFine`, `descrizione`, `IDAu
 
 CREATE TABLE `Responsabile` (
   `ID` int(11) NOT NULL,
-  `Nome` varchar(50) NOT NULL,
-  `Cognome` varchar(50) NOT NULL,
-  `Email` varchar(100) NOT NULL,
+  `nome` varchar(50) NOT NULL,
+  `cognome` varchar(50) NOT NULL,
+  `email` varchar(100) NOT NULL,
   `version` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -215,7 +215,7 @@ CREATE TABLE `Responsabile` (
 -- Dumping data for table `Responsabile`
 --
 
-INSERT INTO `Responsabile` (`ID`, `Nome`, `Cognome`, `Email`, `version`) VALUES
+INSERT INTO `Responsabile` (`ID`, `nome`, `cognome`, `email`, `version`) VALUES
 (1, 'John', 'Doe', 'john.doe@gmail.com', 0),
 (2, 'Jane', 'Smith', 'jane.smith@gmail.com', 0),
 (3, 'Robert', 'Johnson', 'robert.johnson@outlook.com', 0),
