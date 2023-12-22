@@ -26,9 +26,9 @@ public interface Aula extends DataItem<Integer>{
 
     public void setCapienza(int capienza);
     
-    public int getPresaElettrica();
+    public int getPreseElettriche();
 
-    public void setPresaElettrica(int presaElettrica);
+    public void setPreseElettriche(int preseElettriche);
     
     public int getPreseRete();
 

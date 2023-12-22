@@ -61,8 +61,8 @@ public class AulaProxy extends AulaImpl implements DataItemProxy {
     }
 
     @Override
-    public void setPresaElettrica(int presaElettrica) {
-        super.setPresaElettrica(presaElettrica);
+    public void setPreseElettriche(int preseElettriche) {
+        super.setPreseElettriche(preseElettriche);
         this.modified = true;
     }
 

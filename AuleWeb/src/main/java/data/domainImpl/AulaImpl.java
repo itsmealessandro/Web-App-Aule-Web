@@ -10,7 +10,7 @@ public class AulaImpl extends DataItemImpl<Integer> implements Aula {
     private String edificio;
     private String piano;
     private int capienza;
-    private int presaElettrica;
+    private int preseElettriche;
     private int preseRete;
     private String note; //Text
     private AttrezzaturaImpl attrezzatura;
@@ -67,13 +67,13 @@ public class AulaImpl extends DataItemImpl<Integer> implements Aula {
     }
 
     @Override
-    public int getPresaElettrica() {
-        return presaElettrica;
+    public int getPreseElettriche() {
+        return preseElettriche;
     }
 
     @Override
-    public void setPresaElettrica(int presaElettrica) {
-        this.presaElettrica = presaElettrica;
+    public void setPreseElettriche(int presaElettrica) {
+        this.preseElettriche = presaElettrica;
     }
 
     @Override
