@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 20, 2023 at 11:07 AM
+-- Generation Time: Dec 22, 2023 at 04:23 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -186,16 +186,16 @@ CREATE TABLE `Evento` (
 --
 
 INSERT INTO `Evento` (`ID`, `nome`, `oraInizio`, `oraFine`, `descrizione`, `IDAula`, `ricorrenza`, `dataInizio`, `dataFine`, `IDResponsabile`, `IDCorso`, `tipologiaEvento`, `version`) VALUES
-(1, 'Evento 1', '08:00:00', '10:00:00', 'Descrizione dell\'evento 1', 8, 'NESSUNA', '2023-11-27', '2023-12-26', 5, NULL, NULL, 0),
-(2, 'Evento 2', '10:30:00', '12:30:00', 'Descrizione dell\'evento 2', 13, 'NESSUNA', '2023-11-16', '2023-11-21', 9, NULL, NULL, 0),
-(3, 'Evento 3', '14:00:00', '16:00:00', 'Descrizione dell\'evento 3', 4, 'GIORNALIERA', '2023-11-13', '2023-12-14', 9, NULL, NULL, 0),
-(4, 'Evento 4', '09:00:00', '11:00:00', 'Descrizione dell\'evento 4', 7, 'NESSUNA', '2023-11-28', '2023-12-04', 7, NULL, NULL, 0),
-(5, 'Evento 5', '13:30:00', '15:30:00', 'Descrizione dell\'evento 5', 10, 'MENSILE', '2023-11-21', '2024-01-01', 8, NULL, NULL, 0),
-(6, 'Evento 6', '12:00:00', '14:00:00', 'Descrizione dell\'evento 6', 7, 'SETTIMANALE', '2023-11-04', '2023-12-10', 9, NULL, NULL, 0),
-(7, 'Evento 7', '10:00:00', '12:00:00', 'Descrizione dell\'evento 7', 3, 'NESSUNA', '2023-11-24', '2023-11-29', 2, NULL, NULL, 0),
-(8, 'Evento 8', '14:30:00', '16:30:00', 'Descrizione dell\'evento 8', 7, 'NESSUNA', '2023-11-06', '2023-12-26', 1, NULL, NULL, 0),
-(9, 'Evento 9', '11:30:00', '13:30:00', 'Descrizione dell\'evento 9', 8, 'NESSUNA', '2023-11-19', '2023-12-12', 7, NULL, NULL, 0),
-(10, 'Evento 10', '08:30:00', '10:30:00', 'Descrizione dell\'evento 10', 2, 'NESSUNA', '2023-11-05', '2023-11-08', 4, NULL, NULL, 0);
+(1, 'Evento 1', '08:00:00', '10:00:00', 'Descrizione dell\'evento 1', 8, 'NESSUNA', '2023-11-27', '2023-12-26', 5, NULL, 'LEZIONE', 0),
+(2, 'Evento 2', '10:30:00', '12:30:00', 'Descrizione dell\'evento 2', 13, 'NESSUNA', '2023-11-16', '2023-11-21', 9, NULL, 'LEZIONE', 0),
+(3, 'Evento 3', '14:00:00', '16:00:00', 'Descrizione dell\'evento 3', 4, 'GIORNALIERA', '2023-11-13', '2023-12-14', 9, NULL, 'LEZIONE', 0),
+(4, 'Evento 4', '09:00:00', '11:00:00', 'Descrizione dell\'evento 4', 7, 'NESSUNA', '2023-11-28', '2023-12-04', 7, NULL, 'LEZIONE', 0),
+(5, 'Evento 5', '13:30:00', '15:30:00', 'Descrizione dell\'evento 5', 10, 'MENSILE', '2023-11-21', '2024-01-01', 8, NULL, 'SEMINARIO', 0),
+(6, 'Evento 6', '12:00:00', '14:00:00', 'Descrizione dell\'evento 6', 7, 'SETTIMANALE', '2023-11-04', '2023-12-10', 9, NULL, 'SEMINARIO', 0),
+(7, 'Evento 7', '10:00:00', '12:00:00', 'Descrizione dell\'evento 7', 3, 'NESSUNA', '2023-11-24', '2023-11-29', 2, NULL, 'SEMINARIO', 0),
+(8, 'Evento 8', '14:30:00', '16:30:00', 'Descrizione dell\'evento 8', 7, 'NESSUNA', '2023-11-06', '2023-12-26', 1, NULL, 'SEMINARIO', 0),
+(9, 'Evento 9', '11:30:00', '13:30:00', 'Descrizione dell\'evento 9', 8, 'NESSUNA', '2023-11-19', '2023-12-12', 7, NULL, 'SEMINARIO', 0),
+(10, 'Evento 10', '08:30:00', '10:30:00', 'Descrizione dell\'evento 10', 2, 'NESSUNA', '2023-11-05', '2023-11-08', 4, NULL, 'SEMINARIO', 0);
 
 -- --------------------------------------------------------
 

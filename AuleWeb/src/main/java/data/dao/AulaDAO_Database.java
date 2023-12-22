@@ -102,7 +102,7 @@ public class AulaDAO_Database extends DAO implements AulaDAO{
             a.setEdificio(rs.getString("edificio"));
             a.setPiano(rs.getString("piano"));
             a.setCapienza(rs.getInt("capienza"));
-            a.setPresaElettrica(rs.getInt("preseElettriche"));
+            a.setPreseElettriche(rs.getInt("preseElettriche"));
             a.setPreseRete(rs.getInt("preseRete"));
             a.setNote(rs.getString("note"));
             // Non impostiamo il campo version in quanto non presente in AulaProxy

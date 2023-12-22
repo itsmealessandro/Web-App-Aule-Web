@@ -28,7 +28,6 @@ public class Shomepage extends AuleWebBaseController {
 
             AuleWebDataLayer dataLayer = (AuleWebDataLayer) request.getAttribute("datalayer");
 
-
             request.setAttribute("page_title", "Test");
             request.setAttribute("dipartimento", dataLayer.getDipartimentoDAO().getDipartimento(1));
             request.setAttribute("amministratore", dataLayer.getAmministratoreDAO().getAmministratore(1));
