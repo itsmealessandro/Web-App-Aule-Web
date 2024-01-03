@@ -1,9 +1,15 @@
 .content{
     text-align: center;
 }
-
+    
 #header{
-    background-color: gray; 
+    right: 0;
+    height:70px;
+    font-size: 20pt;
+    font-weight: bold;
+    text-align: center;
+    background-color: #53829D;
+    color: white;ackground-color: gray; 
 }
 
 #footer{
