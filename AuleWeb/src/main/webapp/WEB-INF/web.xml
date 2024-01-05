@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="4.0" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
     <servlet>
-        <servlet-name>Aula</servlet-name>
-        <servlet-class>controllers.Aula</servlet-class>
+        <servlet-name>AulaSelezionata</servlet-name>
+        <servlet-class>controllers.AulaSelezionata</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>Spage2</servlet-name>
@@ -13,8 +13,8 @@
         <servlet-class>controllers.Shomepage</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>Aula</servlet-name>
-        <url-pattern>/Aula</url-pattern>
+        <servlet-name>AulaSelezionata</servlet-name>
+        <url-pattern>/AulaSelezionata</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Spage2</servlet-name>
@@ -24,7 +24,10 @@
         <servlet-name>Shomepage</servlet-name>
         <url-pattern>/Shomepage</url-pattern>
     </servlet-mapping>
+    
+
     <!--- __________________ Parametri per il Template __________________ -->
+
     <!-- template di outline -->
     <context-param>
         <param-name>view.outline_template</param-name>
@@ -35,22 +38,28 @@
         <param-name>view.encoding</param-name>
         <param-value>UTF-8</param-value>
     </context-param>
+
     <!-- Cartella dove ci sono i templates -->
     <context-param>
         <param-name>view.template_directory</param-name>
         <param-value>templates</param-value>
     </context-param>
+    
+
     <!-- In caso di errore con i templates-->
     <context-param>
         <param-name>view.error_template</param-name>
         <param-value>error.ftl.html</param-value>
     </context-param>
+    
     <!-- Utile per il Debug-->
     <context-param>
         <param-name>view.debug</param-name>
         <param-value>true</param-value>
     </context-param>
+    
     <!--- __________________ Fine Parametri per il Template __________________ -->
+    
     <session-config>
         <session-timeout>
             30
@@ -60,13 +69,20 @@
     <welcome-file-list>
         <welcome-file>Shomepage</welcome-file>
     </welcome-file-list>
+    
+    
+    
     <!-- DA qui incertezze -->
+    
+    
     <resource-ref>
         <res-ref-name>jdbc/auleDB</res-ref-name>
         <res-type>javax.sql.DataSource</res-type>
         <res-auth>Container</res-auth>
         <res-sharing-scope>Shareable</res-sharing-scope>
     </resource-ref>
+    
+    
     <context-param>
         <param-name>data.source</param-name>
         <!-- qui configuriamo in nome della data source da usare nel codice -->

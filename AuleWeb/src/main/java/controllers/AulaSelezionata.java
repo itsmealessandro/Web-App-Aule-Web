@@ -8,8 +8,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import data.dao.AuleWebDataLayer;
+import data.domain.Aula;
+import data.domain.Dipartimento;
 
-public class Aula extends AuleWebBaseController {
+public class AulaSelezionata extends AuleWebBaseController {
 
   /**
    * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -26,9 +28,15 @@ public class Aula extends AuleWebBaseController {
       TemplateResult res = new TemplateResult(getServletContext());
       AuleWebDataLayer dataLayer = (AuleWebDataLayer) request.getAttribute("datalayer");
 
+      Aula aula = dataLayer.getAulaDAO().getAula(1);
+      Dipartimento dipartimento = aula.getDipartimento();
+
       request.setAttribute("page_title", "Test");
-      request.setAttribute("aula", dataLayer.getAulaDAO().getAula(1));
-      res.activate("aula.ftl.html", request, response);
+
+      request.setAttribute("aula", aula);
+
+      // request.setAttribute("aulaDip", dipartimento);
+      res.activate("aulaSelezionata.ftl.html", request, response);
 
     } catch (DataException ex) {
       handleError("Data access exception: " + ex.getMessage(), request, response);
