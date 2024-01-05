@@ -30,9 +30,11 @@ public class Homepage extends AuleWebBaseController {
             TemplateResult res = new TemplateResult(getServletContext());
 
             AuleWebDataLayer dataLayer = (AuleWebDataLayer) request.getAttribute("datalayer");
-            request.setAttribute("dipartimento", dataLayer.getDipartimentoDAO().getDipartimento(1));
-            request.setAttribute("dipartimento", dataLayer.getDipartimentoDAO().getDipartimento(2));
-            request.setAttribute("dipartimento", dataLayer.getDipartimentoDAO().getDipartimento(3));
+            request.setAttribute("dipartimento1", dataLayer.getDipartimentoDAO().getDipartimento(1));
+            request.setAttribute("dipartimento2", dataLayer.getDipartimentoDAO().getDipartimento(2));
+            request.setAttribute("dipartimento3", dataLayer.getDipartimentoDAO().getDipartimento(3));
+            
+            //NO VABBE INSANE BRO GETKEY RISOLVE LE COSE
 
             res.activate("homepage.ftl.html", request, response);
         } catch (DataException ex) {
