@@ -1,1 +1,3 @@
-controllers/AulaSelezionata.class
+controllers\Homepage.class
+controllers\AulaSelezionata.class
+controllers\Test.class
