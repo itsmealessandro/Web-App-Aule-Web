@@ -1,3 +1,4 @@
 framework/data/OptimisticLockException.class
 controllers/Homepage.class
 controllers/Test.class
+controllers/GestioneDipartimenti.class

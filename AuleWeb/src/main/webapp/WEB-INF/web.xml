@@ -12,6 +12,14 @@
         <servlet-name>Test</servlet-name>
         <servlet-class>controllers.Test</servlet-class>
     </servlet>
+    <servlet>
+      <servlet-name>GestioneDipartimenti</servlet-name>
+        <servlet-class>controllers.GestioneDipartimenti</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GestioneDipartimenti</servlet-name>
+        <url-pattern>/GestioneDipartimenti</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AulaSelezionata</servlet-name>
         <url-pattern>/AulaSelezionata</url-pattern>
@@ -24,6 +32,7 @@
         <servlet-name>Homepage</servlet-name>
         <url-pattern>/Homepage</url-pattern>
     </servlet-mapping>
+
     <!--- __________________ Parametri per il Template __________________ -->
     <!-- template di outline -->
     <context-param>

@@ -1,0 +1,11 @@
+<h1>Gestione Dipartimenti</h1>
+
+<#if (dipartimenti?size>0)>
+<ul>
+   <#list dipartimenti as dipartimento>
+   <li>
+       Dipartimento: ${dipartimento.nome}
+   </li>
+   </#list>
+</ul>
+</#if>
