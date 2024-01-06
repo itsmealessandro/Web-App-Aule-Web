@@ -36,7 +36,8 @@ public class AulaSelezionata extends AuleWebBaseController {
       TemplateResult res = new TemplateResult(getServletContext());
       AuleWebDataLayer dataLayer = (AuleWebDataLayer) request.getAttribute("datalayer");
 
-      Aula aula = dataLayer.getAulaDAO().getAula(3);
+      List<Aula> listaAule = dataLayer.getAulaDAO().getAllAule();
+      Aula aula = listaAule.get(0);
       Dipartimento dipartimento = dataLayer.getDipartimentoDAO().getDipartimento(1);
       List<Evento> listaEventi = dataLayer.getEventoDAO().getEventiByAula(aula);
 
@@ -57,8 +58,9 @@ public class AulaSelezionata extends AuleWebBaseController {
       TemplateResult res = new TemplateResult(getServletContext());
       AuleWebDataLayer dataLayer = (AuleWebDataLayer) request.getAttribute("datalayer");
 
-      Aula aula = dataLayer.getAulaDAO().getAula(3);
       Dipartimento dipartimento = dataLayer.getDipartimentoDAO().getDipartimento(dipartimento_key);
+      List<Aula> listaAule = dataLayer.getAulaDAO().getAulaPerDipartimento(dipartimento);
+      Aula aula = listaAule.get(0);
       List<Evento> listaEventi = dataLayer.getEventoDAO().getEventiByAula(aula);
 
       request.setAttribute("aula", aula);
