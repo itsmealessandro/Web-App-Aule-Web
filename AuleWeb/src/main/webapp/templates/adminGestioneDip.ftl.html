@@ -10,7 +10,7 @@
 </ul>
 </#if>
 
-<form method="post" action="write">
+<form method="post" action="GestioneDipartimenti">
     <div>
         <label for="selectDipartimento">Seleziona Dipartimento:</label>
         <select id="selectDipartimento" name="selectDipartimento">
@@ -30,9 +30,10 @@
         <textarea id="descrizioneDipartimento" name="descrizioneDipartimento" readonly></textarea>
     </div>
 
+    <input type="hidden" name="dipKey" value="${request.getParameter('selectDipartimento')}">
     <!-- Aggiungi un campo nascosto solo se un dipartimento è stato selezionato -->
     <#if request?has_content && request.getParameter("selectDipartimento")?has_content>
-        <input type="hidden" name="dipKey" value="${request.getParameter("selectDipartimento")}">
+        <input type="hidden" name="dipKey" value="${request.getParameter('selectDipartimento')}">
     </#if>
 
     <div>

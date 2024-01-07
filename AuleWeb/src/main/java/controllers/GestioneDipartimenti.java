@@ -4,7 +4,6 @@ package controllers;
 import framework.data.DataException;
 import framework.result.TemplateManagerException;
 import framework.result.TemplateResult;
-import framework.security.SecurityHelpers;
 
 import java.io.IOException;
 import java.util.List;
@@ -42,31 +41,30 @@ public class GestioneDipartimenti extends AuleWebBaseController {
       handleError("Data access exception: " + ex.getMessage(), request, response);
     }
   }
-  
+
   private void action_update(HttpServletRequest request, HttpServletResponse response, String parameter) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    throw new UnsupportedOperationException("Not supported yet.");
+  }
 
   // Prende i parametri dalla Get e chiama i metodi corrispettivi
   @Override
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
       throws ServletException {
-      
-    if (request.getParameter("dipKey") != null){
-        action_update(request,response, request.getParameter("dipKey"));
-    }else{
-    
-    request.setAttribute("page_title", "Gestione dipartimenti");
-    try {
+
+    if (request.getParameter("dipKey") != null) {
+      action_update(request, response, request.getParameter("dipKey"));
+    } else {
+
+      request.setAttribute("page_title", "Gestione dipartimenti");
+      try {
         action_default(request, response);
-    
-    } catch (NumberFormatException ex) {
-      handleError("Invalid number submitted", request, response);
-    } catch (IOException | TemplateManagerException ex) {
-      handleError(ex, request, response);
-    }
+
+      } catch (NumberFormatException ex) {
+        handleError("Invalid number submitted", request, response);
+      } catch (IOException | TemplateManagerException ex) {
+        handleError(ex, request, response);
+      }
     }
   }
 
-    
 }
