@@ -1,3 +1,65 @@
+<<<<<<< HEAD
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\framework\result\StreamResult.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\framework\security\SecurityHelpers.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\controllers\Shomepage.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\framework\data\DataItem.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\framework\data\OptimisticLockException.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\data\proxy\DipartimentoProxy.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\data\proxy\EventoProxy.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\data\domainImpl\TipologiaEvento.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\data\proxy\AulaProxy.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\data\domainImpl\DipartimentoImpl.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\framework\result\DataModelFiller.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\data\dao\AuleWebDataLayer.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\data\dao\ResponsabileDAO.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\data\domainImpl\ResponsabileImpl.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\data\dao\AmministratoreDAO_Database.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\data\dao\DipartimentoDAO_Database.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\data\domainImpl\Ricorrenza.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\data\dao\AttrezzaturaDAO_Database.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\data\dao\EventoDAO.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\framework\data\DataItemProxyImpl.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\framework\controller\AbstractBaseController.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\data\proxy\ResponsabileProxy.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\framework\result\TemplateManagerException.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\data\dao\CorsoDAO.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\controllers\AuleWebBaseController.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\data\dao\CorsoDAO_Database.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\framework\result\TemplateResult.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\data\domain\Corso.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\data\domainImpl\AmministratoreImpl.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\data\domainImpl\EventoImpl.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\controllers\Logout.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\data\domain\Aula.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\data\domain\Evento.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\data\proxy\AttrezzaturaProxy.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\data\dao\AulaDAO.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\framework\data\DataException.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\data\domainImpl\CorsoImpl.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\data\dao\AmministratoreDAO.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\data\domainImpl\AulaImpl.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\framework\result\FailureResult.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\data\dao\AttrezzaturaDAO.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\data\proxy\CorsoProxy.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\controllers\Spage1.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\data\proxy\AmministratoreProxy.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\data\domain\Dipartimento.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\data\dao\DipartimentoDAO.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\framework\data\DAO.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\data\dao\AulaDAO_Database.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\data\dao\EventoDAO_Database.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\data\dao\ResponsabileDAO_Database.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\data\domain\Responsabile.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\data\domain\Attrezzatura.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\data\domain\Amministratore.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\controllers\Spage2.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\data\domainImpl\AttrezzaturaImpl.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\framework\data\DataItemProxy.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\framework\data\DataLayer.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\framework\data\DataCache.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\framework\data\DataItemImpl.java
+C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\controllers\Login.java
+=======
 /home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/domainImpl/DipartimentoImpl.java
 /home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/dao/DipartimentoDAO.java
 /home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/domain/Aula.java
@@ -57,3 +119,4 @@
 /home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/dao/AttrezzaturaDAO_Database.java
 /home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/framework/result/TemplateManagerException.java
 /home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/dao/CorsoDAO_Database.java
+>>>>>>> main
