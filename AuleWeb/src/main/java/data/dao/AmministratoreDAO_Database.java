@@ -26,7 +26,7 @@ public class AmministratoreDAO_Database extends DAO implements AmministratoreDAO
             super.init();
 
             sAmministratoreByID = connection.prepareStatement("SELECT * FROM Amministratore WHERE ID=?");
-            sAmmministratoreByUsername = connection.prepareStatement("SELECT ID FROM amministratore WHERE username=?");
+            sAmmministratoreByUsername = connection.prepareStatement("SELECT ID FROM Amministratore WHERE username=?");
             iAmministratore = connection.prepareStatement("INSERT INTO Amministratore (username,password) VALUES(?,?)", Statement.RETURN_GENERATED_KEYS);
             uAmministratore = connection.prepareStatement("UPDATE Amministratore SET username=?,password=?,version=? WHERE ID=? and version=?");
         } catch (SQLException ex) {

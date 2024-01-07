@@ -35,7 +35,9 @@ public class Login extends AuleWebBaseController {
             
         if (!username.isEmpty() && !password.isEmpty()) {
             try {
-                Amministratore a = ((AuleWebDataLayer) request.getAttribute("datalayer")).getAmministratoreDAO().getAmministratoreByUsername(username);
+                
+                AuleWebDataLayer dataLayer = (AuleWebDataLayer) request.getAttribute("datalayer");
+                Amministratore a = dataLayer.getAmministratoreDAO().getAmministratoreByUsername(username);
                 if (a != null && SecurityHelpers.checkPasswordHashPBKDF2(password, a.getPassword())) {
                     //se la validazione ha successo
                     //if the identity validation succeeds
