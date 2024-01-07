@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 data\domainImpl\AmministratoreImpl.class
 framework\controller\AbstractBaseController.class
 data\domain\Amministratore.class
@@ -58,3 +59,8 @@ data\proxy\AulaProxy.class
 data\proxy\AttrezzaturaProxy.class
 framework\data\DataLayer.class
 data\domain\Responsabile.class
+=======
+framework/data/OptimisticLockException.class
+controllers/Homepage.class
+controllers/Test.class
+>>>>>>> main

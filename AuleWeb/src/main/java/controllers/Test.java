@@ -11,7 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class Shomepage extends AuleWebBaseController {
+public class Test extends AuleWebBaseController {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,7 +32,7 @@ public class Shomepage extends AuleWebBaseController {
             request.setAttribute("dipartimento", dataLayer.getDipartimentoDAO().getDipartimento(1));
             request.setAttribute("amministratore", dataLayer.getAmministratoreDAO().getAmministratore(1));
             request.setAttribute("attrezzatura", dataLayer.getAttrezzaturaDAO().getAttrezzatura(1));
-            request.setAttribute("aula", dataLayer.getAulaDAO().getAula(1));
+            request.setAttribute("aula", dataLayer.getAulaDAO().getAulaByID(1));
             request.setAttribute("evento", dataLayer.getEventoDAO().getEventoByID(1));
             res.activate("testDB.ftl.html", request, response);
 

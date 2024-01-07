@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\framework\result\StreamResult.java
 C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\framework\security\SecurityHelpers.java
 C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\controllers\Shomepage.java
@@ -58,3 +59,63 @@ C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\framework\data\DataL
 C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\framework\data\DataCache.java
 C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\framework\data\DataItemImpl.java
 C:\Users\ema\Desktop\Web-App-Aule-Web\AuleWeb\src\main\java\controllers\Login.java
+=======
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/domainImpl/DipartimentoImpl.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/dao/DipartimentoDAO.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/domain/Aula.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/dao/AmministratoreDAO.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/framework/data/DataItemProxyImpl.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/dao/AulaDAO.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/domain/Evento.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/dao/EventoDAO_Database.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/framework/data/DAO.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/controllers/AuleWebBaseController.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/framework/result/TemplateResult.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/framework/data/DataItemProxy.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/framework/data/DataCache.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/framework/data/OptimisticLockException.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/domainImpl/AttrezzaturaImpl.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/framework/result/DataModelFiller.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/dao/CorsoDAO.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/dao/ResponsabileDAO_Database.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/domainImpl/TipologiaEvento.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/controllers/Homepage.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/framework/data/DataException.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/domainImpl/EventoImpl.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/proxy/DipartimentoProxy.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/framework/result/StreamResult.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/proxy/EventoProxy.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/controllers/AulaSelezionata.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/proxy/AmministratoreProxy.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/domain/Corso.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/framework/result/FailureResult.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/framework/data/DataItemImpl.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/domainImpl/ResponsabileImpl.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/domain/Amministratore.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/dao/AuleWebDataLayer.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/framework/data/DataLayer.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/domainImpl/AulaImpl.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/domain/Responsabile.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/domain/Attrezzatura.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/dao/AulaDAO_Database.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/proxy/AulaProxy.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/framework/security/SecurityHelpers.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/dao/AttrezzaturaDAO.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/framework/data/DataItem.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/proxy/ResponsabileProxy.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/domainImpl/CorsoImpl.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/proxy/CorsoProxy.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/framework/controller/AbstractBaseController.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/domainImpl/AmministratoreImpl.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/controllers/Test.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/domainImpl/Ricorrenza.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/dao/DipartimentoDAO_Database.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/domain/Dipartimento.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/dao/ResponsabileDAO.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/dao/AmministratoreDAO_Database.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/proxy/AttrezzaturaProxy.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/dao/EventoDAO.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/dao/AttrezzaturaDAO_Database.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/framework/result/TemplateManagerException.java
+/home/alessandro/Desktop/Università/_Terzo Anno/Secondo Semestre/Web Engineering/progetto/Web-App-Aule-Web/AuleWeb/src/main/java/data/dao/CorsoDAO_Database.java
+>>>>>>> main
