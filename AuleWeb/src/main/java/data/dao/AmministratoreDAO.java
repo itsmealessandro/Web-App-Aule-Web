@@ -10,6 +10,8 @@ public interface AmministratoreDAO {
 
     // Restituisce l'amministratore corrente
     Amministratore getAmministratore(int admin_key) throws DataException;
+    
+    Amministratore getAmministratoreByUsername(String username) throws DataException;
 
     // Salva l'amministratore corrente
     void storeAmministratore(Amministratore a) throws DataException;

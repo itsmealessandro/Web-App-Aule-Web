@@ -14,7 +14,7 @@ import java.sql.Statement;
 
 public class AmministratoreDAO_Database extends DAO implements AmministratoreDAO {
 
-    private PreparedStatement iAmministratore, uAmministratore, sAmministratoreByID;
+    private PreparedStatement iAmministratore, uAmministratore, sAmministratoreByID,sAmmministratoreByUsername;
 
     public AmministratoreDAO_Database(DataLayer d) {
         super(d);
@@ -26,6 +26,7 @@ public class AmministratoreDAO_Database extends DAO implements AmministratoreDAO
             super.init();
 
             sAmministratoreByID = connection.prepareStatement("SELECT * FROM Amministratore WHERE ID=?");
+            sAmmministratoreByUsername = connection.prepareStatement("SELECT ID FROM amministratore WHERE username=?");
             iAmministratore = connection.prepareStatement("INSERT INTO Amministratore (username,password) VALUES(?,?)", Statement.RETURN_GENERATED_KEYS);
             uAmministratore = connection.prepareStatement("UPDATE Amministratore SET username=?,password=?,version=? WHERE ID=? and version=?");
         } catch (SQLException ex) {
@@ -37,6 +38,7 @@ public class AmministratoreDAO_Database extends DAO implements AmministratoreDAO
     public void destroy() throws DataException {
         try {
             sAmministratoreByID.close();
+            sAmmministratoreByUsername.close();
             iAmministratore.close();
             uAmministratore.close();
 
@@ -55,7 +57,6 @@ public class AmministratoreDAO_Database extends DAO implements AmministratoreDAO
         AmministratoreProxy a = (AmministratoreProxy) createAmministratore();
         try { 
             a.setKey(rs.getInt("ID"));
-            
             a.setUsername(rs.getString("username"));
             a.setPassword(rs.getString("password"));
             a.setVersion(rs.getLong("version"));
@@ -140,6 +141,22 @@ public class AmministratoreDAO_Database extends DAO implements AmministratoreDAO
         } catch (SQLException | OptimisticLockException ex) {
             throw new DataException("Unable to store Amministratore", ex);
         }
+    }
+    
+    @Override
+    public Amministratore getAmministratoreByUsername(String username) throws DataException {
+
+        try {
+            sAmmministratoreByUsername.setString(1, username);
+            try ( ResultSet rs = sAmmministratoreByUsername.executeQuery()) {
+                if (rs.next()) {
+                    return getAmministratore(rs.getInt("ID"));
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to find user", ex);
+        }
+        return null;
     }
 
 }

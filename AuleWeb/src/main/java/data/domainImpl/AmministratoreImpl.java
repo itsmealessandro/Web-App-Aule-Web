@@ -31,7 +31,4 @@ public class AmministratoreImpl extends DataItemImpl<Integer> implements Amminis
         this.password = password;
     }
 
-    
-    
-    
 }
