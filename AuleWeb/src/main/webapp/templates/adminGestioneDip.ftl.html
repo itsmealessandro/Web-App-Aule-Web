@@ -1,0 +1,42 @@
+<h1>Gestione Dipartimenti</h1>
+
+<#if (dipartimenti?size>0)>
+<ul>
+   <#list dipartimenti as dipartimento>
+   <li>
+       Dipartimento: ${dipartimento.nome}
+   </li>
+   </#list>
+</ul>
+</#if>
+
+<form method="post" action="GestioneDipartimenti">
+    <div>
+        <label for="selectDipartimento">Seleziona Dipartimento:</label>
+        <select id="selectDipartimento" name="selectDipartimento">
+            <#list dipartimenti as dipartimento>
+                <option value="${dipartimento.key}">${dipartimento.nome}</option>
+            </#list>
+        </select>
+    </div>
+
+    <div>
+        <label for="nomeDipartimento">Nome Dipartimento:</label>
+        <input type="text" id="nomeDipartimento" name="nomeDipartimento" readonly>
+    </div>
+
+    <div>
+        <label for="descrizioneDipartimento">Descrizione Dipartimento:</label>
+        <textarea id="descrizioneDipartimento" name="descrizioneDipartimento" readonly></textarea>
+    </div>
+
+    <input type="hidden" name="dipKey" value="${request.getParameter('selectDipartimento')}">
+    <!-- Aggiungi un campo nascosto solo se un dipartimento è stato selezionato -->
+    <#if request?has_content && request.getParameter("selectDipartimento")?has_content>
+        <input type="hidden" name="dipKey" value="${request.getParameter('selectDipartimento')}">
+    </#if>
+
+    <div>
+        <input type="submit" value="Invia">
+    </div>
+</form>

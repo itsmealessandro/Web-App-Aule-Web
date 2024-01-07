@@ -63,4 +63,8 @@ data\domain\Responsabile.class
 framework/data/OptimisticLockException.class
 controllers/Homepage.class
 controllers/Test.class
+<<<<<<< HEAD
+controllers/GestioneDipartimenti.class
+=======
+>>>>>>> main
 >>>>>>> main
