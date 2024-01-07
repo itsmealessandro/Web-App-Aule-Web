@@ -42,11 +42,20 @@ public class GestioneDipartimenti extends AuleWebBaseController {
       handleError("Data access exception: " + ex.getMessage(), request, response);
     }
   }
+  
+  private void action_update(HttpServletRequest request, HttpServletResponse response, String parameter) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
   // Prende i parametri dalla Get e chiama i metodi corrispettivi
   @Override
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
       throws ServletException {
+      
+    if (request.getParameter("dipKey") != null){
+        action_update(request,response, request.getParameter("dipKey"));
+    }else{
+    
     request.setAttribute("page_title", "Gestione dipartimenti");
     try {
         action_default(request, response);
@@ -56,5 +65,8 @@ public class GestioneDipartimenti extends AuleWebBaseController {
     } catch (IOException | TemplateManagerException ex) {
       handleError(ex, request, response);
     }
+    }
   }
+
+    
 }

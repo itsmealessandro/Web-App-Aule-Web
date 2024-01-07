@@ -9,3 +9,33 @@
    </#list>
 </ul>
 </#if>
+
+<form method="post" action="write">
+    <div>
+        <label for="selectDipartimento">Seleziona Dipartimento:</label>
+        <select id="selectDipartimento" name="selectDipartimento">
+            <#list dipartimenti as dipartimento>
+                <option value="${dipartimento.key}">${dipartimento.nome}</option>
+            </#list>
+        </select>
+    </div>
+
+    <div>
+        <label for="nomeDipartimento">Nome Dipartimento:</label>
+        <input type="text" id="nomeDipartimento" name="nomeDipartimento" readonly>
+    </div>
+
+    <div>
+        <label for="descrizioneDipartimento">Descrizione Dipartimento:</label>
+        <textarea id="descrizioneDipartimento" name="descrizioneDipartimento" readonly></textarea>
+    </div>
+
+    <!-- Aggiungi un campo nascosto solo se un dipartimento è stato selezionato -->
+    <#if request?has_content && request.getParameter("selectDipartimento")?has_content>
+        <input type="hidden" name="dipKey" value="${request.getParameter("selectDipartimento")}">
+    </#if>
+
+    <div>
+        <input type="submit" value="Invia">
+    </div>
+</form>
