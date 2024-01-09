@@ -142,15 +142,14 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
         uEvento.setString(4, e.getDescrizione());
         uEvento.setInt(5, e.getAula().getKey()); // Assumi che l'oggetto AulaImpl possa essere convertito in un formato
                                                  // adatto per il database
-        // uEvento.setObject(6, e.getRicorrenza()); Assumi che l'oggetto Ricorrenza
-        // possa essere convertito in un formato adatto per il database
+         uEvento.setObject(6, e.getRicorrenza().toString());
         uEvento.setDate(7, e.getDataInizio());
         uEvento.setDate(8, e.getDataFine());
         uEvento.setInt(9, e.getResponsabile().getKey()); // Assumi che l'oggetto ResponsabileImpl possa essere
                                                          // convertito in un formato adatto per il database
         uEvento.setInt(10, e.getCorso().getKey()); // Assumi che l'oggetto CorsoImpl possa essere convertito in un
                                                    // formato adatto per il database
-        // uEvento.setInt(11, e.getTipologiaEvento().getKey()); Assumi che l'oggetto
+        uEvento.setString(11, e.getTipologiaEvento().toString());
         // TipologiaEventoImpl possa essere convertito in un formato adatto per il
         // database
         uEvento.setLong(12, e.getVersion());
@@ -169,7 +168,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
         iEvento.setString(4, e.getDescrizione());
         iEvento.setInt(5, e.getAula().getKey()); // Assumi che l'oggetto AulaImpl possa essere convertito in un formato
                                                  // adatto per il database
-        // iEvento.setInt(6, e.getRicorrenza().getKey()); // Assumi che l'oggetto
+        iEvento.setObject(6, e.getRicorrenza().toString()); // Assumi che l'oggetto
         // Ricorrenza possa essere convertito in un formato adatto per il database
         iEvento.setDate(7, e.getDataInizio());
         iEvento.setDate(8, e.getDataFine());
@@ -177,7 +176,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
                                                          // convertito in un formato adatto per il database
         iEvento.setInt(10, e.getCorso().getKey()); // Assumi che l'oggetto CorsoImpl possa essere convertito in un
                                                    // formato adatto per il database
-        // iEvento.setInt(11, e.getTipologiaEvento().getKey()); // Assumi che l'oggetto
+         iEvento.setString(11, e.getTipologiaEvento().toString()); // Assumi che l'oggetto
         // TipologiaEventoImpl possa essere convertito in un formato adatto per il
         // database
 
