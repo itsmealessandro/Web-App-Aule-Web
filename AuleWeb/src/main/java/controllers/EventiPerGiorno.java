@@ -45,7 +45,7 @@ public class EventiPerGiorno extends AuleWebBaseController {
       throws ServletException {
     request.setAttribute("page_title", "Eventi Per Giorno");
     try {
-      SimpleDateFormat sdf = new SimpleDateFormat();
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
       if (request.getParameter("date") != null) {
         java.util.Date dateJava = sdf.parse(request.getParameter("date"));
         java.sql.Date sqlDate = new java.sql.Date(dateJava.getTime());
