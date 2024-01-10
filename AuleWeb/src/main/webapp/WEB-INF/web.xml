@@ -32,6 +32,10 @@
     <servlet-class>controllers.Login</servlet-class>
     </servlet>
     
+    <servlet>
+        <servlet-name>EventiPerGiorno</servlet-name>
+        <servlet-class>controllers.EventiPerGiorno</servlet-class>
+    </servlet>
     <!-- Servlet Mapping -->
     <servlet-mapping>
         <servlet-name>AulaSelezionata</servlet-name>
@@ -63,6 +67,10 @@
         <url-pattern>/GestioneDipartimenti</url-pattern>
     </servlet-mapping>
     
+    <servlet-mapping>
+        <servlet-name>EventiPerGiorno</servlet-name>
+        <url-pattern>/EventiPerGiorno</url-pattern>
+    </servlet-mapping>
         
 
     <!-- Template Configuration Parameters -->
