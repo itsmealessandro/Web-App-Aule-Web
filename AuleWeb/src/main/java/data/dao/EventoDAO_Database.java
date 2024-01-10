@@ -20,7 +20,7 @@ import java.util.List;
 
 public class EventoDAO_Database extends DAO implements EventoDAO {
 
-  private PreparedStatement iEvento, uEvento, sEventoByID, sEventoByAula;
+  private PreparedStatement iEvento, uEvento, sEventoByID, sEventoByAula, sEventiByDay;
 
   public EventoDAO_Database(DataLayer d) {
     super(d);
@@ -33,6 +33,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
 
       sEventoByID = connection.prepareStatement("SELECT * FROM Evento WHERE ID=?");
       sEventoByAula = connection.prepareStatement("SELECT * FROM Evento WHERE IDAula=?");
+      sEventiByDay = connection.prepareStatement("SELECT * FROM Evento WHERE dataInizio=?");
       iEvento = connection.prepareStatement(
           "INSERT INTO Evento (nome, oraInizio, oraFine, descrizione, IDaula, ricorrenza, dataInizio, dataFine, IDresponsabile, IDcorso, tipologiaEvento) VALUES(?,?,?,?,?,?,?,?,?,?,?)",
           Statement.RETURN_GENERATED_KEYS);
@@ -48,6 +49,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
     try {
       sEventoByID.close();
       sEventoByAula.close();
+      sEventiByDay.close();
       iEvento.close();
       uEvento.close();
 
@@ -132,8 +134,18 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
   @Override
   public List<Evento> getEventiByDay(Date data) throws DataException {
 
-    // TODO Implementare il metodo
     List<Evento> listaEventi = new ArrayList<>();
+    try {
+      sEventiByDay.setDate(1, data);
+
+      try (ResultSet rSet = sEventiByDay.executeQuery()) {
+        while (rSet.next()) {
+          listaEventi.add((Evento) getEventoByID(rSet.getInt("ID")));
+        }
+      }
+    } catch (SQLException ex) {
+      throw new DataException("Unable to load Eventi by Date", ex);
+    }
     return listaEventi;
   }
 

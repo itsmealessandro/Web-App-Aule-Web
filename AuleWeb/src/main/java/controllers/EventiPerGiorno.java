@@ -17,8 +17,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import data.dao.AuleWebDataLayer;
-import data.domain.Aula;
-import data.domain.Dipartimento;
 import data.domain.Evento;
 
 public class EventiPerGiorno extends AuleWebBaseController {
@@ -41,7 +39,7 @@ public class EventiPerGiorno extends AuleWebBaseController {
     }
   }
 
-  // Prende i parametri dalla Get e chiama i metodi corrispettivi
+  // Prende il parametro dalla Get e lo trasforma in un formato adatto
   @Override
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
       throws ServletException {
@@ -49,12 +47,10 @@ public class EventiPerGiorno extends AuleWebBaseController {
     try {
       SimpleDateFormat sdf = new SimpleDateFormat();
       if (request.getParameter("date") != null) {
-        // TODO prendere il paramentro e convertirlo in DATE
         java.util.Date dateJava = sdf.parse(request.getParameter("date"));
         java.sql.Date sqlDate = new java.sql.Date(dateJava.getTime());
         action_eventi_per_giorno(request, response, sqlDate);
       } else {
-        // TODO Prendere il giorno odierno e convertirlo in DATE
         LocalDate localDate = LocalDate.now();
         java.sql.Date sqlDate = Date.valueOf(localDate);
         action_eventi_per_giorno(request, response, sqlDate);
