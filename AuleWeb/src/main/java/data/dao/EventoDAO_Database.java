@@ -9,6 +9,8 @@ import framework.data.DataException;
 import framework.data.DataItemProxy;
 import framework.data.DataLayer;
 import framework.data.OptimisticLockException;
+
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -128,6 +130,14 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
   }
 
   @Override
+  public List<Evento> getEventiByDay(Date data) throws DataException {
+
+    // TODO Implementare il metodo
+    List<Evento> listaEventi = new ArrayList<>();
+    return listaEventi;
+  }
+
+  @Override
   public void storeEvento(Evento e) throws DataException {
 
     try {
@@ -142,7 +152,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
         uEvento.setString(4, e.getDescrizione());
         uEvento.setInt(5, e.getAula().getKey()); // Assumi che l'oggetto AulaImpl possa essere convertito in un formato
                                                  // adatto per il database
-         uEvento.setObject(6, e.getRicorrenza().toString());
+        uEvento.setObject(6, e.getRicorrenza().toString());
         uEvento.setDate(7, e.getDataInizio());
         uEvento.setDate(8, e.getDataFine());
         uEvento.setInt(9, e.getResponsabile().getKey()); // Assumi che l'oggetto ResponsabileImpl possa essere
@@ -176,7 +186,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
                                                          // convertito in un formato adatto per il database
         iEvento.setInt(10, e.getCorso().getKey()); // Assumi che l'oggetto CorsoImpl possa essere convertito in un
                                                    // formato adatto per il database
-         iEvento.setString(11, e.getTipologiaEvento().toString()); // Assumi che l'oggetto
+        iEvento.setString(11, e.getTipologiaEvento().toString()); // Assumi che l'oggetto
         // TipologiaEventoImpl possa essere convertito in un formato adatto per il
         // database
 
