@@ -18,7 +18,7 @@
     </servlet>
     
     <servlet>
-        <servlet-name>adminGestioneDip</servlet-name>
+        <servlet-name>GestioneDipartimenti</servlet-name>
         <servlet-class>controllers.GestioneDipartimenti</servlet-class>
     </servlet>
     
@@ -61,8 +61,8 @@
     </servlet-mapping>   
     
     <servlet-mapping>
-        <servlet-name>adminGestioneDip</servlet-name>
-        <url-pattern>/adminGestioneDip</url-pattern>
+        <servlet-name>GestioneDipartimenti</servlet-name>
+        <url-pattern>/GestioneDipartimenti</url-pattern>
     </servlet-mapping>
     
         
