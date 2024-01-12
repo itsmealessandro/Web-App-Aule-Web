@@ -1,29 +1,58 @@
 <form method="post" action="GestioneDipartimenti">
-    <div>
-        <label for="selectDipartimento">Seleziona Dipartimento:</label>
-        <select id="selectDipartimento" name="selectDipartimento">
-            <#list dipartimenti as dipartimento>
-                <option value="${dipartimento.key}">${dipartimento.nome}</option>
-            </#list>
-        </select>
-    </div>
+<!-- Menù di selezione -->
+<div id= "menu">
+<label for="dipartimenti">Seleziona un dipartimento:</label>
+<select id="dipartimenti" onchange="selezionadipartimento()">
+    <option value="-1">Scegli un dipartimento</option>
+    <#list dipartimenti as dipartimento>
+        <option value="${dipartimento.nome}">${dipartimento.nome}</option>
+    </#list>
+</select>
+</div>
 
-    <#if request?has_content && request.getParameter("selectDipartimento")?has_content>
-        <div>
-            <label for="nomeDipartimento">Nome Dipartimento:</label>
-            <input type="text" id="nomeDipartimento" name="nomeDipartimento" readonly>
-        </div>
+<!-- Campi Nome e Descrizione -->
+<div>
+    <label for="campoNome">Nome:</label>
+    <input name="nome" type="text" id="campoNome" disabled>
+</div>
+<div>
+    <label for="campoDescrizione">Descrizione:</label>
+    <input name="descr" type="text" id="campoDescrizione" disabled>
+</div>
 
-        <div>
-            <label for="descrizioneDipartimento">Descrizione Dipartimento:</label>
-            <textarea id="descrizioneDipartimento" name="descrizioneDipartimento" readonly></textarea>
-        </div>
-
-        <!-- Aggiungi un campo nascosto solo se un dipartimento è stato selezionato -->
-        <input type="hidden" name="dipKey" value="${request.getParameter('selectDipartimento')}">
-    </#if>
-
-    <div>
-        <input type="submit" value="Invia">
-    </div>
+<!-- Bottone di invio -->
+<input type="submit" value="Invia">
 </form>
+
+<!-- TODO mettere gli script in una sezione apposita -->
+<script>
+    function selezionadipartimento() {
+        // Ottieni il valore selezionato dal menu a discesa
+        var selectedDipartimento = document.getElementById("dipartimenti").value;
+
+        // Recupera l'elemento input per il campo Nome
+        var campoNome = document.getElementById("campoNome");
+
+        // Recupera l'elemento input per il campo Descrizione
+        var campoDescrizione = document.getElementById("campoDescrizione");
+
+        // Verifica se è stato selezionato un dipartimento valido
+        if (selectedDipartimento !== "-1") {
+            // Abilita i campi Nome e Descrizione
+            campoNome.disabled = false;
+            campoDescrizione.disabled = false;
+
+            // Assegna il valore del dipartimento ai campi corrispondenti
+            campoNome.value = selectedDipartimento;
+            campoDescrizione.value = selectedDipartimento; // Puoi personalizzare la descrizione secondo le tue esigenze
+        } else {
+            // Disabilita i campi se non è stato selezionato alcun dipartimento
+            campoNome.disabled = true;
+            campoDescrizione.disabled = true;
+
+            // Azzera i valori dei campi
+            campoNome.value = "";
+            campoDescrizione.value = "";
+        }
+    }
+</script>
