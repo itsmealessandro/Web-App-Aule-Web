@@ -18,7 +18,7 @@
     </servlet>
     
     <servlet>
-        <servlet-name>GestioneDipartimenti</servlet-name>
+        <servlet-name>adminGestioneDip</servlet-name>
         <servlet-class>controllers.GestioneDipartimenti</servlet-class>
     </servlet>
     
@@ -28,14 +28,12 @@
     </servlet> 
     
     <servlet>
-    <servlet-name>login</servlet-name>
-    <servlet-class>controllers.Login</servlet-class>
+        <servlet-name>login</servlet-name>
+        <servlet-class>controllers.Login</servlet-class>
     </servlet>
     
-    <servlet>
-        <servlet-name>EventiPerGiorno</servlet-name>
-        <servlet-class>controllers.EventiPerGiorno</servlet-class>
-    </servlet>
+    
+    
     <!-- Servlet Mapping -->
     <servlet-mapping>
         <servlet-name>AulaSelezionata</servlet-name>
@@ -61,16 +59,12 @@
         <servlet-name>logout</servlet-name>
         <url-pattern>/logout</url-pattern>
     </servlet-mapping>   
-     
-    <servlet-mapping>
-        <servlet-name>GestioneDipartimenti</servlet-name>
-        <url-pattern>/GestioneDipartimenti</url-pattern>
-    </servlet-mapping>
     
     <servlet-mapping>
-        <servlet-name>EventiPerGiorno</servlet-name>
-        <url-pattern>/EventiPerGiorno</url-pattern>
+        <servlet-name>adminGestioneDip</servlet-name>
+        <url-pattern>/adminGestioneDip</url-pattern>
     </servlet-mapping>
+    
         
 
     <!-- Template Configuration Parameters -->

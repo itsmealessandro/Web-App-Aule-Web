@@ -33,6 +33,10 @@ public class Homepage extends AuleWebBaseController {
             request.setAttribute("dipartimento1", dataLayer.getDipartimentoDAO().getDipartimento(1));
             request.setAttribute("dipartimento2", dataLayer.getDipartimentoDAO().getDipartimento(2));
             request.setAttribute("dipartimento3", dataLayer.getDipartimentoDAO().getDipartimento(3));
+            if(request.getAttribute("logininfo")  != null) {
+                request.setAttribute("papera", "as");
+            }
+            
             
             //NO VABBE INSANE BRO GETKEY RISOLVE LE COSE
 
