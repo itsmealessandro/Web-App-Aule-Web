@@ -17,6 +17,6 @@ public interface DipartimentoDAO {
   List<Dipartimento> getAllDipartimenti() throws DataException;
 
   // Salva dipartimento corrente
-  void storeAmministratore(Dipartimento dipartimento) throws DataException;
+  void storeDipartimento(Dipartimento dipartimento) throws DataException;
 
 }

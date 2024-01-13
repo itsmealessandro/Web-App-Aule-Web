@@ -113,7 +113,7 @@ public class DipartimentoDAO_Database extends DAO implements DipartimentoDAO {
   }
 
   @Override
-  public void storeAmministratore(Dipartimento a) throws DataException {
+  public void storeDipartimento(Dipartimento a) throws DataException {
 
     try {
       if (a.getKey() != null && a.getKey() > 0) { // update
@@ -147,7 +147,6 @@ public class DipartimentoDAO_Database extends DAO implements DipartimentoDAO {
             if (keys.next()) {
 
               int key = keys.getInt(1);
-
               a.setKey(key);
 
               dataLayer.getCache().add(Dipartimento.class, a);
