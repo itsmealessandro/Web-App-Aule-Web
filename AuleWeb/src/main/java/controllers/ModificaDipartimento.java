@@ -25,7 +25,7 @@ public class ModificaDipartimento extends AuleWebBaseController {
 
       request.setAttribute("dipartimento", dipartimento);
 
-      res.activate("adminModificaDipartimento.ftl.html", request, response);
+      res.activate("adminModificaDip.ftl.html", request, response);
 
     } catch (DataException ex) {
       handleError("Data access exception: " + ex.getMessage(), request, response);
@@ -44,7 +44,7 @@ public class ModificaDipartimento extends AuleWebBaseController {
 
       request.setAttribute("dipartimento", dipartimento);
 
-      res.activate("adminModificaDipartimento.ftl.html", request, response);
+      res.activate("adminModificaDip.ftl.html", request, response);
 
     } catch (DataException ex) {
       handleError("Data access exception: " + ex.getMessage(), request, response);
