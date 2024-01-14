@@ -42,6 +42,10 @@
         <servlet-class>controllers.ModificaDipartimento</servlet-class>
     </servlet>
     
+    <servlet>
+        <servlet-name>ModificaAula</servlet-name>
+        <servlet-class>controllers.ModificaAula</servlet-class>
+    </servlet>
     
     <!-- Servlet Mapping -->
     <servlet-mapping>
@@ -84,6 +88,10 @@
         <url-pattern>/ModificaDipartimento</url-pattern>
     </servlet-mapping>
         
+    <servlet-mapping>
+        <servlet-name>ModificaAula</servlet-name>
+        <url-pattern>/ModificaAula</url-pattern>
+    </servlet-mapping>
 
     <!-- Template Configuration Parameters -->
 
