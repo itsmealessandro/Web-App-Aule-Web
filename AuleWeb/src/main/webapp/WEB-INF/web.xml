@@ -36,7 +36,11 @@
         <servlet-name>GestioneAule</servlet-name>
         <servlet-class>controllers.GestioneAule</servlet-class>
     </servlet>
-    
+
+    <servlet>
+        <servlet-name>ModificaDipartimento</servlet-name>
+        <servlet-class>controllers.ModificaDipartimento</servlet-class>
+    </servlet>
     
     
     <!-- Servlet Mapping -->
@@ -75,6 +79,10 @@
         <url-pattern>/GestioneAule</url-pattern>
     </servlet-mapping>
     
+    <servlet-mapping>
+        <servlet-name>ModificaDipartimento</servlet-name>
+        <url-pattern>/ModificaDipartimento</url-pattern>
+    </servlet-mapping>
         
 
     <!-- Template Configuration Parameters -->
