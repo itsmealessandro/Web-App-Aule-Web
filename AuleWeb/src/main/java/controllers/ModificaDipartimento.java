@@ -4,7 +4,6 @@ import framework.data.DataException;
 import framework.result.TemplateManagerException;
 import framework.result.TemplateResult;
 import framework.security.SecurityHelpers;
-
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -41,10 +40,14 @@ public class ModificaDipartimento extends AuleWebBaseController {
       AuleWebDataLayer dataLayer = (AuleWebDataLayer) request.getAttribute("datalayer");
 
       Dipartimento dipartimento = dataLayer.getDipartimentoDAO().getDipartimento(dip_key);
+      dipartimento.setNome(nome);
+      dipartimento.setDescrizione(descrizione);
+
+      dataLayer.getDipartimentoDAO().storeDipartimento(dipartimento);
 
       request.setAttribute("dipartimento", dipartimento);
 
-      res.activate("adminModificaDip.ftl.html", request, response);
+      res.activate("operazioneEseguita.ftl.html", request, response);
 
     } catch (DataException ex) {
       handleError("Data access exception: " + ex.getMessage(), request, response);
@@ -63,7 +66,7 @@ public class ModificaDipartimento extends AuleWebBaseController {
 
         int dip_key = SecurityHelpers.checkNumeric(request.getParameter("dip_key"));
         String nome = request.getParameter("name");
-        String descrizione = request.getParameter("descrizione");
+        String descrizione = request.getParameter("descr");
         action_update(request, response, dip_key, nome, descrizione);
 
       } else if (request.getParameter("dip_key") != null) {
