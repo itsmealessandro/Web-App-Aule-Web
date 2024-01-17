@@ -32,7 +32,15 @@
         <servlet-class>controllers.Login</servlet-class>
     </servlet>
     
+    <servlet>
+        <servlet-name>EventiPerGiorno</servlet-name>
+        <servlet-class>controllers.EventiPerGiorno</servlet-class>
+    </servlet>
     
+    <servlet>
+        <servlet-name>EventiPerCorso</servlet-name>
+        <servlet-class>controllers.EventiPerCorso</servlet-class>
+    </servlet>
     
     <!-- Servlet Mapping -->
     <servlet-mapping>
@@ -65,7 +73,15 @@
         <url-pattern>/adminGestioneDip</url-pattern>
     </servlet-mapping>
     
+    <servlet-mapping>
+        <servlet-name>EventiPerGiorno</servlet-name>
+        <url-pattern>/EventiPerGiorno</url-pattern>
+    </servlet-mapping>
         
+    <servlet-mapping>
+        <servlet-name>EventiPerCorso</servlet-name>
+        <url-pattern>/EventiPerCorso</url-pattern>
+    </servlet-mapping>
 
     <!-- Template Configuration Parameters -->
 
