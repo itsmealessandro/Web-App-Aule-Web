@@ -22,4 +22,6 @@ public interface AulaDAO {
 
   // Restituisce l'aula associata a un dipartimento specifico
   List<Aula> getAulaPerDipartimento(Dipartimento dipartimento) throws DataException;
+
+  void storeAula(Aula aula) throws DataException;
 }

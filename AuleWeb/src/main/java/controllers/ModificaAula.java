@@ -1,11 +1,9 @@
-
 package controllers;
 
 import framework.data.DataException;
 import framework.result.TemplateManagerException;
 import framework.result.TemplateResult;
 import framework.security.SecurityHelpers;
-
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -24,8 +22,6 @@ public class ModificaAula extends AuleWebBaseController {
       AuleWebDataLayer dataLayer = (AuleWebDataLayer) request.getAttribute("datalayer");
 
       Aula aula = dataLayer.getAulaDAO().getAulaByID(a_key);
-      Attrezzatura attrezzatura = aula.getAttrezzatura();
-      request.setAttribute("xd", attrezzatura.getNome());
       request.setAttribute("aula", aula);
 
       res.activate("adminModificaAula.ftl.html", request, response);
@@ -37,14 +33,14 @@ public class ModificaAula extends AuleWebBaseController {
 
   private void action_update(HttpServletRequest request, HttpServletResponse response, int a_key, String nome,
       String luogo, String edificio, String piano, int capienza, int preseElettriche, int preseRete,
-      String note, String attrezzatura)
+      String note, String nomeAttrezzatura)
       throws IOException, ServletException, TemplateManagerException {
 
     try {
       TemplateResult res = new TemplateResult(getServletContext());
       AuleWebDataLayer dataLayer = (AuleWebDataLayer) request.getAttribute("datalayer");
-
       Aula aula = dataLayer.getAulaDAO().getAulaByID(a_key);
+
       aula.setNome(nome);
       aula.setLuogo(luogo);
       aula.setEdificio(edificio);
@@ -53,7 +49,11 @@ public class ModificaAula extends AuleWebBaseController {
       aula.setPreseElettriche(preseElettriche);
       aula.setPreseRete(preseRete);
       aula.setNote(note);
-      // TODO gestire l'attrezzatura
+
+      Attrezzatura attrezzatura = dataLayer.getAttrezzaturaDAO().getAttrezzaturaByName(nomeAttrezzatura);
+      aula.setAttrezzatura(attrezzatura);
+
+      dataLayer.getAulaDAO().storeAula(aula);
 
       res.activate("operazioneEseguita.ftl.html", request, response);
 
