@@ -60,7 +60,6 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
     try {
 
       sAulaPerID.close();
-
       sAule.close();
       sAulePerDipartimento.close();
 
@@ -69,7 +68,7 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
       dAula.close();
 
     } catch (SQLException ex) {
-      //
+      // TODO da gestire
     }
     super.destroy();
   }

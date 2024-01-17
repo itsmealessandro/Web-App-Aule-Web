@@ -1,48 +1,46 @@
 package data.domain;
 
-import data.domainImpl.AttrezzaturaImpl;
-import data.domainImpl.DipartimentoImpl;
 import framework.data.DataItem;
 
-public interface Aula extends DataItem<Integer>{
+public interface Aula extends DataItem<Integer> {
 
-    public String getNome();
+  public String getNome();
 
-    public void setNome(String nome);
+  public void setNome(String nome);
 
-    public String getLuogo();
+  public String getLuogo();
 
-    public void setLuogo(String luogo);
+  public void setLuogo(String luogo);
 
-    public String getEdificio();
-    
-    public void setEdificio(String edificio);
+  public String getEdificio();
 
-    public String getPiano();
+  public void setEdificio(String edificio);
 
-    public void setPiano(String piano);
+  public String getPiano();
 
-    public int getCapienza();
+  public void setPiano(String piano);
 
-    public void setCapienza(int capienza);
-    
-    public int getPreseElettriche();
+  public int getCapienza();
 
-    public void setPreseElettriche(int preseElettriche);
-    
-    public int getPreseRete();
+  public void setCapienza(int capienza);
 
-    public void setPreseRete(int preseRete);
+  public int getPreseElettriche();
 
-    public String getNote();
+  public void setPreseElettriche(int preseElettriche);
 
-    public void setNote(String note);
+  public int getPreseRete();
 
-    public AttrezzaturaImpl getAttrezzatura();
+  public void setPreseRete(int preseRete);
 
-    public void setAttrezzatura(AttrezzaturaImpl attrezzatura);
+  public String getNote();
 
-    public DipartimentoImpl getDipartimento();
+  public void setNote(String note);
 
-    public void setDipartimento(DipartimentoImpl dipartimento);
+  public Attrezzatura getAttrezzatura();
+
+  public void setAttrezzatura(Attrezzatura attrezzatura);
+
+  public Dipartimento getDipartimento();
+
+  public void setDipartimento(Dipartimento dipartimento);
 }
