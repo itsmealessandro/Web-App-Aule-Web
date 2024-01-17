@@ -82,8 +82,6 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
     AulaProxy a = (AulaProxy) createAula();
     try {
       a.setKey(rs.getInt("ID"));
-      a.setDipartimentoKey(rs.getInt("IDdipartimento"));
-      a.setAttrezzaturaKey(rs.getInt("IDattrezzatura"));
       a.setNome(rs.getString("nome"));
       a.setLuogo(rs.getString("luogo"));
       a.setEdificio(rs.getString("edificio"));
@@ -92,6 +90,10 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
       a.setPreseElettriche(rs.getInt("preseElettriche"));
       a.setPreseRete(rs.getInt("preseRete"));
       a.setNote(rs.getString("note"));
+
+      // riferimenti ad oggetti
+      a.setDipartimentoKey(rs.getInt("IDDipartimento"));
+      a.setAttrezzaturaKey(rs.getInt("IDAttrezzatura"));
       // Non impostiamo il campo version in quanto non presente in AulaProxy
     } catch (SQLException ex) {
       throw new DataException("Unable to create aula object from ResultSet", ex);

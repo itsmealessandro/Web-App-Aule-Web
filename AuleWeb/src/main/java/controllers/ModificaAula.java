@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import data.dao.AuleWebDataLayer;
+import data.domain.Attrezzatura;
 import data.domain.Aula;
 
 public class ModificaAula extends AuleWebBaseController {
@@ -23,6 +24,8 @@ public class ModificaAula extends AuleWebBaseController {
       AuleWebDataLayer dataLayer = (AuleWebDataLayer) request.getAttribute("datalayer");
 
       Aula aula = dataLayer.getAulaDAO().getAulaByID(a_key);
+      Attrezzatura attrezzatura = aula.getAttrezzatura();
+      request.setAttribute("xd", attrezzatura.getNome());
       request.setAttribute("aula", aula);
 
       res.activate("adminModificaAula.ftl.html", request, response);

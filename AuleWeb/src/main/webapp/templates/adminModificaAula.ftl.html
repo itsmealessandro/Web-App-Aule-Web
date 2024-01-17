@@ -1,15 +1,17 @@
 <h1>Modifica Aula</h1>
 
+<h1>${xd}</h1>
 <form method="post" action="ModificaAula">
   <input type="hidden" name="a_key" value="${aula.key}">
-  <input type="text" name="name" value="${aula.nome}"/>
-  <input type="text" name="name" value="${aula.edificio}"/>
-  <input type="text" name="name" value="${aula.luogo}"/>
-  <input type="text" name="name" value="${aula.piano}"/>
-  <input type="text" name="name" value="${aula.capienza}"/>
-  <input type="text" name="name" value="${aula.preseElettriche}"/>
-  <input type="text" name="name" value="${aula.preseRete}"/>
-  <input type="text" name="name" value="${aula.note}"/>
+  <input type="text" name="nome" value="${aula.nome}"/>
+  <input type="text" name="edificio" value="${aula.edificio}"/>
+  <input type="text" name="luogo" value="${aula.luogo}"/>
+  <input type="text" name="piano" value="${aula.piano}"/>
+  <input type="text" name="capienza" value="${aula.capienza}"/>
+  <input type="text" name="preseElettriche" value="${aula.preseElettriche}"/>
+  <input type="text" name="preseRete" value="${aula.preseRete}"/>
+  <input type="text" name="note" value="${aula.note}"/>
+  <input type="text" name="attrezzatura" value="${aula.attrezzatura.nome}">
 
   <input type="submit" name="conf" value="conferma">
 

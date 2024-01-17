@@ -1,11 +1,14 @@
 package data.proxy;
 
+import data.dao.AttrezzaturaDAO;
 import data.domain.Attrezzatura;
-import data.domainImpl.AttrezzaturaImpl;
+import data.domain.Dipartimento;
 import data.domainImpl.AulaImpl;
-import data.domainImpl.DipartimentoImpl;
+import framework.data.DataException;
 import framework.data.DataItemProxy;
 import framework.data.DataLayer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AulaProxy extends AulaImpl implements DataItemProxy {
 
@@ -81,19 +84,44 @@ public class AulaProxy extends AulaImpl implements DataItemProxy {
 
   @Override
   public Attrezzatura getAttrezzatura() {
+    if (super.getAttrezzatura() == null && attrezzatura_key > 0) {
+      try {
+        super.setAttrezzatura(
+            ((AttrezzaturaDAO) dataLayer.getDAO(Attrezzatura.class)).getAttrezzatura(attrezzatura_key));
+      } catch (DataException ex) {
+        Logger.getLogger(AulaProxy.class.getName()).log(Level.SEVERE, null, ex);
+      }
 
+    }
     return super.getAttrezzatura();
   }
 
   @Override
-  public void setAttrezzatura(AttrezzaturaImpl attrezzatura) {
+  public void setAttrezzatura(Attrezzatura attrezzatura) {
     super.setAttrezzatura(attrezzatura);
+    this.attrezzatura_key = attrezzatura.getKey();
     this.modified = true;
   }
 
   @Override
-  public void setDipartimento(DipartimentoImpl dipartimento) {
+  public Dipartimento getDipartimento() {
+
+    if (super.getDipartimento() == null && attrezzatura_key > 0) {
+      try {
+        super.setAttrezzatura(
+            ((AttrezzaturaDAO) dataLayer.getDAO(Attrezzatura.class)).getAttrezzatura(attrezzatura_key));
+      } catch (DataException ex) {
+        Logger.getLogger(AulaProxy.class.getName()).log(Level.SEVERE, null, ex);
+      }
+
+    }
+    return super.getDipartimento();
+  }
+
+  @Override
+  public void setDipartimento(Dipartimento dipartimento) {
     super.setDipartimento(dipartimento);
+    this.dipartimento_key = dipartimento.getKey();
     this.modified = true;
   }
 
