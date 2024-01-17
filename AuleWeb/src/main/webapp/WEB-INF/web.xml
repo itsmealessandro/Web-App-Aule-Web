@@ -37,6 +37,10 @@
         <servlet-class>controllers.EventiPerGiorno</servlet-class>
     </servlet>
     
+    <servlet>
+        <servlet-name>EventiPerCorso</servlet-name>
+        <servlet-class>controllers.EventiPerCorso</servlet-class>
+    </servlet>
     
     <!-- Servlet Mapping -->
     <servlet-mapping>
@@ -74,6 +78,10 @@
         <url-pattern>/EventiPerGiorno</url-pattern>
     </servlet-mapping>
         
+    <servlet-mapping>
+        <servlet-name>EventiPerCorso</servlet-name>
+        <url-pattern>/EventiPerCorso</url-pattern>
+    </servlet-mapping>
 
     <!-- Template Configuration Parameters -->
 

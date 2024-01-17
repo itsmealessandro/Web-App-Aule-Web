@@ -1,6 +1,7 @@
 package data.dao;
 
 import data.domain.Aula;
+import data.domain.Corso;
 import data.domain.Evento;
 import data.domainImpl.Ricorrenza;
 import data.proxy.EventoProxy;
@@ -20,7 +21,7 @@ import java.util.List;
 
 public class EventoDAO_Database extends DAO implements EventoDAO {
 
-  private PreparedStatement iEvento, uEvento, sEventoByID, sEventoByAula, sEventiByDay;
+  private PreparedStatement iEvento, uEvento, sEventoByID, sEventoByAula, sEventiByDay, sEventiByCorso;
 
   public EventoDAO_Database(DataLayer d) {
     super(d);
@@ -35,6 +36,8 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
       sEventoByAula = connection.prepareStatement("SELECT * FROM Evento WHERE IDAula=?");
       sEventiByDay = connection.prepareStatement(
           " SELECT e.* FROM Evento e JOIN Aula a ON e.IDAula = a.ID JOIN Dipartimento d ON a.IDDipartimento = d.ID WHERE d.ID = ? AND e.dataInizio <= ? AND e.dataFine >= ?");
+      sEventiByCorso = connection.prepareStatement(
+          " SELECT e.* FROM Evento e JOIN Corso c ON e.IDCorso = c.ID JOIN Aula a ON e.IDAula = a.ID WHERE c.ID =? AND a.IDDipartimento = ?");
       iEvento = connection.prepareStatement(
           "INSERT INTO Evento (nome, oraInizio, oraFine, descrizione, IDaula, ricorrenza, dataInizio, dataFine, IDresponsabile, IDcorso, tipologiaEvento) VALUES(?,?,?,?,?,?,?,?,?,?,?)",
           Statement.RETURN_GENERATED_KEYS);
@@ -51,6 +54,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
       sEventoByID.close();
       sEventoByAula.close();
       sEventiByDay.close();
+      sEventiByCorso.close();
       iEvento.close();
       uEvento.close();
 
@@ -149,6 +153,27 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
     } catch (SQLException ex) {
       throw new DataException("Unable to load Eventi by Date", ex);
     }
+    return listaEventi;
+  }
+
+  @Override
+  public List<Evento> getEventiByCorso(Corso corso, int dip_key) throws DataException {
+
+    List<Evento> listaEventi = new ArrayList<>();
+
+    try {
+      sEventiByCorso.setInt(1, corso.getKey());
+      sEventiByCorso.setInt(2, dip_key);
+
+      try (ResultSet rs = sEventiByCorso.executeQuery()) {
+        while (rs.next()) {
+          listaEventi.add(getEventoByID(rs.getInt("ID")));
+        }
+      }
+    } catch (SQLException ex) {
+      throw new DataException("Unable to load Eventi by Day");
+    }
+
     return listaEventi;
   }
 

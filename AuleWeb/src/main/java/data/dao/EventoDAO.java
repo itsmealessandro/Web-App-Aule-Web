@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 
 import data.domain.Aula;
+import data.domain.Corso;
 import data.domain.Evento;
 import framework.data.DataException;
 
@@ -21,9 +22,11 @@ public interface EventoDAO {
   List<Evento> getEventiByAula(Aula aula) throws DataException;
 
   List<Evento> getEventiByDay(Date data, int dip_key) throws DataException;
+
+  // Restituisce tutti gli eventi associati a un corso specifico
+  List<Evento> getEventiByCorso(Corso corso, int dip_key) throws DataException;
+
   /*
-   * // Restituisce tutti gli eventi associati a un corso specifico
-   * List<Evento> getEventiPerCorso(Corso corso) throws DataException;
    * 
    * // Restituisce tutti gli eventi gestiti da un responsabile specifico
    * List<Evento> getEventiPerResponsabile(Responsabile responsabile) throws
