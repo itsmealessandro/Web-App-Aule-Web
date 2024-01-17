@@ -33,7 +33,8 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
 
       sEventoByID = connection.prepareStatement("SELECT * FROM Evento WHERE ID=?");
       sEventoByAula = connection.prepareStatement("SELECT * FROM Evento WHERE IDAula=?");
-      sEventiByDay = connection.prepareStatement("SELECT * FROM Evento WHERE dataInizio=?");
+      sEventiByDay = connection.prepareStatement(
+          " SELECT e.* FROM Evento e JOIN Aula a ON e.IDAula = a.ID JOIN Dipartimento d ON a.IDDipartimento = d.ID WHERE d.ID = ? AND e.dataInizio <= ? AND e.dataFine >= ?");
       iEvento = connection.prepareStatement(
           "INSERT INTO Evento (nome, oraInizio, oraFine, descrizione, IDaula, ricorrenza, dataInizio, dataFine, IDresponsabile, IDcorso, tipologiaEvento) VALUES(?,?,?,?,?,?,?,?,?,?,?)",
           Statement.RETURN_GENERATED_KEYS);
@@ -132,11 +133,13 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
   }
 
   @Override
-  public List<Evento> getEventiByDay(Date data) throws DataException {
+  public List<Evento> getEventiByDay(Date data, int dip_key) throws DataException {
 
     List<Evento> listaEventi = new ArrayList<>();
     try {
-      sEventiByDay.setDate(1, data);
+      sEventiByDay.setInt(1, dip_key);
+      sEventiByDay.setDate(2, data);
+      sEventiByDay.setDate(3, data);
 
       try (ResultSet rSet = sEventiByDay.executeQuery()) {
         while (rSet.next()) {
