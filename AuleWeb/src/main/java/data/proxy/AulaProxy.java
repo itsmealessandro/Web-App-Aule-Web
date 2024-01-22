@@ -171,4 +171,9 @@ public class AulaProxy extends AulaImpl implements DataItemProxy {
     this.attrezzatura_key = attrezzatura_key;
     super.setAttrezzatura(null);
   }
+
+  public void setResponsabile(int responsabile_key) {
+    this.responsabile_key = responsabile_key;
+    super.setResponsabile(null);
+  }
 }

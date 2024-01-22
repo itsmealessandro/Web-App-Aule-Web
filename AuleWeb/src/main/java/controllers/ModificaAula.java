@@ -51,8 +51,6 @@ public class ModificaAula extends AuleWebBaseController {
       aula.setPreseRete(preseRete);
       aula.setNote(note);
 
-      // TODO per cambiare l'email del Responsabile devo semplicemente cambiare il
-      // Responsabile
       Responsabile responsabile = dataLayer.getResponsabileDAO().getResponsabileByEmail(emailR);
       aula.setResponsabile(responsabile);
 
