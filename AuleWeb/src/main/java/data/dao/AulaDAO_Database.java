@@ -9,7 +9,6 @@ import framework.data.DataException;
 import framework.data.DataItemProxy;
 import framework.data.DataLayer;
 import framework.data.OptimisticLockException;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -45,13 +44,11 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
       // note the last parameter in this call to prepareStatement:
       // it is used to ensure that the JDBC will sotre and return
       // the auto generated key for the inserted recors
-      // TODO rifare la query dell'Insert
       iAula = connection.prepareStatement(
-          "INSERT INTO Aula (nome, luogo, edificio, piano, capienza, preseElettriche, preseRete, note, IDAttrezzatura, IDDipartimento, version) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
+          "INSERT INTO Aula (nome, luogo, edificio, piano, capienza, preseElettriche, preseRete, note, IDAttrezzatura, IDDipartimento, IDResponsabile, version) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
           Statement.RETURN_GENERATED_KEYS);
-      // TODO rifare la query dell'update
       uAula = connection.prepareStatement(
-          "UPDATE Aula SET nome = ?, luogo = ?, edificio = ?, piano = ?, capienza = ?, preseElettriche = ?, preseRete = ?, note = ?, IDAttrezzatura = ?, IDDipartimento = ?, version = ? WHERE ID = ? and version=?");
+          "UPDATE Aula SET nome = ?, luogo = ?, edificio = ?, piano = ?, capienza = ?, preseElettriche = ?, preseRete = ?, note = ?, IDAttrezzatura = ?, IDDipartimento = ?, IDResponsabile = ?, version = ? WHERE ID = ? and version=?");
       dAula = connection.prepareStatement("DELETE FROM aula WHERE ID=?");
     } catch (SQLException ex) {
       throw new DataException("Error initializing auleweb data layer", ex);
@@ -67,7 +64,6 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
       sAulaPerID.close();
       sAule.close();
       sAulePerDipartimento.close();
-
       iAula.close();
       uAula.close();
       dAula.close();
@@ -99,9 +95,10 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
       // riferimenti ad oggetti
       a.setDipartimentoKey(rs.getInt("IDDipartimento"));
       a.setAttrezzaturaKey(rs.getInt("IDAttrezzatura"));
+      a.setResponsabileKey(rs.getInt("IDResponsabile"));
       // Non impostiamo il campo version in quanto non presente in AulaProxy
     } catch (SQLException ex) {
-      throw new DataException("Unable to create aula object from ResultSet", ex);
+      throw new DataException("Unable to create Aula object from ResultSet", ex);
     }
     return a;
   }
@@ -195,9 +192,8 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
     /*
      * "UPDATE Aula SET nome = ?, luogo = ?, edificio = ?, piano = ?, capienza = ?,
      * preseElettriche = ?, preseRete = ?, note = ?,
-     * IDAttrezzatura = ?, IDDipartimento = ?, version = ? WHERE ID = ? and
-     * version=?"
-     * );
+     * IDAttrezzatura = ?, IDDipartimento = ?, IDResponsabile =? ,version = ? WHERE
+     * ID = ? and version=?");
      */
     try {
       if (a.getKey() != null && a.getKey() > 0) { // update
@@ -206,7 +202,6 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
           return;
         }
 
-        // TODO completare l'update
         uAula.setString(1, a.getNome());
         uAula.setString(2, a.getLuogo());
         uAula.setString(3, a.getEdificio());
@@ -228,12 +223,18 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
           uAula.setNull(10, java.sql.Types.INTEGER);
         }
 
+        if (a.getResponsabile() != null) {
+          uAula.setInt(11, a.getResponsabile().getKey());
+        } else {
+          uAula.setNull(11, java.sql.Types.INTEGER);
+        }
+
         long current_version = a.getVersion();
         long next_version = current_version + 1;
 
-        uAula.setLong(11, next_version);
-        uAula.setInt(12, a.getKey());
-        uAula.setLong(13, current_version);
+        uAula.setLong(12, next_version);
+        uAula.setInt(13, a.getKey());
+        uAula.setLong(14, current_version);
 
         if (uAula.executeUpdate() == 0) {
           throw new OptimisticLockException(a);
@@ -262,6 +263,12 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
           uAula.setInt(10, a.getDipartimento().getKey());
         } else {
           uAula.setNull(10, java.sql.Types.INTEGER);
+        }
+
+        if (a.getResponsabile() != null) {
+          uAula.setInt(11, a.getResponsabile().getKey());
+        } else {
+          uAula.setNull(11, java.sql.Types.INTEGER);
         }
 
         if (iAula.executeUpdate() == 1) {

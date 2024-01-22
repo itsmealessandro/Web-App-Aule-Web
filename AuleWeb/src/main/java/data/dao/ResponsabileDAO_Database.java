@@ -61,8 +61,8 @@ public class ResponsabileDAO_Database extends DAO implements ResponsabileDAO {
     try {
       ResponsabileProxy r = (ResponsabileProxy) createResponsabile();
       r.setKey(rs.getInt("ID"));
-      r.setNome(rs.getString("username"));
-      r.setCognome(rs.getString("password"));
+      r.setNome(rs.getString("nome"));
+      r.setCognome(rs.getString("cognome"));
       r.setEmail(rs.getString("email"));
       r.setVersion(rs.getLong("version"));
       return r;

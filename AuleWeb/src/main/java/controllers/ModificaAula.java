@@ -23,6 +23,7 @@ public class ModificaAula extends AuleWebBaseController {
       AuleWebDataLayer dataLayer = (AuleWebDataLayer) request.getAttribute("datalayer");
 
       Aula aula = dataLayer.getAulaDAO().getAulaByID(a_key);
+      if(aula.getResponsabile()== null) System.out.println("no Resp");
       request.setAttribute("aula", aula);
 
       res.activate("adminModificaAula.ftl.html", request, response);
