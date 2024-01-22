@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import data.dao.AuleWebDataLayer;
 import data.domain.Attrezzatura;
 import data.domain.Aula;
+import data.domain.Responsabile;
 
 public class ModificaAula extends AuleWebBaseController {
 
@@ -33,7 +34,7 @@ public class ModificaAula extends AuleWebBaseController {
 
   private void action_update(HttpServletRequest request, HttpServletResponse response, int a_key, String nome,
       String luogo, String edificio, String piano, int capienza, int preseElettriche, int preseRete,
-      String note, String nomeAttrezzatura)
+      String note, String nomeAttrezzatura, String emailR)
       throws IOException, ServletException, TemplateManagerException {
 
     try {
@@ -49,6 +50,11 @@ public class ModificaAula extends AuleWebBaseController {
       aula.setPreseElettriche(preseElettriche);
       aula.setPreseRete(preseRete);
       aula.setNote(note);
+
+      // TODO per cambiare l'email del Responsabile devo semplicemente cambiare il
+      // Responsabile
+      Responsabile responsabile = dataLayer.getResponsabileDAO().getResponsabileByEmail(emailR);
+      aula.setResponsabile(responsabile);
 
       Attrezzatura attrezzatura = dataLayer.getAttrezzaturaDAO().getAttrezzaturaByName(nomeAttrezzatura);
       aula.setAttrezzatura(attrezzatura);
@@ -77,6 +83,7 @@ public class ModificaAula extends AuleWebBaseController {
           request.getParameter("preseElettriche") != null &&
           request.getParameter("preseRete") != null &&
           request.getParameter("attrezzatura") != null &&
+          request.getParameter("emailR") != null &&
           request.getParameter("note") != null) {
 
         int a_key = SecurityHelpers.checkNumeric(request.getParameter("a_key"));
@@ -89,8 +96,9 @@ public class ModificaAula extends AuleWebBaseController {
         int preseRete = SecurityHelpers.checkNumeric(request.getParameter("preseRete"));
         String note = request.getParameter("note");
         String attrezzatura = request.getParameter("attrezzatura");
+        String emailR = request.getParameter("emailR");
         action_update(request, response, a_key, nome, luogo, edificio, piano, capienza, preseElettriche,
-            preseRete, note, attrezzatura);
+            preseRete, note, attrezzatura, emailR);
 
       } else if (request.getParameter("a_key") != null) {
         int a_key = SecurityHelpers.checkNumeric(request.getParameter("a_key"));

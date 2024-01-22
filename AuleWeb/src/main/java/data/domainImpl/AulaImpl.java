@@ -3,6 +3,7 @@ package data.domainImpl;
 import data.domain.Attrezzatura;
 import data.domain.Aula;
 import data.domain.Dipartimento;
+import data.domain.Responsabile;
 import framework.data.DataItemImpl;
 
 public class AulaImpl extends DataItemImpl<Integer> implements Aula {
@@ -17,6 +18,7 @@ public class AulaImpl extends DataItemImpl<Integer> implements Aula {
   private String note; // Text
   private Attrezzatura attrezzatura;
   private Dipartimento dipartimento;
+  private Responsabile responsabile;
 
   @Override
   public String getNome() {
@@ -116,5 +118,15 @@ public class AulaImpl extends DataItemImpl<Integer> implements Aula {
   @Override
   public void setDipartimento(Dipartimento dipartimento) {
     this.dipartimento = dipartimento;
+  }
+
+  @Override
+  public Responsabile getResponsabile() {
+    return responsabile;
+  }
+
+  @Override
+  public void setResponsabile(Responsabile responsabile) {
+    this.responsabile = responsabile;
   }
 }

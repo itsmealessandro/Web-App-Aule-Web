@@ -1,8 +1,10 @@
 package data.proxy;
 
 import data.dao.AttrezzaturaDAO;
+import data.dao.ResponsabileDAO;
 import data.domain.Attrezzatura;
 import data.domain.Dipartimento;
+import data.domain.Responsabile;
 import data.domainImpl.AulaImpl;
 import framework.data.DataException;
 import framework.data.DataItemProxy;
@@ -17,6 +19,7 @@ public class AulaProxy extends AulaImpl implements DataItemProxy {
 
   protected int dipartimento_key = 0;
   protected int attrezzatura_key = 0;
+  protected int responsabile_key = 0;
 
   public AulaProxy(DataLayer d) {
     super();
@@ -122,6 +125,28 @@ public class AulaProxy extends AulaImpl implements DataItemProxy {
   public void setDipartimento(Dipartimento dipartimento) {
     super.setDipartimento(dipartimento);
     this.dipartimento_key = dipartimento.getKey();
+    this.modified = true;
+  }
+
+  @Override
+  public Responsabile getResponsabile() {
+
+    if (super.getResponsabile() == null && responsabile_key > 0) {
+      try {
+        super.setResponsabile(
+            ((ResponsabileDAO) dataLayer.getDAO(Responsabile.class)).getResponsabile(responsabile_key));
+      } catch (DataException ex) {
+        Logger.getLogger(AulaProxy.class.getName()).log(Level.SEVERE, null, ex);
+      }
+
+    }
+    return super.getResponsabile();
+  }
+
+  @Override
+  public void setResponsabile(Responsabile responsabile) {
+    super.setResponsabile(responsabile);
+    this.dipartimento_key = responsabile.getKey();
     this.modified = true;
   }
 

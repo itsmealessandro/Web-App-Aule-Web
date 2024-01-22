@@ -43,4 +43,8 @@ public interface Aula extends DataItem<Integer> {
   public Dipartimento getDipartimento();
 
   public void setDipartimento(Dipartimento dipartimento);
+
+  public Responsabile getResponsabile();
+
+  public void setResponsabile(Responsabile responsabile);
 }

@@ -47,11 +47,11 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
       // the auto generated key for the inserted recors
       // TODO rifare la query dell'Insert
       iAula = connection.prepareStatement(
-          "",
+          "INSERT INTO Aula (nome, luogo, edificio, piano, capienza, preseElettriche, preseRete, note, IDAttrezzatura, IDDipartimento, version) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
           Statement.RETURN_GENERATED_KEYS);
       // TODO rifare la query dell'update
       uAula = connection.prepareStatement(
-          "");
+          "UPDATE Aula SET nome = ?, luogo = ?, edificio = ?, piano = ?, capienza = ?, preseElettriche = ?, preseRete = ?, note = ?, IDAttrezzatura = ?, IDDipartimento = ?, version = ? WHERE ID = ? and version=?");
       dAula = connection.prepareStatement("DELETE FROM aula WHERE ID=?");
     } catch (SQLException ex) {
       throw new DataException("Error initializing auleweb data layer", ex);
@@ -192,6 +192,13 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
 
   @Override
   public void storeAula(Aula a) throws DataException {
+    /*
+     * "UPDATE Aula SET nome = ?, luogo = ?, edificio = ?, piano = ?, capienza = ?,
+     * preseElettriche = ?, preseRete = ?, note = ?,
+     * IDAttrezzatura = ?, IDDipartimento = ?, version = ? WHERE ID = ? and
+     * version=?"
+     * );
+     */
     try {
       if (a.getKey() != null && a.getKey() > 0) { // update
 
@@ -201,20 +208,32 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
 
         // TODO completare l'update
         uAula.setString(1, a.getNome());
-        uAula.setInt(2, a.getCapienza());
-        uAula.setString(3, a.getNote());
-        uAula.setInt(4, a.getPreseElettriche());
-        uAula.setInt(5, a.getPreseRete());
-        uAula.setString(6, a.getNome());
-        uAula.setString(7, a.getNome());
-        uAula.setString(8, a.getNome());
+        uAula.setString(2, a.getLuogo());
+        uAula.setString(3, a.getEdificio());
+        uAula.setString(4, a.getPiano());
+        uAula.setInt(5, a.getCapienza());
+        uAula.setInt(6, a.getPreseElettriche());
+        uAula.setInt(7, a.getPreseRete());
+        uAula.setString(8, a.getNote());
+
+        if (a.getAttrezzatura() != null) {
+          uAula.setInt(9, a.getAttrezzatura().getKey());
+        } else {
+          uAula.setNull(9, java.sql.Types.INTEGER);
+        }
+
+        if (a.getDipartimento() != null) {
+          uAula.setInt(10, a.getDipartimento().getKey());
+        } else {
+          uAula.setNull(10, java.sql.Types.INTEGER);
+        }
 
         long current_version = a.getVersion();
         long next_version = current_version + 1;
 
-        uAula.setLong(3, next_version);
-        uAula.setInt(4, a.getKey());
-        uAula.setLong(5, current_version);
+        uAula.setLong(11, next_version);
+        uAula.setInt(12, a.getKey());
+        uAula.setLong(13, current_version);
 
         if (uAula.executeUpdate() == 0) {
           throw new OptimisticLockException(a);
@@ -223,7 +242,27 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
         }
       } else { // insert
         // TODO completare l'insert
+
         iAula.setString(1, a.getNome());
+        iAula.setString(2, a.getLuogo());
+        iAula.setString(3, a.getEdificio());
+        iAula.setString(4, a.getPiano());
+        iAula.setInt(5, a.getCapienza());
+        iAula.setInt(6, a.getPreseElettriche());
+        iAula.setInt(7, a.getPreseRete());
+        iAula.setString(8, a.getNote());
+
+        if (a.getAttrezzatura() != null) {
+          uAula.setInt(9, a.getAttrezzatura().getKey());
+        } else {
+          uAula.setNull(9, java.sql.Types.INTEGER);
+        }
+
+        if (a.getDipartimento() != null) {
+          uAula.setInt(10, a.getDipartimento().getKey());
+        } else {
+          uAula.setNull(10, java.sql.Types.INTEGER);
+        }
 
         if (iAula.executeUpdate() == 1) {
 
