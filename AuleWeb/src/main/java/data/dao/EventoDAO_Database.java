@@ -126,6 +126,24 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
     return listaEventi;
 
   }
+  
+  @Override
+    public List<Evento> getEventiPerSettimana(Aula aula, int numeroSettimana) throws DataException {
+         List<Evento> listaEventi = new ArrayList<>();
+
+    try {
+      sEventoByAula.setInt(1, aula.getKey());
+      try (ResultSet resultSet = sEventoByAula.executeQuery()) {
+        while (resultSet.next()) {
+          listaEventi.add((Evento) getEventoByID(resultSet.getInt("ID")));
+        }
+      }
+    } catch (SQLException sqlException) {
+      throw new DataException("Unable to load Eventi from Aula");
+    }
+
+    return listaEventi;
+    }
 
   @Override
   public void storeEvento(Evento e) throws DataException {

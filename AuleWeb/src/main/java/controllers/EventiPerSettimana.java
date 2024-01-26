@@ -15,7 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class GestioneEventi extends AuleWebBaseController{
+public class EventiPerSettimana extends AuleWebBaseController{
 
     private void action_default(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, TemplateManagerException {
 
@@ -24,13 +24,13 @@ public class GestioneEventi extends AuleWebBaseController{
             AuleWebDataLayer dataLayer = (AuleWebDataLayer) request.getAttribute("datalayer");
             List<Aula> listaAule = dataLayer.getAulaDAO().getAllAule();
             Aula aula = listaAule.get(0);
-            res.activate("gestioneEventi.ftl.html", request, response);
+            res.activate("eventiPerSettimana.ftl.html", request, response);
             List<Evento> listaEventi = dataLayer.getEventoDAO().getEventiByAula(aula);
             request.setAttribute("eventi", listaEventi);
             
             request.setAttribute("aula", aula);
         } catch (DataException ex) {
-            Logger.getLogger(GestioneEventi.class.getName()).log(Level.SEVERE, null, ex);
+            //TODO 
         }
     }
     
@@ -46,7 +46,7 @@ public class GestioneEventi extends AuleWebBaseController{
 
       request.setAttribute("aula", aula);
       request.setAttribute("eventi", listaEventi);
-      res.activate("gestioneEventi.ftl.html", request, response);
+      res.activate("eventiPerSettimana.ftl.html", request, response);
 
     } catch (DataException ex) {
       handleError("Data access exception: " + ex.getMessage(), request, response);
@@ -59,10 +59,12 @@ public class GestioneEventi extends AuleWebBaseController{
     request.setAttribute("page_title", "Gestione Eventi");
     try {
       int aula_key;
-      if (request.getParameter("d") != null) {
+      if (request.getParameter("d") != null && request.getParameter("a") != null) {
+         System.out.println("YOLO ");
         aula_key = SecurityHelpers.checkNumeric(request.getParameter("d"));
         action_filtro(request, response, aula_key);
       } else {
+          System.out.println("Messaggio ");
         action_default(request, response);
       }
     } catch (NumberFormatException ex) {

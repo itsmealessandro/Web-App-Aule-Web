@@ -18,6 +18,9 @@ public interface EventoDAO {
   Evento getEventoByID(int evento_key) throws DataException;
 
   List<Evento> getEventiByAula(Aula aula) throws DataException;
+  
+  // Restituisce tutti gli eventi in una settimana specifica
+  List<Evento> getEventiPerSettimana(Aula aula, int numeroSettimana) throws DataException;
   /*
    * // Restituisce tutti gli eventi associati a un corso specifico
    * List<Evento> getEventiPerCorso(Corso corso) throws DataException;
@@ -29,8 +32,6 @@ public interface EventoDAO {
    * // Restituisce tutti gli eventi disponibili
    * List<Evento> getTuttiGliEventi() throws DataException;
    * 
-   * // Restituisce tutti gli eventi in una settimana specifica
-   * List<Evento> getEventiPerSettimana(int numeroSettimana) throws DataException;
    * 
    * // Restituisce tutti gli eventi ricorrenti
    * List<Evento> getEventiRicorrenti() throws DataException;
