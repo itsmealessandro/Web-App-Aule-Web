@@ -25,6 +25,8 @@ public interface EventoDAO {
 
   // Restituisce tutti gli eventi associati a un corso specifico
   List<Evento> getEventiByCorso(Corso corso, int dip_key) throws DataException;
+  
+  void deleteEvento(Evento evento) throws DataException;
 
   /*
    * 

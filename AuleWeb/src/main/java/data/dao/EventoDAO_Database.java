@@ -21,7 +21,7 @@ import java.util.List;
 
 public class EventoDAO_Database extends DAO implements EventoDAO {
 
-  private PreparedStatement iEvento, uEvento, sEventoByID, sEventoByAula, sEventiByDay, sEventiByCorso;
+  private PreparedStatement iEvento, uEvento, sEventoByID, sEventoByAula, sEventiByDay, sEventiByCorso, dEvento;
 
   public EventoDAO_Database(DataLayer d) {
     super(d);
@@ -253,5 +253,19 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
       throw new DataException("Unable to store Evento", ex);
     }
   }
+  
+  @Override
+    public void deleteEvento(Evento evento) throws DataException {
+        try {
+            dEvento.setInt(1, evento.getKey());
+            int affectedRows = dEvento.executeUpdate();
+
+            if (affectedRows == 0) {
+                throw new DataException("Failed to delete evento");
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to delete evento", ex);
+        }
+    }
 
 }

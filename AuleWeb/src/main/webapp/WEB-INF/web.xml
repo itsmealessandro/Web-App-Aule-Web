@@ -42,6 +42,16 @@
         <servlet-class>controllers.EventiPerCorso</servlet-class>
     </servlet>
     
+    <servlet>
+        <servlet-name>listadipartimenti</servlet-name>
+        <servlet-class>controllers.ListaDipartimenti</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>gestioneeventi</servlet-name>
+        <servlet-class>controllers.GestioneEventi</servlet-class>
+    </servlet>
+    
     <!-- Servlet Mapping -->
     <servlet-mapping>
         <servlet-name>AulaSelezionata</servlet-name>
@@ -81,6 +91,16 @@
     <servlet-mapping>
         <servlet-name>EventiPerCorso</servlet-name>
         <url-pattern>/EventiPerCorso</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>listadipartimenti</servlet-name>
+        <url-pattern>/listadipartimenti</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>gestioneeventi</servlet-name>
+        <url-pattern>/gestioneeventi</url-pattern>
     </servlet-mapping>
 
     <!-- Template Configuration Parameters -->

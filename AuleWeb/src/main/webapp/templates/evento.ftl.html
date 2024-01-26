@@ -1,0 +1,26 @@
+<div class="row" id="header">
+    <div class="sixteen columns">
+        <div class="sinistra">
+            <ul class="breadcrumb">
+                <li><a href="listadipartimenti">Homepage</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="sixteen columns">
+    <h2>Evento: ${evento.nome}</h2>
+    <p>
+        <br>Giorno: ${evento.giorno}
+        <br>Ora inizio: ${evento.oraInizio}
+        <br>Ora fine: ${evento.oraFine}
+        <br>Nome: ${evento.nome}
+        <br>Descrizione: ${evento.descrizione}
+        <br>Tipologia: ${evento.tipologia}
+        <br>Responsabile: ${evento.responsabile.nome}
+        <br>Aula: ${evento.aula.nome}
+        <#if (evento.corso??)>
+            <br>Corso: ${evento.corso.nome}
+        </#if>
+    </p>
+</div>
