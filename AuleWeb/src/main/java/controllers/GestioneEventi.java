@@ -1,4 +1,6 @@
+/*
 package controllers;
+
 
 import data.dao.AuleWebDataLayer;
 import data.domain.Aula;
@@ -6,7 +8,7 @@ import data.domain.Corso;
 import data.domain.Evento;
 import data.domain.Responsabile;
 import framework.data.DataException;
-import framework.result.SplitSlashesFmkExt;
+//import framework.result.SplitSlashesFmkExt;
 import framework.result.TemplateManagerException;
 import framework.result.TemplateResult;
 import framework.security.SecurityHelpers;
@@ -25,10 +27,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author ema
- */
+
 public class GestioneEventi extends AuleWebBaseController {
 
     // Questo metodo gestisce la richiesta di visualizzare gli eventi per una determinata aula in una data specifica
@@ -44,7 +43,7 @@ public class GestioneEventi extends AuleWebBaseController {
             request.setAttribute(("aula"), aula);
             request.setAttribute("settiamanaprecedente", LocalDate.parse(data).plusDays(-7));
             request.setAttribute("settimanasuccessiva", LocalDate.parse(data).plusDays(7));
-            request.setAttribute(("eventi"), ((AuleWebDataLayer) request.getAttribute("datalayer")).getEventoDAO().getEventiBySettimana(aula, Date.valueOf(data)));
+            //request.setAttribute(("eventi"), ((AuleWebDataLayer) request.getAttribute("datalayer")).getEventoDAO().getEventiBySettimana(aula, Date.valueOf(data)));
 
             // Attiva il template "gestione_eventi.ftl.html" per generare la risposta
             res.activate("gestione_eventi.ftl.html", request, response);
@@ -60,21 +59,21 @@ public class GestioneEventi extends AuleWebBaseController {
             // Crea un oggetto TemplateResult per gestire la risposta
             TemplateResult res = new TemplateResult(getServletContext());
             // Aggiunge un oggetto SplitSlashesFmkExt come attributo della richiesta per gestire le barre invertite nelle stringhe
-            request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
+           // request.setAttribute("strip_slashes", new SplitSlashesFmkExt());
 
             // Ottiene l'oggetto Aula dal database utilizzando l'ID passato come parametro
             Aula aula = ((AuleWebDataLayer) request.getAttribute("datalayer")).getAulaDAO().getAulaByID(IDaula);
 
             // Ottiene liste di responsabili, corsi e tipologie per utilizzarle nella creazione/modifica dell'evento
             List<Responsabile> responsabili = ((AuleWebDataLayer) request.getAttribute("datalayer")).getResponsabileDAO().getAllResponsabili();
-            List<Corso> corsi = ((AuleWebDataLayer) request.getAttribute("datalayer")).getCorsoDAO().getCorsi();
+            //List<Corso> corsi = ((AuleWebDataLayer) request.getAttribute("datalayer")).getCorsoDAO().getCorsi();
             //List<Tipologia> tipologie = new ArrayList<>();
             //tipologie.addAll(Arrays.asList(Tipologia.values()));
 
             // Imposta gli attributi della richiesta con le informazioni ottenute
             request.setAttribute("aula", aula);
             request.setAttribute("responsabili", responsabili);
-            request.setAttribute("corsi", corsi);
+            //request.setAttribute("corsi", corsi);
             //request.setAttribute("tipologie", tipologie);
 
             if (IDevento > 0) {
@@ -154,18 +153,18 @@ public class GestioneEventi extends AuleWebBaseController {
                     if (IDevento > 0) {
                         // Modifica più eventi ricorrenti
                         Evento e = ((AuleWebDataLayer) request.getAttribute("datalayer")).getEventoDAO().getEventoByID(IDevento);
-                        List<Evento> eventi = ((AuleWebDataLayer) request.getAttribute("datalayer")).getEventoDAO().getEventiRicorrenti(e.getNome(), e.getResponsabile().getKey());
+                        //List<Evento> eventi = ((AuleWebDataLayer) request.getAttribute("datalayer")).getEventoDAO().getEventiRicorrenti(e.getNome(), e.getResponsabile().getKey());
 
                         Calendar cal = Calendar.getInstance();
                         cal.setTime(giornoInizio);
 
-                        long da1 = e.getGiorno().getTime();
+                        //long da1 = e.getGiorno().getTime();
                         long da2 = cal.getTimeInMillis();
 
-                        long timeDiff = da2 - da1;
-                        int daysDiff = (int) TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS);
+                        //long timeDiff = da2 - da1;
+                        //int daysDiff = (int) TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS);
 
-                        for (Evento evento : eventi) {
+                        //for (Evento evento : eventi) {
                             cal.add(Calendar.DATE, daysDiff);
                             giornoInizio.setTime(cal.getTimeInMillis());
 
@@ -334,3 +333,4 @@ public class GestioneEventi extends AuleWebBaseController {
     }
 
 }
+*/
