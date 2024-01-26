@@ -20,133 +20,134 @@ import java.sql.Statement;
  *
  * @author emanu
  */
-public class CorsoDAO_Database extends DAO implements CorsoDAO{
+public class CorsoDAO_Database extends DAO implements CorsoDAO {
 
-    private PreparedStatement iCorso, uCorso, sCorsoByID;
-    
-    public CorsoDAO_Database(DataLayer d) {
-        super(d);
+  private PreparedStatement iCorso, uCorso, sCorsoByID;
+
+  public CorsoDAO_Database(DataLayer d) {
+    super(d);
+  }
+
+  @Override
+  public void init() throws DataException {
+    try {
+      super.init();
+
+      sCorsoByID = connection.prepareStatement("SELECT * FROM Corso WHERE ID=?");
+      iCorso = connection.prepareStatement("INSERT INTO Corso (nome,responsabileID) VALUES(?,?)",
+          Statement.RETURN_GENERATED_KEYS);
+      uCorso = connection
+          .prepareStatement("UPDATE Corso SET nome=?,responsabileID=?,version=? WHERE ID=? and version=?");
+    } catch (SQLException ex) {
+      throw new DataException("Error initializing AuleWeb data layer", ex);
     }
-    
-    @Override
-    public void init() throws DataException {
-        try {
-            super.init();
+  }
 
-            sCorsoByID = connection.prepareStatement("SELECT * FROM Corso WHERE ID=?");
-            iCorso = connection.prepareStatement("INSERT INTO Corso (nome,responsabileID) VALUES(?,?)", Statement.RETURN_GENERATED_KEYS);
-            uCorso = connection.prepareStatement("UPDATE Corso SET nome=?,responsabileID=?,version=? WHERE ID=? and version=?");
-        } catch (SQLException ex) {
-            throw new DataException("Error initializing AuleWeb data layer", ex);
-        }
-        }
-        
-        @Override
-    public void destroy() throws DataException {
-        try {
-            sCorsoByID.close();
-            iCorso.close();
-            uCorso.close();
+  @Override
+  public void destroy() throws DataException {
+    try {
+      sCorsoByID.close();
+      iCorso.close();
+      uCorso.close();
 
-        } catch (SQLException ex) {
-            // TODO gestire l'eccezione
-        }
-        super.destroy();
+    } catch (SQLException ex) {
+      // TODO gestire l'eccezione
     }
+    super.destroy();
+  }
 
-    @Override
-    public Corso createCorso() {
-        return new CorsoProxy(getDataLayer());
+  @Override
+  public Corso createCorso() {
+    return new CorsoProxy(getDataLayer());
+  }
+
+  private CorsoProxy createCorso(ResultSet rs) throws DataException {
+    try {
+      CorsoProxy corsoProxy = (CorsoProxy) createCorso();
+      corsoProxy.setKey(rs.getInt("ID"));
+      corsoProxy.setNome(rs.getString("nome"));
+      corsoProxy.setResponsabileKey(rs.getInt("IDResponsabile"));
+      corsoProxy.setVersion(rs.getLong("version"));
+      return corsoProxy;
+    } catch (SQLException ex) {
+      throw new DataException("Unable to create Corso object form ResultSet", ex);
     }
+  }
 
-    private CorsoProxy createCorso(ResultSet rs) throws DataException {
-        try {
-            CorsoProxy corsoProxy = (CorsoProxy) createCorso();
-            corsoProxy.setKey(rs.getInt("ID"));
-            corsoProxy.setNome(rs.getString("username"));
-            corsoProxy.setResponsabileKey(rs.getInt("IDresponasbile"));
-            corsoProxy.setVersion(rs.getLong("version"));
-            return corsoProxy;
-        } catch (SQLException ex) {
-            throw new DataException("Unable to create Amministratore object form ResultSet", ex);
+  @Override
+  public Corso getCorso(int corso_key) throws DataException {
+    Corso corso = null;
+
+    if (dataLayer.getCache().has(Corso.class, corso_key)) {
+
+      corso = dataLayer.getCache().get(Corso.class, corso_key);
+    } else {
+      try {
+        sCorsoByID.setInt(1, corso_key);
+        try (ResultSet rs = sCorsoByID.executeQuery()) {
+          if (rs.next()) {
+
+            corso = createCorso(rs);
+
+            dataLayer.getCache().add(Corso.class, corso);
+          }
         }
+      } catch (SQLException ex) {
+        throw new DataException("Unable to load Corso by ID", ex);
+      }
     }
+    return corso;
+  }
 
-    @Override
-    public Corso getCorso(int corso_key) throws DataException {
-        Corso corso = null;
+  @Override
+  public void storeCorso(Corso corso) throws DataException {
 
-        if (dataLayer.getCache().has(Corso.class, corso_key)) {
+    try {
+      if (corso.getKey() != null && corso.getKey() > 0) { // update
 
-            corso = dataLayer.getCache().get(Corso.class, corso_key);
+        if (corso instanceof DataItemProxy && !((DataItemProxy) corso).isModified()) {
+          return;
+        }
+        uCorso.setString(1, corso.getNome());
+        uCorso.setInt(2, corso.getResponsabile().getKey());
+
+        long current_version = corso.getVersion();
+        long next_version = current_version + 1;
+
+        uCorso.setLong(3, next_version);
+        uCorso.setInt(4, corso.getKey());
+        uCorso.setLong(5, current_version);
+
+        if (uCorso.executeUpdate() == 0) {
+          throw new OptimisticLockException(corso);
         } else {
-            try {
-                sCorsoByID.setInt(1, corso_key);
-                try (ResultSet rs = sCorsoByID.executeQuery()) {
-                    if (rs.next()) {
-
-                        corso = createCorso(rs);
-
-                        dataLayer.getCache().add(Corso.class, corso);
-                    }
-                }
-            } catch (SQLException ex) {
-                throw new DataException("Unable to load Corso by ID", ex);
-            }
+          corso.setVersion(next_version);
         }
-        return corso;
-    }
+      } else { // insert
+        iCorso.setString(1, corso.getNome());
+        iCorso.setInt(2, corso.getResponsabile().getKey());
 
-    @Override
-    public void storeCorso(Corso corso) throws DataException {
+        if (iCorso.executeUpdate() == 1) {
 
-        try {
-            if (corso.getKey() != null && corso.getKey() > 0) { //update
+          try (ResultSet keys = iCorso.getGeneratedKeys()) {
 
-                if (corso instanceof DataItemProxy && !((DataItemProxy) corso).isModified()) {
-                    return;
-                }
-                uCorso.setString(1, corso.getNome());
-                uCorso.setInt(2, corso.getResponsabile().getKey());
+            if (keys.next()) {
 
-                long current_version = corso.getVersion();
-                long next_version = current_version + 1;
+              int key = keys.getInt(1);
 
-                uCorso.setLong(3, next_version);
-                uCorso.setInt(4, corso.getKey());
-                uCorso.setLong(5, current_version);
+              corso.setKey(key);
 
-                if (uCorso.executeUpdate() == 0) {
-                    throw new OptimisticLockException(corso);
-                } else {
-                    corso.setVersion(next_version);
-                }
-            } else { //insert
-                iCorso.setString(1, corso.getNome());
-                iCorso.setInt(2, corso.getResponsabile().getKey());
-
-                if (iCorso.executeUpdate() == 1) {
-
-                    try (ResultSet keys = iCorso.getGeneratedKeys()) {
-
-                        if (keys.next()) {
-
-                            int key = keys.getInt(1);
-
-                            corso.setKey(key);
-
-                            dataLayer.getCache().add(Corso.class, corso);
-                        }
-                    }
-                }
+              dataLayer.getCache().add(Corso.class, corso);
             }
-
-            if (corso instanceof DataItemProxy) {
-                ((DataItemProxy) corso).setModified(false);
-            }
-        } catch (SQLException | OptimisticLockException ex) {
-            throw new DataException("Unable to store Corso", ex);
+          }
         }
+      }
+
+      if (corso instanceof DataItemProxy) {
+        ((DataItemProxy) corso).setModified(false);
+      }
+    } catch (SQLException | OptimisticLockException ex) {
+      throw new DataException("Unable to store Corso", ex);
     }
-    }
-    
+  }
+}

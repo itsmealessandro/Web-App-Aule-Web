@@ -1,57 +1,58 @@
 package data.domain;
 
-import data.domainImpl.AulaImpl;
-import data.domainImpl.CorsoImpl;
-import data.domainImpl.ResponsabileImpl;
 import data.domainImpl.Ricorrenza;
 import data.domainImpl.TipologiaEvento;
 import framework.data.DataItem;
 import java.sql.Date;
 import java.sql.Time;
 
-public interface Evento extends DataItem<Integer>{
+public interface Evento extends DataItem<Integer> {
 
-    public String getNome();
+  public int getIDMaster();
 
-    public void setNome(String nome);
+  public void setIDMaster(int IDMaster);
 
-    public Time getOraInizio();
+  public String getNome();
 
-    public void setOraInizio(Time oraInizio);
+  public void setNome(String nome);
 
-    public Time getOraFine();
+  public Time getOraInizio();
 
-    public void setOraFine(Time oraFine);
+  public void setOraInizio(Time oraInizio);
 
-    public String getDescrizione();
+  public Time getOraFine();
 
-    public void setDescrizione(String descrizione);
+  public void setOraFine(Time oraFine);
 
-    public AulaImpl getAula();
+  public String getDescrizione();
 
-    public void setAula(AulaImpl aula);
+  public void setDescrizione(String descrizione);
 
-    public Ricorrenza getRicorrenza();
+  public Aula getAula();
 
-    public void setRicorrenza(Ricorrenza ricorrenza);
+  public void setAula(Aula aula);
 
-    public Date getDataInizio();
+  public Ricorrenza getRicorrenza();
 
-    public void setDataInizio(Date dataInizio);
+  public void setRicorrenza(Ricorrenza ricorrenza);
 
-    public Date getDataFine() ;
+  public Date getDataInizio();
 
-    public void setDataFine(Date dataFine);
+  public void setDataInizio(Date dataInizio);
 
-    public ResponsabileImpl getResponsabile();
+  public Date getDataFine();
 
-    public void setResponsabile(ResponsabileImpl responsabile);
+  public void setDataFine(Date dataFine);
 
-    public CorsoImpl getCorso();
+  public Responsabile getResponsabile();
 
-    public void setCorso(CorsoImpl corso);
+  public void setResponsabile(Responsabile responsabile);
 
-    public TipologiaEvento getTipologiaEvento();
+  public Corso getCorso();
 
-    public void setTipologiaEvento(TipologiaEvento tipologiaEvento);
-    }
+  public void setCorso(Corso corso);
+
+  public TipologiaEvento getTipologiaEvento();
+
+  public void setTipologiaEvento(TipologiaEvento tipologiaEvento);
+}

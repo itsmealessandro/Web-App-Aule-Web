@@ -30,35 +30,36 @@ public class Login extends AuleWebBaseController {
     //nota: usente di default nel database: nome a, password p
     //note: default user in the database: name: a, password p
     private void action_login(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String username = request.getParameter("u");
-        String password = request.getParameter("p");
-            
-        if (!username.isEmpty() && !password.isEmpty()) {
-            try {
+    String username = request.getParameter("u");
+    String password = request.getParameter("p");
+    
+    if (!username.isEmpty() && !password.isEmpty()) {
+        try {
+            AuleWebDataLayer dataLayer = (AuleWebDataLayer) request.getAttribute("datalayer");
+            Amministratore a = dataLayer.getAmministratoreDAO().getAmministratoreByUsername(username);
+
+            if (a != null && SecurityHelpers.checkPasswordHashPBKDF2(password, a.getPassword())) {
+                // Login riuscito
+                SecurityHelpers.createSession(request, username, a.getKey());
                 
-                AuleWebDataLayer dataLayer = (AuleWebDataLayer) request.getAttribute("datalayer");
-                Amministratore a = dataLayer.getAmministratoreDAO().getAmministratoreByUsername(username);
-                if (a != null && SecurityHelpers.checkPasswordHashPBKDF2(password, a.getPassword())) {
-                    //se la validazione ha successo
-                    //if the identity validation succeeds
-                    SecurityHelpers.createSession(request, username, a.getKey());
-                    //se è stato trasmesso un URL di origine, torniamo a quell'indirizzo
-                    //if an origin URL has been transmitted, return to it
-                    if (request.getParameter("referrer") != null) {
-                        response.sendRedirect(request.getParameter("referrer"));
-                    } else {
-                        response.sendRedirect("login");
-                    }
-                    return;
+                // Se è stato trasmesso un URL di origine, torniamo a quell'indirizzo
+                if (request.getParameter("referrer") != null) {
+                    response.sendRedirect(request.getParameter("referrer"));
+                } else {
+                    
+                    response.sendRedirect("Homepage");
                 }
-            } catch (NoSuchAlgorithmException | InvalidKeySpecException | DataException ex) {
-                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                return;
             }
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException | DataException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //se la validazione fallisce...
-        //if the validation fails...
-        handleError("Login failed", request, response);
     }
+
+    // Se la validazione fallisce...
+    handleError("Login failed", request, response);
+}
+
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

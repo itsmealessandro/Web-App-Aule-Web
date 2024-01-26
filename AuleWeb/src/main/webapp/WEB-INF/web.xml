@@ -18,12 +18,29 @@
         <servlet-class>controllers.Test</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>GestioneDipartimenti</servlet-name>
+        <servlet-name>adminGestioneDip</servlet-name>
         <servlet-class>controllers.GestioneDipartimenti</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>logout</servlet-name>
         <servlet-class>controllers.Logout</servlet-class>
+
+    </servlet> 
+    
+    <servlet>
+        <servlet-name>login</servlet-name>
+        <servlet-class>controllers.Login</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>EventiPerGiorno</servlet-name>
+        <servlet-class>controllers.EventiPerGiorno</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>EventiPerCorso</servlet-name>
+        <servlet-class>controllers.EventiPerCorso</servlet-class>
+
     </servlet>
     <servlet>
         <servlet-name>login</servlet-name>
@@ -53,11 +70,27 @@
     <servlet-mapping>
         <servlet-name>logout</servlet-name>
         <url-pattern>/logout</url-pattern>
-    </servlet-mapping>
+
+    </servlet-mapping>   
+    
+
     <servlet-mapping>
-        <servlet-name>GestioneDipartimenti</servlet-name>
-        <url-pattern>/GestioneDipartimenti</url-pattern>
+        <servlet-name>adminGestioneDip</servlet-name>
+        <url-pattern>/adminGestioneDip</url-pattern>
     </servlet-mapping>
+
+    
+    <servlet-mapping>
+        <servlet-name>EventiPerGiorno</servlet-name>
+        <url-pattern>/EventiPerGiorno</url-pattern>
+    </servlet-mapping>
+        
+    <servlet-mapping>
+        <servlet-name>EventiPerCorso</servlet-name>
+        <url-pattern>/EventiPerCorso</url-pattern>
+    </servlet-mapping>
+
+  
     <!-- Template Configuration Parameters -->
     <!--- __________________ Parametri per il Template __________________ -->
     <!-- template di outline -->

@@ -1,6 +1,7 @@
 package data.dao;
 
 import data.domain.Aula;
+import data.domain.Corso;
 import data.domain.Evento;
 import data.domainImpl.Ricorrenza;
 import data.proxy.EventoProxy;
@@ -9,6 +10,8 @@ import framework.data.DataException;
 import framework.data.DataItemProxy;
 import framework.data.DataLayer;
 import framework.data.OptimisticLockException;
+
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,7 +21,7 @@ import java.util.List;
 
 public class EventoDAO_Database extends DAO implements EventoDAO {
 
-  private PreparedStatement iEvento, uEvento, sEventoByID, sEventoByAula;
+  private PreparedStatement iEvento, uEvento, sEventoByID, sEventoByAula, sEventiByDay, sEventiByCorso;
 
   public EventoDAO_Database(DataLayer d) {
     super(d);
@@ -31,6 +34,10 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
 
       sEventoByID = connection.prepareStatement("SELECT * FROM Evento WHERE ID=?");
       sEventoByAula = connection.prepareStatement("SELECT * FROM Evento WHERE IDAula=?");
+      sEventiByDay = connection.prepareStatement(
+          " SELECT e.* FROM Evento e JOIN Aula a ON e.IDAula = a.ID JOIN Dipartimento d ON a.IDDipartimento = d.ID WHERE d.ID = ? AND e.dataInizio <= ? AND e.dataFine >= ?");
+      sEventiByCorso = connection.prepareStatement(
+          " SELECT e.* FROM Evento e JOIN Corso c ON e.IDCorso = c.ID JOIN Aula a ON e.IDAula = a.ID WHERE c.ID =? AND a.IDDipartimento = ?");
       iEvento = connection.prepareStatement(
           "INSERT INTO Evento (nome, oraInizio, oraFine, descrizione, IDaula, ricorrenza, dataInizio, dataFine, IDresponsabile, IDcorso, tipologiaEvento) VALUES(?,?,?,?,?,?,?,?,?,?,?)",
           Statement.RETURN_GENERATED_KEYS);
@@ -46,6 +53,8 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
     try {
       sEventoByID.close();
       sEventoByAula.close();
+      sEventiByDay.close();
+      sEventiByCorso.close();
       iEvento.close();
       uEvento.close();
 
@@ -146,6 +155,47 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
     }
 
   @Override
+  public List<Evento> getEventiByDay(Date data, int dip_key) throws DataException {
+
+    List<Evento> listaEventi = new ArrayList<>();
+    try {
+      sEventiByDay.setInt(1, dip_key);
+      sEventiByDay.setDate(2, data);
+      sEventiByDay.setDate(3, data);
+
+      try (ResultSet rSet = sEventiByDay.executeQuery()) {
+        while (rSet.next()) {
+          listaEventi.add((Evento) getEventoByID(rSet.getInt("ID")));
+        }
+      }
+    } catch (SQLException ex) {
+      throw new DataException("Unable to load Eventi by Date", ex);
+    }
+    return listaEventi;
+  }
+
+  @Override
+  public List<Evento> getEventiByCorso(Corso corso, int dip_key) throws DataException {
+
+    List<Evento> listaEventi = new ArrayList<>();
+
+    try {
+      sEventiByCorso.setInt(1, corso.getKey());
+      sEventiByCorso.setInt(2, dip_key);
+
+      try (ResultSet rs = sEventiByCorso.executeQuery()) {
+        while (rs.next()) {
+          listaEventi.add(getEventoByID(rs.getInt("ID")));
+        }
+      }
+    } catch (SQLException ex) {
+      throw new DataException("Unable to load Eventi by Day");
+    }
+
+    return listaEventi;
+  }
+
+  @Override
   public void storeEvento(Evento e) throws DataException {
 
     try {
@@ -160,7 +210,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
         uEvento.setString(4, e.getDescrizione());
         uEvento.setInt(5, e.getAula().getKey()); // Assumi che l'oggetto AulaImpl possa essere convertito in un formato
                                                  // adatto per il database
-         uEvento.setObject(6, e.getRicorrenza().toString());
+        uEvento.setObject(6, e.getRicorrenza().toString());
         uEvento.setDate(7, e.getDataInizio());
         uEvento.setDate(8, e.getDataFine());
         uEvento.setInt(9, e.getResponsabile().getKey()); // Assumi che l'oggetto ResponsabileImpl possa essere
@@ -194,7 +244,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
                                                          // convertito in un formato adatto per il database
         iEvento.setInt(10, e.getCorso().getKey()); // Assumi che l'oggetto CorsoImpl possa essere convertito in un
                                                    // formato adatto per il database
-         iEvento.setString(11, e.getTipologiaEvento().toString()); // Assumi che l'oggetto
+        iEvento.setString(11, e.getTipologiaEvento().toString()); // Assumi che l'oggetto
         // TipologiaEventoImpl possa essere convertito in un formato adatto per il
         // database
 
