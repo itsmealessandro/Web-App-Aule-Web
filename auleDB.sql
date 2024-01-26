@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 26, 2024 at 08:12 AM
+-- Generation Time: Jan 26, 2024 at 04:48 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -174,30 +174,29 @@ CREATE TABLE `Evento` (
   `descrizione` text DEFAULT NULL,
   `IDAula` int(11) DEFAULT NULL,
   `ricorrenza` varchar(100) NOT NULL,
-  `dataInizio` date DEFAULT NULL,
-  `dataFine` date DEFAULT NULL,
   `IDResponsabile` int(11) DEFAULT NULL,
   `IDCorso` int(11) DEFAULT NULL,
   `tipologiaEvento` varchar(100) DEFAULT NULL,
   `version` int(11) NOT NULL,
-  `IDMaster` int(11) DEFAULT NULL
+  `IDMaster` int(11) DEFAULT NULL,
+  `Data` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `Evento`
 --
 
-INSERT INTO `Evento` (`ID`, `nome`, `oraInizio`, `oraFine`, `descrizione`, `IDAula`, `ricorrenza`, `dataInizio`, `dataFine`, `IDResponsabile`, `IDCorso`, `tipologiaEvento`, `version`, `IDMaster`) VALUES
-(1, 'Evento 1', '08:00:00', '10:00:00', 'Descrizione dell\'evento 1', 8, 'NESSUNA', '2023-11-27', '2023-12-26', 5, 1, 'LEZIONE', 0, NULL),
-(2, 'Evento 2', '10:30:00', '12:30:00', 'Descrizione dell\'evento 2', 13, 'NESSUNA', '2023-11-16', '2023-11-21', 9, 1, 'LEZIONE', 0, NULL),
-(3, 'Evento 3', '14:00:00', '16:00:00', 'Descrizione dell\'evento 3', 4, 'GIORNALIERA', '2023-11-13', '2023-12-14', 9, 2, 'LEZIONE', 0, 1),
-(4, 'Evento 4', '09:00:00', '11:00:00', 'Descrizione dell\'evento 4', 7, 'NESSUNA', '2023-11-28', '2023-12-04', 7, 2, 'LEZIONE', 0, NULL),
-(5, 'Evento 5', '13:30:00', '15:30:00', 'Descrizione dell\'evento 5', 10, 'MENSILE', '2023-11-21', '2024-01-01', 8, 3, 'SEMINARIO', 0, 2),
-(6, 'Evento 6', '12:00:00', '14:00:00', 'Descrizione dell\'evento 6', 7, 'SETTIMANALE', '2023-11-04', '2023-12-10', 9, 3, 'SEMINARIO', 0, 3),
-(7, 'Evento 7', '10:00:00', '12:00:00', 'Descrizione dell\'evento 7', 3, 'NESSUNA', '2023-11-24', '2023-11-29', 2, 4, 'SEMINARIO', 0, NULL),
-(8, 'Evento 8', '14:30:00', '16:30:00', 'Descrizione dell\'evento 8', 7, 'NESSUNA', '2023-11-06', '2023-12-26', 1, 5, 'SEMINARIO', 0, NULL),
-(9, 'Evento 9', '11:30:00', '13:30:00', 'Descrizione dell\'evento 9', 8, 'NESSUNA', '2023-11-19', '2023-12-12', 7, 6, 'SEMINARIO', 0, NULL),
-(10, 'Evento 10', '08:30:00', '10:30:00', 'Descrizione dell\'evento 10', 2, 'NESSUNA', '2023-11-05', '2023-11-08', 4, 7, 'SEMINARIO', 0, NULL);
+INSERT INTO `Evento` (`ID`, `nome`, `oraInizio`, `oraFine`, `descrizione`, `IDAula`, `ricorrenza`, `IDResponsabile`, `IDCorso`, `tipologiaEvento`, `version`, `IDMaster`, `Data`) VALUES
+(1, 'Evento 1', '08:00:00', '10:00:00', 'Descrizione dell\'evento 1', 8, 'NESSUNA', 5, 1, 'LEZIONE', 0, NULL, '2024-02-03'),
+(2, 'Evento 2', '10:30:00', '12:30:00', 'Descrizione dell\'evento 2', 13, 'NESSUNA', 9, 1, 'LEZIONE', 0, NULL, '2024-01-26'),
+(3, 'Evento 3', '14:00:00', '16:00:00', 'Descrizione dell\'evento 3', 4, 'GIORNALIERA', 9, 2, 'LEZIONE', 0, 1, '2024-02-02'),
+(4, 'Evento 4', '09:00:00', '11:00:00', 'Descrizione dell\'evento 4', 7, 'NESSUNA', 7, 2, 'LEZIONE', 0, NULL, '2024-02-01'),
+(5, 'Evento 5', '13:30:00', '15:30:00', 'Descrizione dell\'evento 5', 10, 'MENSILE', 8, 3, 'SEMINARIO', 0, 2, '2024-02-04'),
+(6, 'Evento 6', '12:00:00', '14:00:00', 'Descrizione dell\'evento 6', 7, 'SETTIMANALE', 9, 3, 'SEMINARIO', 0, 3, '2024-02-23'),
+(7, 'Evento 7', '10:00:00', '12:00:00', 'Descrizione dell\'evento 7', 3, 'NESSUNA', 2, 4, 'SEMINARIO', 0, NULL, '2024-02-20'),
+(8, 'Evento 8', '14:30:00', '16:30:00', 'Descrizione dell\'evento 8', 7, 'NESSUNA', 1, 5, 'SEMINARIO', 0, NULL, '2024-02-05'),
+(9, 'Evento 9', '11:30:00', '13:30:00', 'Descrizione dell\'evento 9', 8, 'NESSUNA', 7, 6, 'SEMINARIO', 0, NULL, '2024-02-01'),
+(10, 'Evento 10', '08:30:00', '10:30:00', 'Descrizione dell\'evento 10', 2, 'NESSUNA', 4, 7, 'SEMINARIO', 0, NULL, '2024-01-28');
 
 -- --------------------------------------------------------
 
@@ -357,4 +356,4 @@ COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
