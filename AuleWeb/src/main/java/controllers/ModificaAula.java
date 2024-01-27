@@ -26,15 +26,64 @@ public class ModificaAula extends AuleWebBaseController {
       Aula aula = dataLayer.getAulaDAO().getAulaByID(a_key);
       request.setAttribute("aula", aula);
 
-      if (aula.getDipartimento() == null) {
-        System.out.println("no dip");
+      res.activate("adminModificaAula.ftl.html", request, response);
 
-      }
-      if (aula.getAttrezzatura() == null) {
-        System.out.println("no attrezzatura");
-      }
+    } catch (DataException ex) {
+      handleError("Data access exception: " + ex.getMessage(), request, response);
+    }
+  }
+
+  private void action_prepare_creation(HttpServletRequest request, HttpServletResponse response)
+      throws IOException, ServletException, TemplateManagerException {
+
+    try {
+      TemplateResult res = new TemplateResult(getServletContext());
+      AuleWebDataLayer dataLayer = (AuleWebDataLayer) request.getAttribute("datalayer");
+
+      Aula aula = dataLayer.getAulaDAO().createAula();
+      aula.setKey(0);
+      request.setAttribute("aula", aula);
 
       res.activate("adminModificaAula.ftl.html", request, response);
+
+    } catch (DataException ex) {
+      handleError("Data access exception: " + ex.getMessage(), request, response);
+    }
+  }
+
+  private void action_create(HttpServletRequest request, HttpServletResponse response, int a_key, int dip_key,
+      String nome,
+      String luogo, String edificio, String piano, int capienza, int preseElettriche, int preseRete,
+      String note, String nomeAttrezzatura, String emailR)
+      throws IOException, ServletException, TemplateManagerException {
+
+    TemplateResult res = new TemplateResult(getServletContext());
+    AuleWebDataLayer dataLayer = (AuleWebDataLayer) request.getAttribute("datalayer");
+    try {
+
+      Aula aula = dataLayer.getAulaDAO().createAula();
+
+      aula.setNome(nome);
+      aula.setLuogo(luogo);
+      aula.setEdificio(edificio);
+      aula.setPiano(piano);
+      aula.setCapienza(capienza);
+      aula.setPreseElettriche(preseElettriche);
+      aula.setPreseRete(preseRete);
+      aula.setNote(note);
+
+      Dipartimento dipartimento = dataLayer.getDipartimentoDAO().getDipartimento(dip_key);
+      aula.setDipartimento(dipartimento);
+
+      Responsabile responsabile = dataLayer.getResponsabileDAO().getResponsabileByEmail(emailR);
+      aula.setResponsabile(responsabile);
+
+      Attrezzatura attrezzatura = dataLayer.getAttrezzaturaDAO().getAttrezzaturaByName(nomeAttrezzatura);
+      aula.setAttrezzatura(attrezzatura);
+
+      dataLayer.getAulaDAO().storeAula(aula);
+
+      res.activate("operazioneEseguita.ftl.html", request, response);
 
     } catch (DataException ex) {
       handleError("Data access exception: " + ex.getMessage(), request, response);
@@ -85,18 +134,18 @@ public class ModificaAula extends AuleWebBaseController {
 
     request.setAttribute("page_title", "Modifica Aula");
     try {
-      if (request.getParameter("a_key") != null &&
-          request.getParameter("dip_key") != null &&
-          request.getParameter("nome") != null &&
-          request.getParameter("edificio") != null &&
-          request.getParameter("luogo") != null &&
-          request.getParameter("piano") != null &&
-          request.getParameter("capienza") != null &&
-          request.getParameter("preseElettriche") != null &&
-          request.getParameter("preseRete") != null &&
-          request.getParameter("attrezzatura") != null &&
-          request.getParameter("emailR") != null &&
-          request.getParameter("note") != null) {
+      if (request.getParameter("a_key") != null
+          && request.getParameter("dip_key") != null
+          && request.getParameter("nome") != null
+          && request.getParameter("edificio") != null
+          && request.getParameter("luogo") != null
+          && request.getParameter("piano") != null
+          && request.getParameter("capienza") != null
+          && request.getParameter("preseElettriche") != null
+          && request.getParameter("preseRete") != null
+          && request.getParameter("attrezzatura") != null
+          && request.getParameter("emailR") != null
+          && request.getParameter("note") != null) {
 
         int a_key = SecurityHelpers.checkNumeric(request.getParameter("a_key"));
         int dip_key = SecurityHelpers.checkNumeric(request.getParameter("dip_key"));
@@ -110,9 +159,20 @@ public class ModificaAula extends AuleWebBaseController {
         String note = request.getParameter("note");
         String attrezzatura = request.getParameter("attrezzatura");
         String emailR = request.getParameter("emailR");
-        action_update(request, response, a_key, dip_key, nome, luogo, edificio, piano, capienza, preseElettriche,
-            preseRete, note, attrezzatura, emailR);
 
+        if (a_key != 0) {
+
+          action_update(request, response, a_key, dip_key, nome, luogo, edificio, piano, capienza, preseElettriche,
+              preseRete, note, attrezzatura, emailR);
+        } else {
+          action_create(request, response, a_key, dip_key, nome, luogo, edificio, piano, capienza, preseElettriche,
+              preseRete, note, attrezzatura, emailR);
+        }
+
+      } else if (request.getParameter("a_key") != null
+          && SecurityHelpers.checkNumeric(request.getParameter("a_key")) == 0) {
+        int a_key = SecurityHelpers.checkNumeric(request.getParameter("a_key"));
+        action_prepare_creation(request, response);
       } else if (request.getParameter("a_key") != null) {
         int a_key = SecurityHelpers.checkNumeric(request.getParameter("a_key"));
         action_default(request, response, a_key);
