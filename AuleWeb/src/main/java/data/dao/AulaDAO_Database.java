@@ -45,10 +45,12 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
       // it is used to ensure that the JDBC will sotre and return
       // the auto generated key for the inserted recors
       iAula = connection.prepareStatement(
-          "INSERT INTO Aula (nome, luogo, edificio, piano, capienza, preseElettriche, preseRete, note, IDAttrezzatura, IDDipartimento, IDResponsabile, version) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
+          "INSERT INTO Aula (nome, luogo, edificio, piano, capienza, preseElettriche, preseRete, note, "
+              + "IDAttrezzatura, IDDipartimento, IDResponsabile, version) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
           Statement.RETURN_GENERATED_KEYS);
       uAula = connection.prepareStatement(
-          "UPDATE Aula SET nome = ?, luogo = ?, edificio = ?, piano = ?, capienza = ?, preseElettriche = ?, preseRete = ?, note = ?, IDAttrezzatura = ?, IDDipartimento = ?, IDResponsabile = ?, version = ? WHERE ID = ? and version=?");
+          "UPDATE Aula SET nome = ?, luogo = ?, edificio = ?, piano = ?, capienza = ?, preseElettriche = ?, preseRete = ?, note = ?, "
+              + "IDAttrezzatura = ?, IDDipartimento = ?, IDResponsabile = ?, version = ? WHERE ID = ? and version=?");
       dAula = connection.prepareStatement("DELETE FROM aula WHERE ID=?");
     } catch (SQLException ex) {
       throw new DataException("Error initializing auleweb data layer", ex);
@@ -96,7 +98,8 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
       a.setDipartimentoKey(rs.getInt("IDDipartimento"));
       a.setAttrezzaturaKey(rs.getInt("IDAttrezzatura"));
       a.setResponsabileKey(rs.getInt("IDResponsabile"));
-      // Non impostiamo il campo version in quanto non presente in AulaProxy
+
+      a.setVersion(rs.getInt("version"));
     } catch (SQLException ex) {
       throw new DataException("Unable to create Aula object from ResultSet", ex);
     }
@@ -242,7 +245,6 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
           a.setVersion(next_version);
         }
       } else { // insert
-        // TODO completare l'insert
 
         iAula.setString(1, a.getNome());
         iAula.setString(2, a.getLuogo());
