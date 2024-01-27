@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import data.dao.AuleWebDataLayer;
 import data.domain.Attrezzatura;
 import data.domain.Aula;
+import data.domain.Dipartimento;
 import data.domain.Responsabile;
 
 public class ModificaAula extends AuleWebBaseController {
@@ -23,8 +24,15 @@ public class ModificaAula extends AuleWebBaseController {
       AuleWebDataLayer dataLayer = (AuleWebDataLayer) request.getAttribute("datalayer");
 
       Aula aula = dataLayer.getAulaDAO().getAulaByID(a_key);
-      if(aula.getResponsabile()== null) System.out.println("no Resp");
       request.setAttribute("aula", aula);
+
+      if (aula.getDipartimento() == null) {
+        System.out.println("no dip");
+
+      }
+      if (aula.getAttrezzatura() == null) {
+        System.out.println("no attrezzatura");
+      }
 
       res.activate("adminModificaAula.ftl.html", request, response);
 
@@ -33,7 +41,8 @@ public class ModificaAula extends AuleWebBaseController {
     }
   }
 
-  private void action_update(HttpServletRequest request, HttpServletResponse response, int a_key, String nome,
+  private void action_update(HttpServletRequest request, HttpServletResponse response, int a_key, int dip_key,
+      String nome,
       String luogo, String edificio, String piano, int capienza, int preseElettriche, int preseRete,
       String note, String nomeAttrezzatura, String emailR)
       throws IOException, ServletException, TemplateManagerException {
@@ -51,6 +60,9 @@ public class ModificaAula extends AuleWebBaseController {
       aula.setPreseElettriche(preseElettriche);
       aula.setPreseRete(preseRete);
       aula.setNote(note);
+
+      Dipartimento dipartimento = dataLayer.getDipartimentoDAO().getDipartimento(dip_key);
+      aula.setDipartimento(dipartimento);
 
       Responsabile responsabile = dataLayer.getResponsabileDAO().getResponsabileByEmail(emailR);
       aula.setResponsabile(responsabile);
@@ -71,9 +83,10 @@ public class ModificaAula extends AuleWebBaseController {
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
       throws ServletException {
 
-    request.setAttribute("page_title", "Modifica Dipartimento");
+    request.setAttribute("page_title", "Modifica Aula");
     try {
       if (request.getParameter("a_key") != null &&
+          request.getParameter("dip_key") != null &&
           request.getParameter("nome") != null &&
           request.getParameter("edificio") != null &&
           request.getParameter("luogo") != null &&
@@ -86,6 +99,7 @@ public class ModificaAula extends AuleWebBaseController {
           request.getParameter("note") != null) {
 
         int a_key = SecurityHelpers.checkNumeric(request.getParameter("a_key"));
+        int dip_key = SecurityHelpers.checkNumeric(request.getParameter("dip_key"));
         String nome = request.getParameter("nome");
         String luogo = request.getParameter("luogo");
         String edificio = request.getParameter("edificio");
@@ -96,7 +110,7 @@ public class ModificaAula extends AuleWebBaseController {
         String note = request.getParameter("note");
         String attrezzatura = request.getParameter("attrezzatura");
         String emailR = request.getParameter("emailR");
-        action_update(request, response, a_key, nome, luogo, edificio, piano, capienza, preseElettriche,
+        action_update(request, response, a_key, dip_key, nome, luogo, edificio, piano, capienza, preseElettriche,
             preseRete, note, attrezzatura, emailR);
 
       } else if (request.getParameter("a_key") != null) {
