@@ -51,7 +51,7 @@ public class ModificaAula extends AuleWebBaseController {
     }
   }
 
-  private void action_create(HttpServletRequest request, HttpServletResponse response, int a_key, int dip_key,
+  private void action_create(HttpServletRequest request, HttpServletResponse response, int a_key, String nomeDip,
       String nome,
       String luogo, String edificio, String piano, int capienza, int preseElettriche, int preseRete,
       String note, String nomeAttrezzatura, String emailR)
@@ -63,6 +63,7 @@ public class ModificaAula extends AuleWebBaseController {
 
       Aula aula = dataLayer.getAulaDAO().createAula();
 
+      aula.setKey(a_key);
       aula.setNome(nome);
       aula.setLuogo(luogo);
       aula.setEdificio(edificio);
@@ -72,7 +73,7 @@ public class ModificaAula extends AuleWebBaseController {
       aula.setPreseRete(preseRete);
       aula.setNote(note);
 
-      Dipartimento dipartimento = dataLayer.getDipartimentoDAO().getDipartimento(dip_key);
+      Dipartimento dipartimento = dataLayer.getDipartimentoDAO().getDipartimentoByNome(nomeDip);
       aula.setDipartimento(dipartimento);
 
       Responsabile responsabile = dataLayer.getResponsabileDAO().getResponsabileByEmail(emailR);
@@ -90,7 +91,7 @@ public class ModificaAula extends AuleWebBaseController {
     }
   }
 
-  private void action_update(HttpServletRequest request, HttpServletResponse response, int a_key, int dip_key,
+  private void action_update(HttpServletRequest request, HttpServletResponse response, int a_key, String dip_nome,
       String nome,
       String luogo, String edificio, String piano, int capienza, int preseElettriche, int preseRete,
       String note, String nomeAttrezzatura, String emailR)
@@ -110,7 +111,7 @@ public class ModificaAula extends AuleWebBaseController {
       aula.setPreseRete(preseRete);
       aula.setNote(note);
 
-      Dipartimento dipartimento = dataLayer.getDipartimentoDAO().getDipartimento(dip_key);
+      Dipartimento dipartimento = dataLayer.getDipartimentoDAO().getDipartimentoByNome(dip_nome);
       aula.setDipartimento(dipartimento);
 
       Responsabile responsabile = dataLayer.getResponsabileDAO().getResponsabileByEmail(emailR);
@@ -135,7 +136,7 @@ public class ModificaAula extends AuleWebBaseController {
     request.setAttribute("page_title", "Modifica Aula");
     try {
       if (request.getParameter("a_key") != null
-          && request.getParameter("dip_key") != null
+          && request.getParameter("dipartimento") != null
           && request.getParameter("nome") != null
           && request.getParameter("edificio") != null
           && request.getParameter("luogo") != null
@@ -148,7 +149,7 @@ public class ModificaAula extends AuleWebBaseController {
           && request.getParameter("note") != null) {
 
         int a_key = SecurityHelpers.checkNumeric(request.getParameter("a_key"));
-        int dip_key = SecurityHelpers.checkNumeric(request.getParameter("dip_key"));
+        String dip_nome = request.getParameter("dipartimento");
         String nome = request.getParameter("nome");
         String luogo = request.getParameter("luogo");
         String edificio = request.getParameter("edificio");
@@ -162,10 +163,10 @@ public class ModificaAula extends AuleWebBaseController {
 
         if (a_key != 0) {
 
-          action_update(request, response, a_key, dip_key, nome, luogo, edificio, piano, capienza, preseElettriche,
+          action_update(request, response, a_key, dip_nome, nome, luogo, edificio, piano, capienza, preseElettriche,
               preseRete, note, attrezzatura, emailR);
         } else {
-          action_create(request, response, a_key, dip_key, nome, luogo, edificio, piano, capienza, preseElettriche,
+          action_create(request, response, a_key, dip_nome, nome, luogo, edificio, piano, capienza, preseElettriche,
               preseRete, note, attrezzatura, emailR);
         }
 

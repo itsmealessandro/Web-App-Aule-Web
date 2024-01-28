@@ -2,6 +2,8 @@
 
 <#if aula.key == 0>
   <form method="post" action="ModificaAula">
+    <input type="hidden" name="a_key" value=0>
+    <input type="text" name="dipartimento">
     <input type="text" name="nome">
     <input type="text" name="edificio">
     <input type="text" name="luogo">
@@ -17,7 +19,7 @@
 <#else>
   <form method="post" action="ModificaAula">
     <input type="hidden" name="a_key" value="${aula.key}">
-    <input type="hidden" name="dip_key" value="${aula.dipartimento.key}">
+  <input type="text" name="dipartimento" value="${aula.dipartimento.nome}">
     <input type="text" name="nome" value="${aula.nome}">
     <input type="text" name="edificio" value="${aula.edificio}">
     <input type="text" name="luogo" value="${aula.luogo}">
