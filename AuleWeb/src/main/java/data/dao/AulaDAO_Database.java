@@ -46,7 +46,7 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
       // the auto generated key for the inserted recors
       iAula = connection.prepareStatement(
           "INSERT INTO Aula (nome, luogo, edificio, piano, capienza, preseElettriche, preseRete, note, "
-              + "IDAttrezzatura, IDDipartimento, IDResponsabile, version) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
+              + "IDAttrezzatura, IDDipartimento, IDResponsabile) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
           Statement.RETURN_GENERATED_KEYS);
       uAula = connection.prepareStatement(
           "UPDATE Aula SET nome = ?, luogo = ?, edificio = ?, piano = ?, capienza = ?, preseElettriche = ?, preseRete = ?, note = ?, "
@@ -256,21 +256,21 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
         iAula.setString(8, a.getNote());
 
         if (a.getAttrezzatura() != null) {
-          uAula.setInt(9, a.getAttrezzatura().getKey());
+          iAula.setInt(9, a.getAttrezzatura().getKey());
         } else {
-          uAula.setNull(9, java.sql.Types.INTEGER);
+          iAula.setNull(9, java.sql.Types.INTEGER);
         }
 
         if (a.getDipartimento() != null) {
-          uAula.setInt(10, a.getDipartimento().getKey());
+          iAula.setInt(10, a.getDipartimento().getKey());
         } else {
-          uAula.setNull(10, java.sql.Types.INTEGER);
+          iAula.setNull(10, java.sql.Types.INTEGER);
         }
 
         if (a.getResponsabile() != null) {
-          uAula.setInt(11, a.getResponsabile().getKey());
+          iAula.setInt(11, a.getResponsabile().getKey());
         } else {
-          uAula.setNull(11, java.sql.Types.INTEGER);
+          iAula.setNull(11, java.sql.Types.INTEGER);
         }
 
         if (iAula.executeUpdate() == 1) {
