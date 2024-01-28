@@ -18,7 +18,7 @@
     </servlet>
     
     <servlet>
-        <servlet-name>adminGestioneDip</servlet-name>
+        <servlet-name>GestioneDipartimenti</servlet-name>
         <servlet-class>controllers.GestioneDipartimenti</servlet-class>
     </servlet>
     
@@ -31,7 +31,22 @@
         <servlet-name>login</servlet-name>
         <servlet-class>controllers.Login</servlet-class>
     </servlet>
+
+    <servlet>
+        <servlet-name>GestioneAule</servlet-name>
+        <servlet-class>controllers.GestioneAule</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>ModificaDipartimento</servlet-name>
+        <servlet-class>controllers.ModificaDipartimento</servlet-class>
+    </servlet>
     
+    <servlet>
+        <servlet-name>ModificaAula</servlet-name>
+        <servlet-class>controllers.ModificaAula</servlet-class>
+    </servlet>
+
     <servlet>
         <servlet-name>EventiPerGiorno</servlet-name>
         <servlet-class>controllers.EventiPerGiorno</servlet-class>
@@ -69,10 +84,25 @@
     </servlet-mapping>   
     
     <servlet-mapping>
-        <servlet-name>adminGestioneDip</servlet-name>
-        <url-pattern>/adminGestioneDip</url-pattern>
+        <servlet-name>GestioneDipartimenti</servlet-name>
+        <url-pattern>/GestioneDipartimenti</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>GestioneAule</servlet-name>
+        <url-pattern>/GestioneAule</url-pattern>
     </servlet-mapping>
     
+    <servlet-mapping>
+        <servlet-name>ModificaDipartimento</servlet-name>
+        <url-pattern>/ModificaDipartimento</url-pattern>
+    </servlet-mapping>
+        
+    <servlet-mapping>
+        <servlet-name>ModificaAula</servlet-name>
+        <url-pattern>/ModificaAula</url-pattern>
+    </servlet-mapping>
+
     <servlet-mapping>
         <servlet-name>EventiPerGiorno</servlet-name>
         <url-pattern>/EventiPerGiorno</url-pattern>

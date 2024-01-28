@@ -6,7 +6,9 @@ import data.domain.Evento;
 import data.proxy.AulaProxy;
 import framework.data.DAO;
 import framework.data.DataException;
+import framework.data.DataItemProxy;
 import framework.data.DataLayer;
+import framework.data.OptimisticLockException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -43,10 +45,12 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
       // it is used to ensure that the JDBC will sotre and return
       // the auto generated key for the inserted recors
       iAula = connection.prepareStatement(
-          "INSERT INTO aula (nome,capienza,emailResponsabile,note,numeroPreseElettriche,numeroPreseRete,gruppoID,posizioneID) VALUES(?,?,?,?,?,?,?,?)",
+          "INSERT INTO Aula (nome, luogo, edificio, piano, capienza, preseElettriche, preseRete, note, "
+              + "IDAttrezzatura, IDDipartimento, IDResponsabile) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
           Statement.RETURN_GENERATED_KEYS);
       uAula = connection.prepareStatement(
-          "UPDATE aula SET nome=?,capienza=?,emailResponsabile=?, note=?, numeroPreseElettriche=?, numeroPreseRete=?, gruppoID=?, posizioneID=?, version=? WHERE ID=? and version=?");
+          "UPDATE Aula SET nome = ?, luogo = ?, edificio = ?, piano = ?, capienza = ?, preseElettriche = ?, preseRete = ?, note = ?, "
+              + "IDAttrezzatura = ?, IDDipartimento = ?, IDResponsabile = ?, version = ? WHERE ID = ? and version=?");
       dAula = connection.prepareStatement("DELETE FROM aula WHERE ID=?");
     } catch (SQLException ex) {
       throw new DataException("Error initializing auleweb data layer", ex);
@@ -60,16 +64,14 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
     try {
 
       sAulaPerID.close();
-
       sAule.close();
       sAulePerDipartimento.close();
-
       iAula.close();
       uAula.close();
       dAula.close();
 
     } catch (SQLException ex) {
-      //
+      // TODO da gestire
     }
     super.destroy();
   }
@@ -83,8 +85,6 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
     AulaProxy a = (AulaProxy) createAula();
     try {
       a.setKey(rs.getInt("ID"));
-      a.setDipartimentoKey(rs.getInt("IDdipartimento"));
-      a.setAttrezzaturaKey(rs.getInt("IDattrezzatura"));
       a.setNome(rs.getString("nome"));
       a.setLuogo(rs.getString("luogo"));
       a.setEdificio(rs.getString("edificio"));
@@ -93,9 +93,15 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
       a.setPreseElettriche(rs.getInt("preseElettriche"));
       a.setPreseRete(rs.getInt("preseRete"));
       a.setNote(rs.getString("note"));
-      // Non impostiamo il campo version in quanto non presente in AulaProxy
+
+      // riferimenti ad oggetti
+      a.setDipartimentoKey(rs.getInt("IDDipartimento"));
+      a.setAttrezzaturaKey(rs.getInt("IDAttrezzatura"));
+      a.setResponsabileKey(rs.getInt("IDResponsabile"));
+
+      a.setVersion(rs.getInt("version"));
     } catch (SQLException ex) {
-      throw new DataException("Unable to create aula object from ResultSet", ex);
+      throw new DataException("Unable to create Aula object from ResultSet", ex);
     }
     return a;
   }
@@ -184,4 +190,109 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
     return listaAule;
   }
 
+  @Override
+  public void storeAula(Aula a) throws DataException {
+    /*
+     * "UPDATE Aula SET nome = ?, luogo = ?, edificio = ?, piano = ?, capienza = ?,
+     * preseElettriche = ?, preseRete = ?, note = ?,
+     * IDAttrezzatura = ?, IDDipartimento = ?, IDResponsabile =? ,version = ? WHERE
+     * ID = ? and version=?");
+     */
+    try {
+      if (a.getKey() != null && a.getKey() > 0) { // update
+
+        if (a instanceof DataItemProxy && !((DataItemProxy) a).isModified()) {
+          return;
+        }
+
+        uAula.setString(1, a.getNome());
+        uAula.setString(2, a.getLuogo());
+        uAula.setString(3, a.getEdificio());
+        uAula.setString(4, a.getPiano());
+        uAula.setInt(5, a.getCapienza());
+        uAula.setInt(6, a.getPreseElettriche());
+        uAula.setInt(7, a.getPreseRete());
+        uAula.setString(8, a.getNote());
+
+        if (a.getAttrezzatura() != null) {
+          uAula.setInt(9, a.getAttrezzatura().getKey());
+        } else {
+          uAula.setNull(9, java.sql.Types.INTEGER);
+        }
+
+        if (a.getDipartimento() != null) {
+          uAula.setInt(10, a.getDipartimento().getKey());
+        } else {
+          uAula.setNull(10, java.sql.Types.INTEGER);
+        }
+
+        if (a.getResponsabile() != null) {
+          uAula.setInt(11, a.getResponsabile().getKey());
+        } else {
+          uAula.setNull(11, java.sql.Types.INTEGER);
+        }
+
+        long current_version = a.getVersion();
+        long next_version = current_version + 1;
+
+        uAula.setLong(12, next_version);
+        uAula.setInt(13, a.getKey());
+        uAula.setLong(14, current_version);
+
+        if (uAula.executeUpdate() == 0) {
+          throw new OptimisticLockException(a);
+        } else {
+          a.setVersion(next_version);
+        }
+      } else { // insert
+
+        iAula.setString(1, a.getNome());
+        iAula.setString(2, a.getLuogo());
+        iAula.setString(3, a.getEdificio());
+        iAula.setString(4, a.getPiano());
+        iAula.setInt(5, a.getCapienza());
+        iAula.setInt(6, a.getPreseElettriche());
+        iAula.setInt(7, a.getPreseRete());
+        iAula.setString(8, a.getNote());
+
+        if (a.getAttrezzatura() != null) {
+          iAula.setInt(9, a.getAttrezzatura().getKey());
+        } else {
+          iAula.setNull(9, java.sql.Types.INTEGER);
+        }
+
+        if (a.getDipartimento() != null) {
+          iAula.setInt(10, a.getDipartimento().getKey());
+        } else {
+          iAula.setNull(10, java.sql.Types.INTEGER);
+        }
+
+        if (a.getResponsabile() != null) {
+          iAula.setInt(11, a.getResponsabile().getKey());
+        } else {
+          iAula.setNull(11, java.sql.Types.INTEGER);
+        }
+
+        if (iAula.executeUpdate() == 1) {
+
+          try (ResultSet keys = iAula.getGeneratedKeys()) {
+
+            if (keys.next()) {
+
+              int key = keys.getInt(1);
+              a.setKey(key);
+
+              dataLayer.getCache().add(Aula.class, a);
+            }
+          }
+        }
+      }
+
+      if (a instanceof DataItemProxy) {
+        ((DataItemProxy) a).setModified(false);
+      }
+    } catch (SQLException | OptimisticLockException ex) {
+      throw new DataException("Unable to store Aula", ex);
+    }
+  }
 }

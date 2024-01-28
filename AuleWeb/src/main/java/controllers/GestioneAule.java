@@ -1,17 +1,20 @@
+
 package controllers;
 
 import framework.data.DataException;
 import framework.result.TemplateManagerException;
 import framework.result.TemplateResult;
+
 import java.io.IOException;
 import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import data.dao.AuleWebDataLayer;
-import data.domain.Dipartimento;
+import data.domain.Aula;
 
-public class GestioneDipartimenti extends AuleWebBaseController {
+public class GestioneAule extends AuleWebBaseController {
 
   private void action_default(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException, TemplateManagerException {
@@ -20,13 +23,12 @@ public class GestioneDipartimenti extends AuleWebBaseController {
       TemplateResult res = new TemplateResult(getServletContext());
       AuleWebDataLayer dataLayer = (AuleWebDataLayer) request.getAttribute("datalayer");
 
-      List<Dipartimento> listaDipartimenti = dataLayer.getDipartimentoDAO().getAllDipartimenti();
+      List<Aula> listaAule = dataLayer.getAulaDAO().getAllAule();
+      request.setAttribute("aule", listaAule);
 
-      request.setAttribute("dipartimenti", listaDipartimenti);
-      res.activate("adminGestioneDip.ftl.html", request, response);
-
+      res.activate("adminGestioneAule.ftl.html", request, response);
     } catch (DataException ex) {
-      handleError("Data access exception: " + ex.getMessage(), request, response);
+      // TODO gestire l'eccezione
     }
   }
 
@@ -34,11 +36,9 @@ public class GestioneDipartimenti extends AuleWebBaseController {
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
       throws ServletException {
 
-    request.setAttribute("page_title", "Gestione dipartimenti");
+    request.setAttribute("page_title", "Gestione Aule");
     try {
       action_default(request, response);
-    } catch (NumberFormatException ex) {
-      handleError("Invalid number submitted", request, response);
     } catch (IOException | TemplateManagerException ex) {
       handleError(ex, request, response);
     }
