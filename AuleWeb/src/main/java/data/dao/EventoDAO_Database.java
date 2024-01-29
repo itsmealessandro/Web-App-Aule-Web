@@ -16,6 +16,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +40,9 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
       sEventiByDay = connection.prepareStatement(
           " SELECT e.* FROM Evento e JOIN Aula a ON e.IDAula = a.ID JOIN Dipartimento d ON a.IDDipartimento = d.ID WHERE d.ID = ? AND e.dataInizio <= ? AND e.dataFine >= ?");
       sEventiByCorso = connection.prepareStatement(
-          " SELECT e.* FROM Evento e JOIN Corso c ON e.IDCorso = c.ID JOIN Aula a ON e.IDAula = a.ID WHERE c.ID =? AND a.IDDipartimento = ?");
+          " SELECT e.* FROM Evento e JOIN Aula a ON e.IDAula = a.ID JOIN Corso c ON e.IDCorso = c.ID " +
+              " WHERE c.ID = ? AND a.IDDipartimento = ? " +
+              " AND e.Data BETWEEN ? AND ?");
       iEvento = connection.prepareStatement(
           "INSERT INTO Evento (nome, oraInizio, oraFine, descrizione, IDaula, ricorrenza, dataInizio, dataFine, IDresponsabile, IDcorso, tipologiaEvento) VALUES(?,?,?,?,?,?,?,?,?,?,?)",
           Statement.RETURN_GENERATED_KEYS);
@@ -77,8 +82,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
       e.setOraInizio(rs.getTime("oraInizio"));
       e.setOraFine(rs.getTime("oraFine"));
       e.setDescrizione(rs.getString("descrizione"));
-      e.setDataInizio(rs.getDate("dataInizio"));
-      e.setDataFine(rs.getDate("dataFine"));
+      e.setDataFine(rs.getDate("data"));
       e.setAulaKey(rs.getInt("IDAula"));
       e.setResponsabileKey(rs.getInt("IDResponsabile"));
       e.setCorsoKey(rs.getInt("IDCorso"));
@@ -157,13 +161,20 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
   }
 
   @Override
-  public List<Evento> getEventiByCorso(Corso corso, int dip_key) throws DataException {
+  public List<Evento> getEventiSettimanaliByCorso(Corso corso, LocalDate date, int dip_key) throws DataException {
 
     List<Evento> listaEventi = new ArrayList<>();
+    LocalDate inizioSettimana = date.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+    LocalDate fineSettimana = date.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+
+    Date inizioSettimanaSql = Date.valueOf(inizioSettimana);
+    Date fineSettimanaSql = Date.valueOf(fineSettimana);
 
     try {
       sEventiByCorso.setInt(1, corso.getKey());
       sEventiByCorso.setInt(2, dip_key);
+      sEventiByCorso.setDate(3, inizioSettimanaSql);
+      sEventiByCorso.setDate(4, fineSettimanaSql);
 
       try (ResultSet rs = sEventiByCorso.executeQuery()) {
         while (rs.next()) {
@@ -171,6 +182,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
         }
       }
     } catch (SQLException ex) {
+      ex.printStackTrace();
       throw new DataException("Unable to load Eventi by Day");
     }
 
