@@ -24,4 +24,6 @@ public interface AulaDAO {
   List<Aula> getAulaPerDipartimento(Dipartimento dipartimento) throws DataException;
 
   void storeAula(Aula aula) throws DataException;
+
+  void deleteAula(Aula aula) throws DataException;
 }

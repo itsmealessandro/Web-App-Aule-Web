@@ -129,14 +129,40 @@ public class ModificaAula extends AuleWebBaseController {
     }
   }
 
+  private void action_no_aula() {
+    // TODO gestire caso senza aula passata
+  }
+
+  private void action_delete(HttpServletRequest request, HttpServletResponse response, int a_key)
+      throws IOException, ServletException, TemplateManagerException {
+
+    TemplateResult res = new TemplateResult(getServletContext());
+    AuleWebDataLayer dataLayer = (AuleWebDataLayer) request.getAttribute("datalayer");
+
+    try {
+      Aula aula = dataLayer.getAulaDAO().getAulaByID(a_key);
+      dataLayer.getAulaDAO().deleteAula(aula);
+
+      res.activate("operazioneEseguita.ftl.html", request, response);
+    } catch (DataException e) {
+      handleError("Data access exception: " + e.getMessage(), request, response);
+    }
+  }
+
   @Override
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
       throws ServletException {
 
     request.setAttribute("page_title", "Modifica Aula");
+    int a_key;
+    if (request.getParameter("a_key") == null) {
+      action_no_aula();
+    }
+    a_key = SecurityHelpers.checkNumeric(request.getParameter("a_key"));
+
     try {
-      if (request.getParameter("a_key") != null
-          && request.getParameter("dipartimento") != null
+      // Conferma Premuto
+      if (request.getParameter("dipartimento") != null
           && request.getParameter("nome") != null
           && request.getParameter("edificio") != null
           && request.getParameter("luogo") != null
@@ -148,7 +174,6 @@ public class ModificaAula extends AuleWebBaseController {
           && request.getParameter("emailR") != null
           && request.getParameter("note") != null) {
 
-        int a_key = SecurityHelpers.checkNumeric(request.getParameter("a_key"));
         String dip_nome = request.getParameter("dipartimento");
         String nome = request.getParameter("nome");
         String luogo = request.getParameter("luogo");
@@ -162,23 +187,25 @@ public class ModificaAula extends AuleWebBaseController {
         String emailR = request.getParameter("emailR");
 
         if (a_key != 0) {
-
+          // Modifica
           action_update(request, response, a_key, dip_nome, nome, luogo, edificio, piano, capienza, preseElettriche,
               preseRete, note, attrezzatura, emailR);
         } else {
+          // Creazione
           action_create(request, response, a_key, dip_nome, nome, luogo, edificio, piano, capienza, preseElettriche,
               preseRete, note, attrezzatura, emailR);
         }
 
-      } else if (request.getParameter("a_key") != null
-          && SecurityHelpers.checkNumeric(request.getParameter("a_key")) == 0) {
-        int a_key = SecurityHelpers.checkNumeric(request.getParameter("a_key"));
+      } else if (a_key == 0) {
+        // Modalità Creazione
         action_prepare_creation(request, response);
-      } else if (request.getParameter("a_key") != null) {
-        int a_key = SecurityHelpers.checkNumeric(request.getParameter("a_key"));
+      } else if (request.getParameter("delete") != null) {
+        // Premuto Elimina
+        action_delete(request, response, a_key);
+      } else {
+        // Mostra Aula
         action_default(request, response, a_key);
       }
-      // TODO Gestire caso senza parametri
 
     } catch (NumberFormatException ex) {
       handleError("Invalid number submitted", request, response);
