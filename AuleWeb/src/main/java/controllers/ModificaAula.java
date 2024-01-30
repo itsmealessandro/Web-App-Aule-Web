@@ -133,8 +133,20 @@ public class ModificaAula extends AuleWebBaseController {
     // TODO gestire caso senza aula passata
   }
 
-  private void action_delete() {
+  private void action_delete(HttpServletRequest request, HttpServletResponse response, int a_key)
+      throws IOException, ServletException, TemplateManagerException {
 
+    TemplateResult res = new TemplateResult(getServletContext());
+    AuleWebDataLayer dataLayer = (AuleWebDataLayer) request.getAttribute("datalayer");
+
+    try {
+      Aula aula = dataLayer.getAulaDAO().getAulaByID(a_key);
+      dataLayer.getAulaDAO().deleteAula(aula);
+
+      res.activate("operazioneEseguita.ftl.html", request, response);
+    } catch (DataException e) {
+      handleError("Data access exception: " + e.getMessage(), request, response);
+    }
   }
 
   @Override
