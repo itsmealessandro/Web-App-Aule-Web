@@ -295,4 +295,14 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
       throw new DataException("Unable to store Aula", ex);
     }
   }
+
+  @Override
+  public void deleteAula(Aula aula) throws DataException {
+    try {
+      dAula.setInt(1, aula.getKey());
+      dAula.executeUpdate();
+    } catch (SQLException e) {
+      throw new DataException("Unable to Delete Aula", e);
+    }
+  }
 }

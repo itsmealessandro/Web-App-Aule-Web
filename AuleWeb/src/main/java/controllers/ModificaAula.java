@@ -135,6 +135,7 @@ public class ModificaAula extends AuleWebBaseController {
 
     request.setAttribute("page_title", "Modifica Aula");
     try {
+      // Conferma Premuto
       if (request.getParameter("a_key") != null
           && request.getParameter("dipartimento") != null
           && request.getParameter("nome") != null
@@ -162,10 +163,11 @@ public class ModificaAula extends AuleWebBaseController {
         String emailR = request.getParameter("emailR");
 
         if (a_key != 0) {
-
+          // Modifica
           action_update(request, response, a_key, dip_nome, nome, luogo, edificio, piano, capienza, preseElettriche,
               preseRete, note, attrezzatura, emailR);
         } else {
+          // Creazione
           action_create(request, response, a_key, dip_nome, nome, luogo, edificio, piano, capienza, preseElettriche,
               preseRete, note, attrezzatura, emailR);
         }
@@ -177,8 +179,10 @@ public class ModificaAula extends AuleWebBaseController {
       } else if (request.getParameter("a_key") != null) {
         int a_key = SecurityHelpers.checkNumeric(request.getParameter("a_key"));
         action_default(request, response, a_key);
+      } else {
+
+        // TODO Gestire caso senza parametri
       }
-      // TODO Gestire caso senza parametri
 
     } catch (NumberFormatException ex) {
       handleError("Invalid number submitted", request, response);
