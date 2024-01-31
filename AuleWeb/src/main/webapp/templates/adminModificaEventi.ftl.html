@@ -1,0 +1,33 @@
+<h1>Modifica Evento</h1>
+
+<#if evento.key == 0>
+  <form method="post" action="ModificaEvento">
+    <input type="hidden" name="e_key" value=0>
+    <input type="text" name="data">
+    <input type="text" name="oraInizio">
+    <input type="text" name="oraFine">
+    <input type="text" name="descrizione">
+    <input type="text" name="responsabile">
+    <input type="text" name="tipologia">
+    <input type="text" name="corso">
+    <input type="checkbox" name="ricorrente"> Ricorrente
+    <input type="text" name="tipoRicorrenza">
+    <input type="text" name="dataFineRicorrenza">
+    <input type="submit" name="conf" value="Conferma">
+  </form>
+<#else>
+  <form method="post" action="ModificaEvento">
+    <input type="hidden" name="e_key" value="${evento.key}">
+    <input type="text" name="data" value="${evento.data}">
+    <input type="text" name="oraInizio" value="${evento.oraInizio}">
+    <input type="text" name="oraFine" value="${evento.oraFine}">
+    <input type="text" name="descrizione" value="${evento.descrizione}">
+    <input type="text" name="responsabile" value="${evento.responsabile}">
+    <input type="text" name="tipologia" value="${evento.tipologia}">
+    <input type="text" name="corso" value="${evento.corso}">
+    <input type="text" name="tipoRicorrenza" value="${evento.tipoRicorrenza}">
+    <input type="text" name="dataFineRicorrenza" value="${evento.dataFineRicorrenza}">
+    <input type="submit" name="conf" value="Conferma">
+    <input type="submit" name="delete" value="Elimina">
+  </form>
+</#if>
