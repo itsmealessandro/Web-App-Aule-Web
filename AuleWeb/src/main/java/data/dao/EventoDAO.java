@@ -27,6 +27,7 @@ public interface EventoDAO {
   // Restituisce tutti gli eventi associati a un corso specifico
   List<Evento> getEventiSettimanaliByCorso(Corso corso, LocalDate data, int dip_key) throws DataException;
 
+  public List<Evento> getEventiByNome(String nome) throws DataException;
   /*
    * 
    * // Restituisce tutti gli eventi gestiti da un responsabile specifico
