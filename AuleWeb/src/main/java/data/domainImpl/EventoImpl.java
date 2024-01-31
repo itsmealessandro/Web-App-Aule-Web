@@ -17,11 +17,10 @@ public class EventoImpl extends DataItemImpl<Integer> implements Evento {
   private String descrizione;
   private Aula aula;
   private Ricorrenza ricorrenza;
-  private Date dataInizio;
-  private Date dataFine;
   private Responsabile responsabile;
   private Corso corso;
   private TipologiaEvento tipologiaEvento;
+  private Date data;
 
   public int getIDMaster() {
     return IDMaster;
@@ -91,25 +90,16 @@ public class EventoImpl extends DataItemImpl<Integer> implements Evento {
     this.ricorrenza = ricorrenza;
   }
 
-  @Override
-  public Date getDataInizio() {
-    return dataInizio;
-  }
+    @Override
+    public Date getData() {
+        return data;
+    }
 
-  @Override
-  public void setDataInizio(Date dataInizio) {
-    this.dataInizio = dataInizio;
-  }
+    @Override
+    public void setData(Date data) {
+        this.data = data;
+    }
 
-  @Override
-  public Date getDataFine() {
-    return dataFine;
-  }
-
-  @Override
-  public void setDataFine(Date dataFine) {
-    this.dataFine = dataFine;
-  }
 
   @Override
   public Responsabile getResponsabile() {

@@ -78,18 +78,12 @@ public class EventoProxy extends EventoImpl implements DataItemProxy {
     super.setTipologiaEvento(tipologiaEvento);
     this.modified = true;
   }
-
-  @Override
-  public void setDataInizio(Date dataInizio) {
-    super.setDataInizio(dataInizio);
-    this.modified = true;
+  
+  public void setData(Date data){
+      super.setData(data);
+      this.modified=true;
   }
-
-  @Override
-  public void setDataFine(Date dataFine) {
-    super.setDataFine(dataFine);
-    this.modified = true;
-  }
+  
 
   public void setResponsabileKey(int responsabile_key) {
     this.responsabile_key = responsabile_key;
