@@ -13,10 +13,12 @@ public interface DipartimentoDAO {
   // Restituisce dipartimento corrente
   Dipartimento getDipartimento(int dipartimento_key) throws DataException;
 
+  Dipartimento getDipartimentoByNome(String nomeDip) throws DataException;
+
   // Ritorna una lista di Dipartimenti
   List<Dipartimento> getAllDipartimenti() throws DataException;
 
   // Salva dipartimento corrente
-  void storeAmministratore(Dipartimento dipartimento) throws DataException;
+  void storeDipartimento(Dipartimento dipartimento) throws DataException;
 
 }

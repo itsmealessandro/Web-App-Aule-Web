@@ -1,12 +1,5 @@
 package data.dao;
 
-import data.domain.Dipartimento;
-import data.proxy.DipartimentoProxy;
-import framework.data.DAO;
-import framework.data.DataException;
-import framework.data.DataItemProxy;
-import framework.data.DataLayer;
-import framework.data.OptimisticLockException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,9 +7,17 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import data.domain.Dipartimento;
+import data.proxy.DipartimentoProxy;
+import framework.data.DAO;
+import framework.data.DataException;
+import framework.data.DataItemProxy;
+import framework.data.DataLayer;
+import framework.data.OptimisticLockException;
+
 public class DipartimentoDAO_Database extends DAO implements DipartimentoDAO {
 
-  private PreparedStatement iDipartimento, uDipartimento, sDipartimentoByID, sAllDipartimenti;
+  private PreparedStatement iDipartimento, uDipartimento, sDipartimentoByID, sAllDipartimenti, sDipartimentoByNome;
 
   public DipartimentoDAO_Database(DataLayer d) {
     super(d);
@@ -28,6 +29,7 @@ public class DipartimentoDAO_Database extends DAO implements DipartimentoDAO {
       super.init();
 
       sDipartimentoByID = connection.prepareStatement("SELECT * FROM Dipartimento WHERE ID=?");
+      sDipartimentoByNome = connection.prepareStatement("SELECT * FROM Dipartimento WHERE nome=?");
       iDipartimento = connection.prepareStatement("INSERT INTO Dipartimento (nome,descrizione) VALUES(?,?)",
           Statement.RETURN_GENERATED_KEYS);
       uDipartimento = connection
@@ -42,9 +44,10 @@ public class DipartimentoDAO_Database extends DAO implements DipartimentoDAO {
   public void destroy() throws DataException {
     try {
       sDipartimentoByID.close();
+      sDipartimentoByNome.close();
+      sAllDipartimenti.close();
       iDipartimento.close();
       uDipartimento.close();
-      sAllDipartimenti.close();
 
     } catch (SQLException ex) {
       // TODO gestire l'eccezione
@@ -96,6 +99,23 @@ public class DipartimentoDAO_Database extends DAO implements DipartimentoDAO {
   }
 
   @Override
+  public Dipartimento getDipartimentoByNome(String nomeDip) throws DataException {
+    Dipartimento dipartimento = null;
+    try {
+      sDipartimentoByNome.setString(1, nomeDip);
+      try (ResultSet rs = sDipartimentoByNome.executeQuery()) {
+        while (rs.next()) {
+          dipartimento = getDipartimento(rs.getInt("ID"));
+        }
+      }
+    } catch (SQLException e) {
+      throw new DataException("Unable to load Dipartimento by Nome", e);
+    }
+
+    return dipartimento;
+  }
+
+  @Override
   public List<Dipartimento> getAllDipartimenti() throws DataException {
 
     List<Dipartimento> listaDipartimenti = new ArrayList<>();
@@ -113,7 +133,7 @@ public class DipartimentoDAO_Database extends DAO implements DipartimentoDAO {
   }
 
   @Override
-  public void storeAmministratore(Dipartimento a) throws DataException {
+  public void storeDipartimento(Dipartimento a) throws DataException {
 
     try {
       if (a.getKey() != null && a.getKey() > 0) { // update
@@ -147,7 +167,6 @@ public class DipartimentoDAO_Database extends DAO implements DipartimentoDAO {
             if (keys.next()) {
 
               int key = keys.getInt(1);
-
               a.setKey(key);
 
               dataLayer.getCache().add(Dipartimento.class, a);

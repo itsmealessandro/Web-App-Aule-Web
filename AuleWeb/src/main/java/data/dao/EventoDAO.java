@@ -1,6 +1,7 @@
 package data.dao;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import data.domain.Aula;
@@ -24,34 +25,8 @@ public interface EventoDAO {
   List<Evento> getEventiByDay(Date data, int dip_key) throws DataException;
 
   // Restituisce tutti gli eventi associati a un corso specifico
-  List<Evento> getEventiByCorso(Corso corso, int dip_key) throws DataException;
-  
   void deleteEvento(Evento evento) throws DataException;
 
-  /*
-   * 
-   * // Restituisce tutti gli eventi gestiti da un responsabile specifico
-   * List<Evento> getEventiPerResponsabile(Responsabile responsabile) throws
-   * DataException;
-   * 
-   * // Restituisce tutti gli eventi disponibili
-   * List<Evento> getTuttiGliEventi() throws DataException;
-   * 
-   * // Restituisce tutti gli eventi in una settimana specifica
-   * List<Evento> getEventiPerSettimana(int numeroSettimana) throws DataException;
-   * 
-   * // Restituisce tutti gli eventi ricorrenti
-   * List<Evento> getEventiRicorrenti() throws DataException;
-   * 
-   * // Restituisce tutti gli eventi in una specifica data
-   * List<Evento> getEventiPerGiorno(LocalDate data) throws DataException;
-   * 
-   * // Restituisce tutti gli eventi in una settimana specifica associati a un
-   * corso specifico
-   * List<Evento> getEventiPerSettimanaECorso(int numeroSettimana, Corso corso)
-   * throws DataException;
-   * 
-   * // Elimina l'evento corrente
-   * void eliminaEventoCorrente() throws DataException;
-   */
+  List<Evento> getEventiSettimanaliByCorso(Corso corso, LocalDate data, int dip_key) throws DataException;
+
 }
