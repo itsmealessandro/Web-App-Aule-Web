@@ -24,7 +24,7 @@ import java.util.List;
 
 public class EventoDAO_Database extends DAO implements EventoDAO {
 
-  private PreparedStatement iEvento, uEvento, sEventoByID, sEventoByAula, sEventiByDay, sEventiByCorso;
+  private PreparedStatement iEvento, uEvento, sEventoByID, sEventoByAula, sEventiByDay, sEventiByCorso,sEventiRicorrenti;
 
   public EventoDAO_Database(DataLayer d) {
     super(d);
@@ -46,8 +46,11 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
               " AND e.Data BETWEEN ? AND ?");
       //TODO RIFARE LE QUERY
       iEvento = connection.prepareStatement(
+              
           "",
           Statement.RETURN_GENERATED_KEYS);
+      sEventiRicorrenti = connection.prepareStatement("SELECT ID AS eventoID FROM evento WHERE nome=? AND responsabileID=? order by giorno");
+
       uEvento = connection.prepareStatement(
           "");
     } catch (SQLException ex) {
@@ -264,5 +267,22 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
       throw new DataException("Unable to store Evento", ex);
     }
   }
+  @Override
+    public List<Evento> getEventiByNome(String nome) throws DataException {
+    List<Evento> result = new ArrayList();
+
+    try {
+        sEventiRicorrenti.setString(1, nome);
+        ResultSet rs = sEventiRicorrenti.executeQuery();
+
+        while (rs.next()) {
+            result.add((Evento) getEventoByID(rs.getInt("eventoID")));
+        }
+        return result;
+    } catch (SQLException ex) {
+        throw new DataException("Unable to load eventi", ex);
+    }
+}
+
 
 }
