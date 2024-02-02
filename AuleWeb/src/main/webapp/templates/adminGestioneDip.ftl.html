@@ -1,29 +1,4 @@
-<form method="post" action="GestioneDipartimenti">
-    <div>
-        <label for="selectDipartimento">Seleziona Dipartimento:</label>
-        <select id="selectDipartimento" name="selectDipartimento">
-            <#list dipartimenti as dipartimento>
-                <option value="${dipartimento.key}">${dipartimento.nome}</option>
-            </#list>
-        </select>
-    </div>
-
-    <#if request?has_content && request.getParameter("selectDipartimento")?has_content>
-        <div>
-            <label for="nomeDipartimento">Nome Dipartimento:</label>
-            <input type="text" id="nomeDipartimento" name="nomeDipartimento" readonly>
-        </div>
-
-        <div>
-            <label for="descrizioneDipartimento">Descrizione Dipartimento:</label>
-            <textarea id="descrizioneDipartimento" name="descrizioneDipartimento" readonly></textarea>
-        </div>
-
-        <!-- Aggiungi un campo nascosto solo se un dipartimento è stato selezionato -->
-        <input type="hidden" name="dipKey" value="${request.getParameter('selectDipartimento')}">
-    </#if>
-
-    <div>
-        <input type="submit" value="Invia">
-    </div>
-</form>
+<h1>Gestione Dipartimenti</h1>
+<#list dipartimenti as dipartimento>
+  <a href="ModificaDipartimento?dip_key=${dipartimento.key}">${dipartimento.nome}</a>
+</#list>

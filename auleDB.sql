@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 26, 2024 at 04:48 PM
+-- Generation Time: Jan 28, 2024 at 11:36 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -97,8 +97,8 @@ CREATE TABLE `Aula` (
 INSERT INTO `Aula` (`ID`, `nome`, `luogo`, `edificio`, `piano`, `capienza`, `preseElettriche`, `preseRete`, `note`, `IDAttrezzatura`, `IDDipartimento`, `version`, `IDResponsabile`) VALUES
 (1, 'Aula 1', 'Luogo C', 'Edificio B', 'Terzo', 50, 10, 5, 'Questa è un\'aula di prova 1.', 3, 2, 0, 1),
 (2, 'Aula 2', 'Luogo A', 'Edificio B', 'Primo', 30, 8, 4, 'Questa è un\'aula di prova 2.', 4, 2, 0, 2),
-(3, 'Aula 3', 'Luogo C', 'Edificio B', 'Secondo', 40, 12, 7, 'Questa è un\'aula di prova 3.', 2, 1, 0, 3),
-(4, 'Aula 4', 'Luogo B', 'Edificio A', 'Secondo', 50, 10, 5, 'Questa è un\'aula di prova 4.', 6, 1, 0, 4),
+(3, 'Aula 3', 'Luogo C', 'Edificio B', 'Secondo', 40, 12, 7, 'test3333', 2, 2, 2, 3),
+(4, 'Aula 4', 'Luogo B', 'Edificio A', 'Secondo', 50, 10, 5, '4', 6, 1, 1, 4),
 (5, 'Aula 5', 'Luogo B', 'Edificio A', 'Terzo', 30, 8, 4, 'Questa è un\'aula di prova 5.', 5, 1, 0, 5),
 (6, 'Aula 6', 'Luogo C', 'Edificio C', 'Primo', 40, 12, 6, 'Questa è un\'aula di prova 6.', 5, 2, 0, 6),
 (7, 'Aula 7', 'Luogo B', 'Edificio B', 'Terzo', 60, 15, 8, 'Questa è un\'aula di prova 7.', 8, 1, 0, 7),
@@ -156,7 +156,7 @@ CREATE TABLE `Dipartimento` (
 --
 
 INSERT INTO `Dipartimento` (`ID`, `Nome`, `Descrizione`, `version`) VALUES
-(1, ' Dipartimento di Matematica', 'Descrizione dipartimento matematica', 6),
+(1, ' Dipartimento di Matematica', 'Descrizione ', 7),
 (2, 'Dipartimento di Fisica', 'Dipartimento che si occupa della fisica e delle sue applicazioni.', 0),
 (3, 'Dipartimento di Biologia', 'Dipartimento che si occupa della biologia e delle scienze della vita.', 0);
 

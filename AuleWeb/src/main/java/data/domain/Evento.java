@@ -36,14 +36,6 @@ public interface Evento extends DataItem<Integer> {
 
   public void setRicorrenza(Ricorrenza ricorrenza);
 
-  public Date getDataInizio();
-
-  public void setDataInizio(Date dataInizio);
-
-  public Date getDataFine();
-
-  public void setDataFine(Date dataFine);
-
   public Responsabile getResponsabile();
 
   public void setResponsabile(Responsabile responsabile);
@@ -55,4 +47,8 @@ public interface Evento extends DataItem<Integer> {
   public TipologiaEvento getTipologiaEvento();
 
   public void setTipologiaEvento(TipologiaEvento tipologiaEvento);
+  
+  public Date getData();
+  
+  public void setData(Date data);
 }
