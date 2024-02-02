@@ -15,17 +15,27 @@ public class EventoImpl extends DataItemImpl<Integer> implements Evento {
     private Time oraInizio;
     private Time oraFine;
     private String descrizione;
-    private Aula aula;
     private Ricorrenza ricorrenza;
+    private TipologiaEvento tipologiaEvento;
+    private Date giorno;
+    private Date dataFineRicorrenza;
+    private Aula aula;
     private Responsabile responsabile;
     private Corso corso;
-    private TipologiaEvento tipologiaEvento;
-    private Date data;
-
+    
+    @Override
     public int getIDMaster() {
         return IDMaster;
     }
-
+    @Override
+    public Date getDataFineRicorrenza() {
+        return dataFineRicorrenza;
+    }
+    @Override
+    public void setDataFineRicorrenza(Date dataFineRicorrenza) {
+        this.dataFineRicorrenza = dataFineRicorrenza;
+    }
+    @Override
     public void setIDMaster(int iDMaster) {
         IDMaster = iDMaster;
     }
@@ -92,12 +102,12 @@ public class EventoImpl extends DataItemImpl<Integer> implements Evento {
 
     @Override
     public Date getData() {
-        return data;
+        return giorno;
     }
 
     @Override
-    public void setData(Date data) {
-        this.data = data;
+    public void setData(Date giorno) {
+        this.giorno = giorno;
     }
 
     @Override

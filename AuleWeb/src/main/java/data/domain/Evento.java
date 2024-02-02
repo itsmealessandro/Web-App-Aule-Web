@@ -51,4 +51,8 @@ public interface Evento extends DataItem<Integer> {
   public Date getData();
   
   public void setData(Date data);
+  
+  public Date getDataFineRicorrenza();
+  
+  public void setDataFineRicorrenza(Date dataFineRicorrenza);
 }

@@ -1,12 +1,21 @@
 package data.proxy;
 
+import data.dao.AulaDAO;
+import data.dao.CorsoDAO;
+import data.dao.ResponsabileDAO;
+import data.domain.Aula;
+import data.domain.Corso;
+import data.domain.Responsabile;
 import data.domainImpl.EventoImpl;
 import data.domainImpl.Ricorrenza;
 import data.domainImpl.TipologiaEvento;
+import framework.data.DataException;
 import framework.data.DataItemProxy;
 import framework.data.DataLayer;
 import java.sql.Date;
 import java.sql.Time;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class EventoProxy extends EventoImpl implements DataItemProxy {
 
@@ -62,11 +71,6 @@ public class EventoProxy extends EventoImpl implements DataItemProxy {
         this.modified = true;
     }
 
-    public void setAulaKey(int aula_key) {
-        this.aula_key = aula_key;
-        super.setAula(null);
-    }
-
     @Override
     public void setRicorrenza(Ricorrenza ricorrenza) {
         super.setRicorrenza(ricorrenza);
@@ -79,14 +83,90 @@ public class EventoProxy extends EventoImpl implements DataItemProxy {
         this.modified = true;
     }
 
-    public void setData(Date data) {
-        super.setData(data);
+    public void setData(Date giorno) {
+        super.setData(giorno);
+        this.modified = true;
+    }
+
+    public void setDataFineRicorrenza(Date dataFineRicorrenza) {
+        super.setDataFineRicorrenza(dataFineRicorrenza);
+        this.modified = true;
+    }
+
+    @Override
+    public Aula getAula() {
+
+        if (super.getAula() == null && aula_key > 0) {
+            try {
+                super.setAula(
+                        ((AulaDAO) dataLayer.getDAO(Aula.class)).getAulaByID(aula_key));
+            } catch (DataException ex) {
+                Logger.getLogger(AulaProxy.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+        return super.getAula();
+    }
+
+    @Override
+    public void setAula(Aula aula) {
+        super.setAula(aula);
+        this.aula_key = aula.getKey();
+        this.modified = true;
+    }
+
+    @Override
+    public Corso getCorso() {
+
+        if (super.getCorso() == null && corso_key > 0) {
+            try {
+                super.setCorso(
+                        ((CorsoDAO) dataLayer.getDAO(Corso.class)).getCorso(corso_key));
+            } catch (DataException ex) {
+                Logger.getLogger(AulaProxy.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+        return super.getCorso();
+    }
+
+    @Override
+    public void setCorso(Corso corso) {
+        super.setCorso(corso);
+        this.corso_key = corso.getKey();
+        this.modified = true;
+    }
+
+    @Override
+    public Responsabile getResponsabile() {
+
+        if (super.getResponsabile() == null && responsabile_key > 0) {
+            try {
+                super.setResponsabile(
+                        ((ResponsabileDAO) dataLayer.getDAO(Responsabile.class)).getResponsabile(responsabile_key));
+            } catch (DataException ex) {
+                Logger.getLogger(AulaProxy.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+        return super.getResponsabile();
+    }
+
+    @Override
+    public void setResponsabile(Responsabile responsabile) {
+        super.setResponsabile(responsabile);
+        this.responsabile_key = responsabile.getKey();
         this.modified = true;
     }
 
     public void setResponsabileKey(int responsabile_key) {
         this.responsabile_key = responsabile_key;
         super.setResponsabile(null);
+    }
+
+    public void setAulaKey(int aula_key) {
+        this.aula_key = aula_key;
+        super.setAula(null);
     }
 
     public void setCorsoKey(int corso_key) {
