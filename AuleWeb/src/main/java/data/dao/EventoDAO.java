@@ -28,6 +28,8 @@ public interface EventoDAO {
   List<Evento> getEventiSettimanaliByCorso(Corso corso, LocalDate data, int dip_key) throws DataException;
 
   public List<Evento> getEventiByNome(String nome) throws DataException;
+  
+  public void deleteEvento(Evento evento) throws DataException; 
   /*
    * 
    * // Restituisce tutti gli eventi gestiti da un responsabile specifico

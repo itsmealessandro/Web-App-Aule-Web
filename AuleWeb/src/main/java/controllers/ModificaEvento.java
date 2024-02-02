@@ -12,20 +12,22 @@ import framework.security.SecurityHelpers;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ModificaEvento extends AuleWebBaseController {
 
-    private void action_default(HttpServletRequest request, HttpServletResponse response, int a_key)
+    private void action_default(HttpServletRequest request, HttpServletResponse response, int e_key)
             throws IOException, ServletException, TemplateManagerException {
 
         try {
             TemplateResult res = new TemplateResult(getServletContext());
             AuleWebDataLayer dataLayer = (AuleWebDataLayer) request.getAttribute("datalayer");
 
-            Evento evento = dataLayer.getEventoDAO().getEventoByID(a_key);
+            Evento evento = dataLayer.getEventoDAO().getEventoByID(e_key);
             request.setAttribute("evento", evento);
 
             res.activate("adminModificaEvento.ftl.html", request, response);
@@ -53,7 +55,7 @@ public class ModificaEvento extends AuleWebBaseController {
         }
     }
 
-    private void action_create(HttpServletRequest request, HttpServletResponse response, int a_key, Time oraInizio, Time oraFine, Date dataInizio, Date dataFine, TipologiaEvento tipologiaEvento, String descrizione, String nome, String emailR) throws IOException, ServletException, TemplateManagerException {
+    private void action_create(HttpServletRequest request, HttpServletResponse response, int e_key, int IDMaster, String nome, Time oraInizio, Time oraFine, String descrizione, String ricorrenza, String tipologiaEvento, Date giorno, int a_key, int r_key, int c_key) throws IOException, ServletException, TemplateManagerException {
 
         TemplateResult res = new TemplateResult(getServletContext());
         AuleWebDataLayer dataLayer = (AuleWebDataLayer) request.getAttribute("datalayer");
@@ -61,19 +63,13 @@ public class ModificaEvento extends AuleWebBaseController {
 
             Evento evento = dataLayer.getEventoDAO().createEvento();
 
-            evento.setKey(a_key);
-            evento.setDescrizione(descrizione);
-            evento.setNome(nome);
+            evento.setKey(e_key);
             evento.setOraInizio(oraInizio);
             evento.setOraFine(oraFine);
-            evento.getRicorrenza();
-            evento.setDataInizio(dataInizio);
-            evento.setDataFine(dataFine);
-            //evento.setCorso(corso);
-            evento.setTipologiaEvento(tipologiaEvento);
-
-            Responsabile responsabile = dataLayer.getResponsabileDAO().getResponsabileByEmail(emailR);
-            evento.setResponsabile(responsabile);
+            evento.setData(giorno);
+            evento.setTipologiaEvento(TipologiaEvento.valueOf(tipologiaEvento));
+            evento.setDescrizione(descrizione);
+            evento.setNome(nome);
 
             dataLayer.getEventoDAO().storeEvento(evento);
 
@@ -84,7 +80,7 @@ public class ModificaEvento extends AuleWebBaseController {
         }
     }
 
-    private void action_update(HttpServletRequest request, HttpServletResponse response, int a_key,  Time oraInizio, Time oraFine, Date dataInizio, Date dataFine, TipologiaEvento tipologiaEvento, String descrizione, String nome, String emailR) throws IOException, ServletException, TemplateManagerException {
+    private void action_update(HttpServletRequest request, HttpServletResponse response, int e_key, int IDMaster, String nome, Time oraInizio, Time oraFine, String descrizione, String ricorrenza, String tipologiaEvento, Date giorno, int a_key, int r_key, int c_key) throws IOException, ServletException, TemplateManagerException {
 
         TemplateResult res = new TemplateResult(getServletContext());
         AuleWebDataLayer dataLayer = (AuleWebDataLayer) request.getAttribute("datalayer");
@@ -92,19 +88,15 @@ public class ModificaEvento extends AuleWebBaseController {
 
             Evento evento = dataLayer.getEventoDAO().createEvento();
 
-            evento.setKey(a_key);
-            evento.setDescrizione(descrizione);
-            evento.setNome(nome);
+            evento.setKey(e_key);
             evento.setOraInizio(oraInizio);
             evento.setOraFine(oraFine);
-            evento.getRicorrenza();
-            evento.setDataInizio(dataInizio);
-            evento.setDataFine(dataFine);
-            //evento.setCorso(corso);
-            evento.setTipologiaEvento(tipologiaEvento);
+            evento.setData(giorno);
+            evento.setTipologiaEvento(TipologiaEvento.valueOf(tipologiaEvento));
+            evento.setDescrizione(descrizione);
+            evento.setNome(nome);
 
-            Responsabile responsabile = dataLayer.getResponsabileDAO().getResponsabileByEmail(emailR);
-            evento.setResponsabile(responsabile);
+            
 
             dataLayer.getEventoDAO().storeEvento(evento);
 
@@ -114,19 +106,19 @@ public class ModificaEvento extends AuleWebBaseController {
             handleError("Data access exception: " + ex.getMessage(), request, response);
         }
     }
-    
+
     private void action_no_evento() {
-    // TODO gestire caso senza aula passata
-  }
+        // TODO gestire caso senza aula passata
+    }
 
-    private void action_delete(HttpServletRequest request, HttpServletResponse response, int a_key)
+    private void action_delete(HttpServletRequest request, HttpServletResponse response, int e_key)
             throws IOException, ServletException, TemplateManagerException {
 
         TemplateResult res = new TemplateResult(getServletContext());
         AuleWebDataLayer dataLayer = (AuleWebDataLayer) request.getAttribute("datalayer");
 
         try {
-            Evento evento = dataLayer.getEventoDAO().getEventoByID(a_key);
+            Evento evento = dataLayer.getEventoDAO().getEventoByID(e_key);
             dataLayer.getEventoDAO().deleteEvento(evento);
 
             res.activate("operazioneEseguita.ftl.html", request, response);
@@ -134,77 +126,67 @@ public class ModificaEvento extends AuleWebBaseController {
             handleError("Data access exception: " + e.getMessage(), request, response);
         }
     }
-    
-    
+
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException {
+            throws ServletException {
 
-    request.setAttribute("page_title", "Modifica Evento");
-    int a_key;
+        int e_key;
+        if (request.getParameter("e_key") == null) {
+            action_no_evento();
+        }
+        e_key = SecurityHelpers.checkNumeric(request.getParameter("e_key"));
+        try {
+            if (request.getParameter("IDMaster") != null
+                    && request.getParameter("oraInizio") != null
+                    && request.getParameter("oraFine") != null
+                    && request.getParameter("descrizione") != null
+                    && request.getParameter("tipologiaEvento") != null
+                    && request.getParameter("nome") != null
+                    && request.getParameter("a_key") != null
+                    && request.getParameter("c_key") != null
+                    && request.getParameter("r_key") != null
+                    && request.getParameter("giorno") != null
+                    && request.getParameter("ricorrenza") != null) {
 
-    if (request.getParameter("a_key") == null) {
-        action_no_evento();
-        return;
-    }
+                String oraInizio = request.getParameter("oraInizio");
+                String oraFine = request.getParameter("oraFine");
+                String giorno = request.getParameter("giorno");
+                String tipologiaEvento = request.getParameter("tipologiaEvento");
+                String descrizione = request.getParameter("descrizione");
+                String nome = request.getParameter("nome");
+                String ricorrenza = request.getParameter("ricorrenza");
+                int IDMaster = SecurityHelpers.checkNumeric(request.getParameter("IDMaster"));
+                int r_key = SecurityHelpers.checkNumeric(request.getParameter("r_key"));
+                int c_key = SecurityHelpers.checkNumeric(request.getParameter("c_key"));
+                int a_key = SecurityHelpers.checkNumeric(request.getParameter("a_key"));
 
-    a_key = SecurityHelpers.checkNumeric(request.getParameter("a_key"));
+                Time oraInizio_sql = Time.valueOf(oraInizio);
+                Time oraFine_sql = Time.valueOf(oraFine);
+                Date giorno_sql = Date.valueOf(giorno);
+                if (e_key != 0) {
+                    // Modifica
+                    action_update(request, response, e_key, IDMaster, nome, oraInizio_sql, oraFine_sql, descrizione, ricorrenza, tipologiaEvento, giorno_sql, a_key, r_key, c_key);
+                } else {
+                    // Creazione
+                    action_create(request, response, e_key, IDMaster, nome, oraInizio_sql, oraFine_sql, descrizione, ricorrenza, tipologiaEvento, giorno_sql, a_key, r_key, c_key);
+                }
 
-    try {
-        // Conferma Premuto
-        if (request.getParameter("oraInizio") != null
-                && request.getParameter("oraFine") != null
-                && request.getParameter("dataInizio") != null
-                && request.getParameter("dataFine") != null
-                //&& request.getParameter("corso") != null
-                && request.getParameter("tipologiaEvento") != null
-                && request.getParameter("descrizione") != null
-                && request.getParameter("nome") != null
-                && request.getParameter("emailR") != null) {
-
-            String oraInizioStr = request.getParameter("oraInizio");
-            String oraFineStr = request.getParameter("oraFine");
-            String dataInizioStr = request.getParameter("dataInizio");
-            String dataFineStr = request.getParameter("dataFine");
-            //String corsoStr = request.getParameter("corso");
-            TipologiaEvento tipologiaEvento = TipologiaEvento.valueOf(request.getParameter("tipologiaEvento"));
-            String descrizione = request.getParameter("descrizione");
-            String nome = request.getParameter("nome");
-            String emailR = request.getParameter("emailR");
-
-            // Converti le stringhe in oggetti Time e Date
-            Time oraInizio = Time.valueOf(oraInizioStr);
-            Time oraFine = Time.valueOf(oraFineStr);
-            Date dataInizio = Date.valueOf(dataInizioStr);
-            Date dataFine = Date.valueOf(dataFineStr);
-            //Corso corso = Corso.valueOf(corsoStr);
-
-            if (a_key != 0) {
-                // Modifica
-                action_update(request, response, a_key, oraInizio, oraFine, dataInizio, dataFine, 
-                        tipologiaEvento, descrizione, nome, emailR);
+            } else if (e_key == 0) {
+                // Modalità Creazione
+                action_prepare_creation(request, response);
+            } else if (request.getParameter("delete") != null) {
+                // Premuto Elimina
+                action_delete(request, response, e_key);
             } else {
-                // Creazione
-                action_create(request, response, a_key, oraInizio, oraFine, dataInizio, dataFine,
-                        tipologiaEvento, descrizione, nome, emailR);
+                // Mostra Evento
+                action_default(request, response, e_key);
             }
-
-        } else if (a_key == 0) {
-            // Modalità Creazione
-            action_prepare_creation(request, response);
-        } else if (request.getParameter("delete") != null) {
-            // Premuto Elimina
-            action_delete(request, response, a_key);
-        } else {
-            // Mostra Evento
-            action_default(request, response, a_key);
+        } catch (NumberFormatException ex) {
+            handleError("Invalid number submitted", request, response);
+        } catch (IOException | TemplateManagerException ex) {
+            handleError(ex, request, response);
         }
 
-    } catch (NumberFormatException ex) {
-        handleError("Invalid number submitted", request, response);
-    } catch (IOException | TemplateManagerException ex) {
-        handleError(ex, request, response);
     }
-}
-
 }

@@ -63,8 +63,8 @@
     </servlet>
     
     <servlet>
-        <servlet-name>gestioneeventi</servlet-name>
-        <servlet-class>controllers.GestioneEventi</servlet-class>
+        <servlet-name>ModificaEvento</servlet-name>
+        <servlet-class>controllers.ModificaEvento</servlet-class>
     </servlet>
     
     <!-- Servlet Mapping -->
@@ -129,8 +129,8 @@
     </servlet-mapping>
     
     <servlet-mapping>
-        <servlet-name>gestioneeventi</servlet-name>
-        <url-pattern>/gestioneeventi</url-pattern>
+        <servlet-name>ModificaEvento</servlet-name>
+        <url-pattern>/ModificaEvento</url-pattern>
     </servlet-mapping>
 
     <!-- Template Configuration Parameters -->
