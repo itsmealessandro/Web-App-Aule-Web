@@ -24,13 +24,13 @@ import java.util.List;
 
 public class EventoDAO_Database extends DAO implements EventoDAO {
 
-  private PreparedStatement iEvento, uEvento, sEventoByID, sEventoByAula, sEventiByDay, sEventiByCorso,sEventiRicorrenti;
+  private PreparedStatement iEvento, uEvento, sEventoByID, sEventoByAula, sEventiByDay, sEventiByCorso,
+      sEventiRicorrenti;
 
   public EventoDAO_Database(DataLayer d) {
     super(d);
   }
-  
-  
+
   @Override
   public void init() throws DataException {
     try {
@@ -44,15 +44,18 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
           " SELECT e.* FROM Evento e JOIN Aula a ON e.IDAula = a.ID JOIN Corso c ON e.IDCorso = c.ID " +
               " WHERE c.ID = ? AND a.IDDipartimento = ? " +
               " AND e.Data BETWEEN ? AND ?");
-      //TODO RIFARE LE QUERY
+      sEventiRicorrenti = connection
+          .prepareStatement("SELECT ID AS eventoID FROM evento WHERE nome=? AND responsabileID=? order by giorno");
+
       iEvento = connection.prepareStatement(
-              
-          "",
+          "INSERT INTO `Evento` (`nome`, `oraInizio`, `oraFine`, `descrizione`, `IDAula`, `ricorrenza`," +
+              " `IDResponsabile`, `IDCorso`, `tipologiaEvento`, `version`, `IDMaster`, `Data`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
           Statement.RETURN_GENERATED_KEYS);
-      sEventiRicorrenti = connection.prepareStatement("SELECT ID AS eventoID FROM evento WHERE nome=? AND responsabileID=? order by giorno");
 
       uEvento = connection.prepareStatement(
-          "");
+          "UPDATE `Evento` SET `nome` = ?,`oraInizio` = ?, `oraFine` = ?, `descrizione` = ?,`IDAula` = ?, " +
+              "`ricorrenza` = ?, `IDResponsabile` = ?, `IDCorso` = ?, `tipologiaEvento` = ?, `version` = ?,"
+              + "`IDMaster` = ?, `Data` = ? WHERE `ID` = ?;");
     } catch (SQLException ex) {
       throw new DataException("Error initializing data layer", ex);
     }
@@ -65,6 +68,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
       sEventoByAula.close();
       sEventiByDay.close();
       sEventiByCorso.close();
+      sEventiRicorrenti.close();
       iEvento.close();
       uEvento.close();
 
@@ -193,8 +197,8 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
 
     return listaEventi;
   }
-  
-  //TODO DA RIFARE
+
+  // TODO DA RIFARE
   @Override
   public void storeEvento(Evento e) throws DataException {
 
@@ -235,7 +239,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
         iEvento.setInt(5, e.getAula().getKey()); // Assumi che l'oggetto AulaImpl possa essere convertito in un formato
                                                  // adatto per il database
         iEvento.setObject(6, e.getRicorrenza().toString()); // Assumi che l'oggetto
-        // Ricorrenza possa essere convertito in un formato adatto per il database        
+        // Ricorrenza possa essere convertito in un formato adatto per il database
         iEvento.setInt(9, e.getResponsabile().getKey()); // Assumi che l'oggetto ResponsabileImpl possa essere
                                                          // convertito in un formato adatto per il database
         iEvento.setInt(10, e.getCorso().getKey()); // Assumi che l'oggetto CorsoImpl possa essere convertito in un
@@ -267,22 +271,22 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
       throw new DataException("Unable to store Evento", ex);
     }
   }
+
   @Override
-    public List<Evento> getEventiByNome(String nome) throws DataException {
+  public List<Evento> getEventiByNome(String nome) throws DataException {
     List<Evento> result = new ArrayList();
 
     try {
-        sEventiRicorrenti.setString(1, nome);
-        ResultSet rs = sEventiRicorrenti.executeQuery();
+      sEventiRicorrenti.setString(1, nome);
+      ResultSet rs = sEventiRicorrenti.executeQuery();
 
-        while (rs.next()) {
-            result.add((Evento) getEventoByID(rs.getInt("eventoID")));
-        }
-        return result;
+      while (rs.next()) {
+        result.add((Evento) getEventoByID(rs.getInt("eventoID")));
+      }
+      return result;
     } catch (SQLException ex) {
-        throw new DataException("Unable to load eventi", ex);
+      throw new DataException("Unable to load eventi", ex);
     }
-}
-
+  }
 
 }
