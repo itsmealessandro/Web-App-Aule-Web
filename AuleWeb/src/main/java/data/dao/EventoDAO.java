@@ -23,18 +23,15 @@ public interface EventoDAO {
     List<Evento> getEventiByAula(Aula aula) throws DataException;
 
     // Restituisce tutti gli eventi in una settimana specifica
-    List<Evento> getEventiPerSettimana(Aula aula, int numeroSettimana) throws DataException;
-
+    List<Evento> getEventiPerSettimana(Aula aula, LocalDate date , int dip_key) throws DataException;
 
     List<Evento> getEventiByDay(Date data, int dip_key) throws DataException;
 
-    
+    // Restituisce tutti gli eventi associati a un corso specifico
+    List<Evento> getEventiSettimanaliByCorso(Corso corso, LocalDate data, int dip_key) throws DataException;
 
-  // Restituisce tutti gli eventi associati a un corso specifico
-  List<Evento> getEventiSettimanaliByCorso(Corso corso, LocalDate data, int dip_key) throws DataException;
-
-  public List<Evento> getEventiByNome(String nome) throws DataException;
-  /*
+    public List<Evento> getEventiByNome(String nome) throws DataException;
+    /*
    * 
    * // Restituisce tutti gli eventi gestiti da un responsabile specifico
    * List<Evento> getEventiPerResponsabile(Responsabile responsabile) throws
@@ -59,6 +56,5 @@ public interface EventoDAO {
    * 
    * // Elimina l'evento corrente
    * void eliminaEventoCorrente() throws DataException;
-   */
-
+     */
 }
