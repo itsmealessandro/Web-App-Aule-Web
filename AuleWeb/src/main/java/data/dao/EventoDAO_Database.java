@@ -25,7 +25,7 @@ import java.util.List;
 public class EventoDAO_Database extends DAO implements EventoDAO {
 
   private PreparedStatement iEvento, uEvento, sEventoByID, sEventoByAula, sEventiByDay, sEventiByCorso,
-      sEventiRicorrenti,sAllEventi;
+      sEventiRicorrenti, sAllEventi;
 
   public EventoDAO_Database(DataLayer d) {
     super(d);
@@ -37,7 +37,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
       super.init();
 
       sEventoByID = connection.prepareStatement("SELECT * FROM Evento WHERE ID=?");
-      sAllEventi= connection.prepareStatement("SELECT * FROM EVENTI");
+      sAllEventi = connection.prepareStatement("SELECT * FROM Evento");
       sEventoByAula = connection.prepareStatement("SELECT * FROM Evento WHERE IDAula=?");
       sEventiByDay = connection.prepareStatement(
           " SELECT e.* FROM Evento e JOIN Aula a ON e.IDAula = a.ID JOIN Dipartimento d ON a.IDDipartimento = d.ID WHERE d.ID = ? AND e.dataInizio <= ? AND e.dataFine >= ?");
@@ -283,7 +283,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
       ResultSet rs = sEventiRicorrenti.executeQuery();
 
       while (rs.next()) {
-        result.add((Evento) getEventoByID(rs.getInt("eventoID")));
+        result.add((Evento) getEventoByID(rs.getInt("ID")));
       }
       return result;
     } catch (SQLException ex) {
@@ -291,23 +291,24 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
     }
   }
 
-    @Override
-    public void deleteEvento(Evento evento) throws DataException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    
-    @Override
-    public List<Evento> getAllEventi() throws DataException {
-        List<Evento> result = new ArrayList();
+  @Override
+  public void deleteEvento(Evento evento) throws DataException {
+    throw new UnsupportedOperationException("Not supported yet."); // Generated from
+                                                                   // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+  }
 
-        try ( ResultSet rs = sAllEventi.executeQuery()) {
-            while (rs.next()) {
-                result.add((Evento) getEventoByID(rs.getInt("eventoID")));
-            }
-        } catch (SQLException ex) {
-            throw new DataException("Unable to load aule", ex);
-        }
-        return result;
+  @Override
+  public List<Evento> getAllEventi() throws DataException {
+    List<Evento> result = new ArrayList();
+
+    try (ResultSet rs = sAllEventi.executeQuery()) {
+      while (rs.next()) {
+        result.add((Evento) getEventoByID(rs.getInt("ID")));
+      }
+    } catch (SQLException ex) {
+      throw new DataException("Unable to load aule", ex);
     }
+    return result;
+  }
 
 }
