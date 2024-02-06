@@ -66,6 +66,10 @@
         <servlet-name>ModificaEvento</servlet-name>
         <servlet-class>controllers.ModificaEvento</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GestioneEventi</servlet-name>
+        <servlet-class>controllers.GestioneEventi</servlet-class>
+    </servlet>
     
     <!-- Servlet Mapping -->
     <servlet-mapping>
@@ -131,6 +135,10 @@
     <servlet-mapping>
         <servlet-name>ModificaEvento</servlet-name>
         <url-pattern>/ModificaEvento</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GestioneEventi</servlet-name>
+        <url-pattern>/GestioneEventi</url-pattern>
     </servlet-mapping>
 
     <!-- Template Configuration Parameters -->

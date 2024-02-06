@@ -25,7 +25,7 @@ import java.util.List;
 public class EventoDAO_Database extends DAO implements EventoDAO {
 
   private PreparedStatement iEvento, uEvento, sEventoByID, sEventoByAula, sEventiByDay, sEventiByCorso,
-      sEventiRicorrenti, dEvento;   
+      sEventiRicorrenti,sAllEventi;
 
   public EventoDAO_Database(DataLayer d) {
     super(d);
@@ -37,22 +37,26 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
       super.init();
 
       sEventoByID = connection.prepareStatement("SELECT * FROM Evento WHERE ID=?");
+      sAllEventi= connection.prepareStatement("SELECT * FROM EVENTI");
       sEventoByAula = connection.prepareStatement("SELECT * FROM Evento WHERE IDAula=?");
       sEventiByDay = connection.prepareStatement(
           " SELECT e.* FROM Evento e JOIN Aula a ON e.IDAula = a.ID JOIN Dipartimento d ON a.IDDipartimento = d.ID WHERE d.ID = ? AND e.dataInizio <= ? AND e.dataFine >= ?");
       sEventiByCorso = connection.prepareStatement(
-          " SELECT e.* FROM Evento e JOIN Aula a ON e.IDAula = a.ID JOIN Corso c ON e.IDCorso = c.ID "
-              + " WHERE c.ID = ? AND a.IDDipartimento = ? "
-              + " AND e.Data BETWEEN ? AND ?");
-      //TODO RIFARE LE QUERY
+          " SELECT e.* FROM Evento e JOIN Aula a ON e.IDAula = a.ID JOIN Corso c ON e.IDCorso = c.ID " +
+              " WHERE c.ID = ? AND a.IDDipartimento = ? " +
+              " AND e.Data BETWEEN ? AND ?");
+      sEventiRicorrenti = connection
+          .prepareStatement("SELECT ID AS eventoID FROM evento WHERE nome=? AND responsabileID=? order by giorno");
+
       iEvento = connection.prepareStatement(
-          "",
+          "INSERT INTO `Evento` (`nome`, `oraInizio`, `oraFine`, `descrizione`, `IDAula`, `ricorrenza`," +
+              " `IDResponsabile`, `IDCorso`, `tipologiaEvento`, `version`, `IDMaster`, `Data`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
           Statement.RETURN_GENERATED_KEYS);
-      sEventiRicorrenti = connection.prepareStatement("SELECT ID AS eventoID FROM evento WHERE nome=? AND responsabileID=? order by giorno");
-      dEvento = connection.prepareStatement("DELETE FROM evento WHERE ID=?");
 
       uEvento = connection.prepareStatement(
-          "");
+          "UPDATE `Evento` SET `nome` = ?,`oraInizio` = ?, `oraFine` = ?, `descrizione` = ?,`IDAula` = ?, " +
+              "`ricorrenza` = ?, `IDResponsabile` = ?, `IDCorso` = ?, `tipologiaEvento` = ?, `version` = ?,"
+              + "`IDMaster` = ?, `Data` = ? WHERE `ID` = ?;");
     } catch (SQLException ex) {
       throw new DataException("Error initializing data layer", ex);
     }
@@ -65,8 +69,10 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
       sEventoByAula.close();
       sEventiByDay.close();
       sEventiByCorso.close();
+      sEventiRicorrenti.close();
       iEvento.close();
       uEvento.close();
+      sAllEventi.close();
 
     } catch (SQLException ex) {
       // TODO gestire l'eccezione
@@ -194,7 +200,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
     return listaEventi;
   }
 
-  //TODO DA RIFARE
+  // TODO DA RIFARE
   @Override
   public void storeEvento(Evento e) throws DataException {
 
@@ -209,12 +215,12 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
         uEvento.setTime(3, e.getOraFine());
         uEvento.setString(4, e.getDescrizione());
         uEvento.setInt(5, e.getAula().getKey()); // Assumi che l'oggetto AulaImpl possa essere convertito in un formato
-        // adatto per il database
+                                                 // adatto per il database
         uEvento.setObject(6, e.getRicorrenza().toString());
         uEvento.setInt(9, e.getResponsabile().getKey()); // Assumi che l'oggetto ResponsabileImpl possa essere
-        // convertito in un formato adatto per il database
+                                                         // convertito in un formato adatto per il database
         uEvento.setInt(10, e.getCorso().getKey()); // Assumi che l'oggetto CorsoImpl possa essere convertito in un
-        // formato adatto per il database
+                                                   // formato adatto per il database
         uEvento.setString(11, e.getTipologiaEvento().toString());
         // TipologiaEventoImpl possa essere convertito in un formato adatto per il
         // database
@@ -233,13 +239,13 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
         iEvento.setTime(3, e.getOraFine());
         iEvento.setString(4, e.getDescrizione());
         iEvento.setInt(5, e.getAula().getKey()); // Assumi che l'oggetto AulaImpl possa essere convertito in un formato
-        // adatto per il database
+                                                 // adatto per il database
         iEvento.setObject(6, e.getRicorrenza().toString()); // Assumi che l'oggetto
         // Ricorrenza possa essere convertito in un formato adatto per il database
         iEvento.setInt(9, e.getResponsabile().getKey()); // Assumi che l'oggetto ResponsabileImpl possa essere
-        // convertito in un formato adatto per il database
+                                                         // convertito in un formato adatto per il database
         iEvento.setInt(10, e.getCorso().getKey()); // Assumi che l'oggetto CorsoImpl possa essere convertito in un
-        // formato adatto per il database
+                                                   // formato adatto per il database
         iEvento.setString(11, e.getTipologiaEvento().toString()); // Assumi che l'oggetto
         // TipologiaEventoImpl possa essere convertito in un formato adatto per il
         // database
@@ -270,7 +276,6 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
 
   @Override
   public List<Evento> getEventiByNome(String nome) throws DataException {
-
     List<Evento> result = new ArrayList();
 
     try {
@@ -286,18 +291,23 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
     }
   }
 
-  @Override
-  public void deleteEvento(Evento evento) throws DataException {
-    try {
-      dEvento.setInt(1, evento.getKey());
-      int affectedRows = dEvento.executeUpdate();
-
-      if (affectedRows == 0) {
-        throw new DataException("Failed to delete evento");
-      }
-    } catch (SQLException ex) {
-      throw new DataException("Unable to delete evento", ex);
+    @Override
+    public void deleteEvento(Evento evento) throws DataException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-  }
+    
+    @Override
+    public List<Evento> getAllEventi() throws DataException {
+        List<Evento> result = new ArrayList();
+
+        try ( ResultSet rs = sAllEventi.executeQuery()) {
+            while (rs.next()) {
+                result.add((Evento) getEventoByID(rs.getInt("eventoID")));
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to load aule", ex);
+        }
+        return result;
+    }
 
 }
