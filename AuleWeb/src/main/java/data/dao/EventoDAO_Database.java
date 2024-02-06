@@ -311,7 +311,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
       }
     } catch (SQLException ex) {
       ex.printStackTrace();
-      throw new DataException("Unable to load Eventi by Day");
+      throw new DataException("Unable to load Eventi per Settimana");
     }
  return listaEventi;
   }
