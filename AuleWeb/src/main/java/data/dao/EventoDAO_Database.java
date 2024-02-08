@@ -57,6 +57,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
           "UPDATE `Evento` SET `nome` = ?,`oraInizio` = ?, `oraFine` = ?, `descrizione` = ?,`IDAula` = ?, " +
               "`ricorrenza` = ?, `IDResponsabile` = ?, `IDCorso` = ?, `tipologiaEvento` = ?, `version` = ?,"
               + "`IDMaster` = ?, `Data` = ? WHERE `ID` = ?;");
+      //TODO comprendere eventi gia iniziati
        sEventiByTreOre = connection.prepareStatement("SELECT e.*\n" +
             "FROM Evento e\n" +
                 " JOIN Aula a ON e.IDAula = a.ID\n" +
