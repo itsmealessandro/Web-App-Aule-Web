@@ -2,6 +2,7 @@ package data.dao;
 
 import data.domain.Aula;
 import data.domain.Corso;
+import data.domain.Dipartimento;
 import data.domain.Evento;
 import data.domainImpl.Ricorrenza;
 import data.proxy.EventoProxy;
@@ -25,7 +26,7 @@ import java.util.List;
 public class EventoDAO_Database extends DAO implements EventoDAO {
 
   private PreparedStatement iEvento, uEvento, sEventoByID, sEventoByAula, sEventiByDay, sEventiByCorso,
-      sEventiRicorrenti;
+      sEventiRicorrenti, sEventiByTreOre;
 
   public EventoDAO_Database(DataLayer d) {
     super(d);
@@ -56,6 +57,13 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
           "UPDATE `Evento` SET `nome` = ?,`oraInizio` = ?, `oraFine` = ?, `descrizione` = ?,`IDAula` = ?, " +
               "`ricorrenza` = ?, `IDResponsabile` = ?, `IDCorso` = ?, `tipologiaEvento` = ?, `version` = ?,"
               + "`IDMaster` = ?, `Data` = ? WHERE `ID` = ?;");
+      //TODO comprendere eventi gia iniziati
+       sEventiByTreOre = connection.prepareStatement("SELECT e.*\n" +
+            "FROM Evento e\n" +
+                " JOIN Aula a ON e.IDAula = a.ID\n" +
+                " WHERE e.oraInizio BETWEEN CURRENT_TIME() AND ADDTIME(CURRENT_TIME(), '03:00:00')\n" +
+                " AND e.Data = CURDATE()\n" +
+                " AND a.IDDipartimento = ?;" );
     } catch (SQLException ex) {
       throw new DataException("Error initializing data layer", ex);
     }
@@ -71,6 +79,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
       sEventiRicorrenti.close();
       iEvento.close();
       uEvento.close();
+      sEventiByTreOre.close();
 
     } catch (SQLException ex) {
       // TODO gestire l'eccezione
@@ -197,6 +206,22 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
 
     return listaEventi;
   }
+  
+  @Override
+    public List<Evento> getEventiByTreOre(Dipartimento dipartimento) throws DataException {
+        List<Evento> listaEventi = new ArrayList<>();
+        try {
+            sEventiByTreOre.setInt(1, dipartimento.getKey());
+            try (ResultSet resultSet = sEventiByTreOre.executeQuery()) {
+                while (resultSet.next()) {
+                    listaEventi.add((Evento) getEventoByID(resultSet.getInt("ID")));
+                }
+            }
+        } catch (SQLException sqlException) {
+            throw new DataException("Unable to load Eventi from Aula");
+        }
+        return listaEventi;
+        }
 
   // TODO DA RIFARE
   @Override
