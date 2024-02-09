@@ -22,8 +22,8 @@ public interface EventoDAO {
 
     List<Evento> getEventiByAula(Aula aula) throws DataException;
 
-    // Restituisce tutti gli eventi in una settimana specifica
-    List<Evento> getEventiPerSettimana(Aula aula, LocalDate date , int dip_key) throws DataException;
+    // Restituisce tutti gli eventi di un aula in una settimana specifica
+    List<Evento> getEventiSettimanaliByAula(Aula aula, LocalDate date , int dip_key) throws DataException;
 
     List<Evento> getEventiByDay(Date data, int dip_key) throws DataException;
 

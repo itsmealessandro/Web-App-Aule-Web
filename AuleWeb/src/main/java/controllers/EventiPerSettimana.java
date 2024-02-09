@@ -29,7 +29,7 @@ public class EventiPerSettimana extends AuleWebBaseController {
             AuleWebDataLayer dataLayer = (AuleWebDataLayer) request.getAttribute("datalayer");
 
             Aula aula = dataLayer.getAulaDAO().getAulaByID(aula_key);
-            List<Evento> listaEventi = dataLayer.getEventoDAO().getEventiPerSettimana(aula, date, dip_key);
+            List<Evento> listaEventi = dataLayer.getEventoDAO().getEventiSettimanaliByAula(aula, date, dip_key);
 
             request.setAttribute("aula", aula);
             request.setAttribute("eventi", listaEventi);
