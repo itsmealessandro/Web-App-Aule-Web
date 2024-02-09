@@ -1,0 +1,10 @@
+<h1>Eventi Per Settimana</h1>
+
+  
+
+<#if (eventi?size>0)>
+  <#list eventi as evento>
+    <p>Evento: ${evento.nome}</p>
+  </#list>
+</#if>
+

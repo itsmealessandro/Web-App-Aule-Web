@@ -25,8 +25,7 @@ import java.util.List;
 
 public class EventoDAO_Database extends DAO implements EventoDAO {
 
-  private PreparedStatement iEvento, uEvento, sEventoByID, sEventoByAula, sEventiByDay, sEventiByCorso,
-      sEventiRicorrenti, sEventiByTreOre;
+  private PreparedStatement iEvento, uEvento, sEventoByID, sEventoByAula, sEventiByDay, sEventiByCorso, eventController,sEventiRicorrenti, sEventiSettimanaliByAula, sEventiByTreOre;
 
   public EventoDAO_Database(DataLayer d) {
     super(d);
@@ -39,23 +38,25 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
 
       sEventoByID = connection.prepareStatement("SELECT * FROM Evento WHERE ID=?");
       sEventoByAula = connection.prepareStatement("SELECT * FROM Evento WHERE IDAula=?");
+      sEventiSettimanaliByAula = connection.prepareStatement(
+          "SELECT *FROM Evento AS ev INNER JOIN Aula AS au ON ev.IDAula = au.ID INNER JOIN Dipartimento AS d ON au.IDDipartimento = d.ID WHERE d.ID = ?  AND au.ID = ? AND ev.Data BETWEEN ? AND ?");
       sEventiByDay = connection.prepareStatement(
           " SELECT e.* FROM Evento e JOIN Aula a ON e.IDAula = a.ID JOIN Dipartimento d ON a.IDDipartimento = d.ID WHERE d.ID = ? AND e.dataInizio <= ? AND e.dataFine >= ?");
       sEventiByCorso = connection.prepareStatement(
-          " SELECT e.* FROM Evento e JOIN Aula a ON e.IDAula = a.ID JOIN Corso c ON e.IDCorso = c.ID " +
-              " WHERE c.ID = ? AND a.IDDipartimento = ? " +
-              " AND e.Data BETWEEN ? AND ?");
+          " SELECT e.* FROM Evento e JOIN Aula a ON e.IDAula = a.ID JOIN Corso c ON e.IDCorso = c.ID "
+              + " WHERE c.ID = ? AND a.IDDipartimento = ? "
+              + " AND e.Data BETWEEN ? AND ?");
       sEventiRicorrenti = connection
           .prepareStatement("SELECT ID AS eventoID FROM evento WHERE nome=? AND responsabileID=? order by giorno");
 
       iEvento = connection.prepareStatement(
-          "INSERT INTO `Evento` (`nome`, `oraInizio`, `oraFine`, `descrizione`, `IDAula`, `ricorrenza`," +
-              " `IDResponsabile`, `IDCorso`, `tipologiaEvento`, `version`, `IDMaster`, `Data`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
+          "INSERT INTO `Evento` (`nome`, `oraInizio`, `oraFine`, `descrizione`, `IDAula`, `ricorrenza`,"
+              + " `IDResponsabile`, `IDCorso`, `tipologiaEvento`, `version`, `IDMaster`, `Data`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
           Statement.RETURN_GENERATED_KEYS);
 
       uEvento = connection.prepareStatement(
-          "UPDATE `Evento` SET `nome` = ?,`oraInizio` = ?, `oraFine` = ?, `descrizione` = ?,`IDAula` = ?, " +
-              "`ricorrenza` = ?, `IDResponsabile` = ?, `IDCorso` = ?, `tipologiaEvento` = ?, `version` = ?,"
+          "UPDATE `Evento` SET `nome` = ?,`oraInizio` = ?, `oraFine` = ?, `descrizione` = ?,`IDAula` = ?, "
+              + "`ricorrenza` = ?, `IDResponsabile` = ?, `IDCorso` = ?, `tipologiaEvento` = ?, `version` = ?,"
               + "`IDMaster` = ?, `Data` = ? WHERE `ID` = ?;");
       //TODO comprendere eventi gia iniziati
        sEventiByTreOre = connection.prepareStatement("SELECT e.*\n" +
@@ -238,12 +239,12 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
         uEvento.setTime(3, e.getOraFine());
         uEvento.setString(4, e.getDescrizione());
         uEvento.setInt(5, e.getAula().getKey()); // Assumi che l'oggetto AulaImpl possa essere convertito in un formato
-                                                 // adatto per il database
+        // adatto per il database
         uEvento.setObject(6, e.getRicorrenza().toString());
         uEvento.setInt(9, e.getResponsabile().getKey()); // Assumi che l'oggetto ResponsabileImpl possa essere
-                                                         // convertito in un formato adatto per il database
+        // convertito in un formato adatto per il database
         uEvento.setInt(10, e.getCorso().getKey()); // Assumi che l'oggetto CorsoImpl possa essere convertito in un
-                                                   // formato adatto per il database
+        // formato adatto per il database
         uEvento.setString(11, e.getTipologiaEvento().toString());
         // TipologiaEventoImpl possa essere convertito in un formato adatto per il
         // database
@@ -262,13 +263,13 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
         iEvento.setTime(3, e.getOraFine());
         iEvento.setString(4, e.getDescrizione());
         iEvento.setInt(5, e.getAula().getKey()); // Assumi che l'oggetto AulaImpl possa essere convertito in un formato
-                                                 // adatto per il database
+        // adatto per il database
         iEvento.setObject(6, e.getRicorrenza().toString()); // Assumi che l'oggetto
         // Ricorrenza possa essere convertito in un formato adatto per il database
         iEvento.setInt(9, e.getResponsabile().getKey()); // Assumi che l'oggetto ResponsabileImpl possa essere
-                                                         // convertito in un formato adatto per il database
+        // convertito in un formato adatto per il database
         iEvento.setInt(10, e.getCorso().getKey()); // Assumi che l'oggetto CorsoImpl possa essere convertito in un
-                                                   // formato adatto per il database
+        // formato adatto per il database
         iEvento.setString(11, e.getTipologiaEvento().toString()); // Assumi che l'oggetto
         // TipologiaEventoImpl possa essere convertito in un formato adatto per il
         // database
@@ -314,4 +315,30 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
     }
   }
 
+  @Override
+  public List<Evento> getEventiSettimanaliByAula(Aula aula, LocalDate date, int dip_key) throws DataException {
+    List<Evento> listaEventi = new ArrayList<>();
+    LocalDate inizioSettimana = date.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+    LocalDate fineSettimana = date.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+
+    Date inizioSettimanaSql = Date.valueOf(inizioSettimana);
+    Date fineSettimanaSql = Date.valueOf(fineSettimana);
+
+    try {
+      sEventiSettimanaliByAula.setInt(1, dip_key);
+      sEventiSettimanaliByAula.setInt(2, aula.getKey());
+      sEventiSettimanaliByAula.setDate(3, inizioSettimanaSql);
+      sEventiSettimanaliByAula.setDate(4, fineSettimanaSql);
+
+      try (ResultSet rs = sEventiSettimanaliByAula.executeQuery()) {
+        while (rs.next()) {
+          listaEventi.add(getEventoByID(rs.getInt("ID")));
+        }
+      }
+    } catch (SQLException ex) {
+      ex.printStackTrace();
+      throw new DataException("Unable to load Eventi Settimanali By Aula");
+    }
+    return listaEventi;
+  }
 }
