@@ -16,8 +16,11 @@
   </form>
 <#else>
   <form method="post" action="ModificaEvento">
+      
+    <input type="hidden" name="IDMaster" value=0>
     <input type="hidden" name="e_key" value="${evento.key}">
     <input type="text" name="nome" value="${evento.nome}">
+    <input type="text" name="a_name" value="${evento.aula.nome}">
     <input type="text" name="oraInizio" value="${evento.oraInizio}">
     <input type="text" name="oraFine" value="${evento.oraFine}">
     <input type="text" name="descrizione" value="${evento.descrizione}">

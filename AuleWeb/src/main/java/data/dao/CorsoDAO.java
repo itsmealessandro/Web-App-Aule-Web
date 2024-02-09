@@ -20,4 +20,6 @@ public interface CorsoDAO {
 
     // Salva il corso corrente
     void storeCorso(Corso corso) throws DataException;
+    
+    Corso getCorsoByNome(String nome) throws DataException;
 }

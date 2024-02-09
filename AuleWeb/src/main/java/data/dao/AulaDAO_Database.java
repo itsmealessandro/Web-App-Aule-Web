@@ -18,7 +18,7 @@ import java.util.List;
 
 public class AulaDAO_Database extends DAO implements AulaDAO {
 
-  private PreparedStatement sAulaPerID;
+  private PreparedStatement sAulaPerID,sAulaByNome;
   private PreparedStatement sAule, sAulePerDipartimento;
   private PreparedStatement iAula, uAula, dAula;
 
@@ -36,7 +36,7 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
       sAulaPerID = connection.prepareStatement("SELECT * FROM Aula WHERE ID=?");
       sAule = connection.prepareStatement("SELECT ID AS aulaID FROM Aula");
       sAulePerDipartimento = connection.prepareStatement("SELECT ID FROM Aula WHERE IDdipartimento=?");
-
+      sAulaByNome= connection.prepareStatement("SELECT * FROM Aula WHERE nome=?");
       // notare l'ultimo paametro extra di questa chiamata a
       // prepareStatement: lo usiamo per assicurarci che il JDBC
       // restituisca la chiave generata automaticamente per il
@@ -305,4 +305,19 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
       throw new DataException("Unable to Delete Aula", e);
     }
   }
+  
+  @Override
+    public Aula getAulaByNome(String nome) throws DataException {
+        try {
+            sAulaByNome.setString(1, nome);
+            try (ResultSet rs = sAulaByNome.executeQuery()) {
+                if (rs.next()) {
+                    return getAulaByID(rs.getInt("ID"));
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to find aula", ex);
+        }
+        return null;
+    }
 }

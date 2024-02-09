@@ -12,9 +12,6 @@ import framework.security.SecurityHelpers;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Time;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -81,7 +78,7 @@ public class ModificaEvento extends AuleWebBaseController {
         }
     }
 
-    private void action_update(HttpServletRequest request, HttpServletResponse response, int e_key, int IDMaster, String nome, Time oraInizio, Time oraFine, String descrizione, String ricorrenza, String tipologiaEvento, Date giorno, int a_key, int r_key, int c_key) throws IOException, ServletException, TemplateManagerException {
+    private void action_update(HttpServletRequest request, HttpServletResponse response, int e_key, int IDMaster, String nome, Time oraInizio, Time oraFine, String descrizione, String ricorrenza, String tipologiaEvento, Date giorno, String nAula, String emailR, String nCorso) throws IOException, ServletException, TemplateManagerException {
 
         TemplateResult res = new TemplateResult(getServletContext());
         AuleWebDataLayer dataLayer = (AuleWebDataLayer) request.getAttribute("datalayer");
@@ -97,7 +94,14 @@ public class ModificaEvento extends AuleWebBaseController {
             evento.setDescrizione(descrizione);
             evento.setNome(nome);
 
+            Responsabile responsabile = dataLayer.getResponsabileDAO().getResponsabileByEmail(emailR);
+            evento.setResponsabile(responsabile);
             
+            Corso corso = dataLayer.getCorsoDAO().getCorsoByNome(nCorso);
+            evento.setCorso(corso);
+            
+            Aula aula = dataLayer.getAulaDAO().getAulaByNome(nAula);
+            evento.setAula(aula);
 
             dataLayer.getEventoDAO().storeEvento(evento);
 
@@ -144,9 +148,9 @@ public class ModificaEvento extends AuleWebBaseController {
                     && request.getParameter("descrizione") != null
                     && request.getParameter("tipologiaEvento") != null
                     && request.getParameter("nome") != null
-                    && request.getParameter("a_key") != null
-                    && request.getParameter("c_key") != null
-                    && request.getParameter("r_key") != null
+                    && request.getParameter("aula") != null
+                    && request.getParameter("corso") != null
+                    && request.getParameter("responsabile") != null
                     && request.getParameter("giorno") != null
                     && request.getParameter("ricorrenza") != null) {
 
@@ -158,16 +162,16 @@ public class ModificaEvento extends AuleWebBaseController {
                 String nome = request.getParameter("nome");
                 String ricorrenza = request.getParameter("ricorrenza");
                 int IDMaster = SecurityHelpers.checkNumeric(request.getParameter("IDMaster"));
-                int r_key = SecurityHelpers.checkNumeric(request.getParameter("r_key"));
-                int c_key = SecurityHelpers.checkNumeric(request.getParameter("c_key"));
-                int a_key = SecurityHelpers.checkNumeric(request.getParameter("a_key"));
-
+                String aula = request.getParameter("aula");
+                String corso = request.getParameter("corso");
+                String responsabile = request.getParameter("responsabile");
+                
                 Time oraInizio_sql = Time.valueOf(oraInizio);
                 Time oraFine_sql = Time.valueOf(oraFine);
                 Date giorno_sql = Date.valueOf(giorno);
                 if (e_key != 0) {
                     // Modifica
-                    action_update(request, response, e_key, IDMaster, nome, oraInizio_sql, oraFine_sql, descrizione, ricorrenza, tipologiaEvento, giorno_sql, a_key, r_key, c_key);
+                    action_update(request, response, e_key, IDMaster, nome, oraInizio_sql, oraFine_sql, descrizione, ricorrenza, tipologiaEvento, giorno_sql, aula, responsabile, corso);
                 } else {
                     // Creazione
                     action_create(request, response, e_key, IDMaster, nome, oraInizio_sql, oraFine_sql, descrizione, ricorrenza, tipologiaEvento, giorno_sql, a_key, r_key, c_key);

@@ -52,14 +52,15 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
                     .prepareStatement("SELECT ID AS eventoID FROM evento WHERE nome=? AND responsabileID=? order by giorno");
 
             iEvento = connection.prepareStatement(
-                    "INSERT INTO `Evento` (`nome`, `oraInizio`, `oraFine`, `descrizione`, `IDAula`, `ricorrenza`,"
-                    + " `IDResponsabile`, `IDCorso`, `tipologiaEvento`, `version`, `IDMaster`, `Data`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
+                    "INSERT INTO `evento` (`nome`, `oraInizio`, `oraFine`, `descrizione`, `IDAula`, `ricorrenza`,"
+                    + " `IDResponsabile`, `IDCorso`, `tipologiaEvento`, `version`, `IDMaster`, `Data`, `dataFineRicorrenza`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
                     Statement.RETURN_GENERATED_KEYS);
 
             uEvento = connection.prepareStatement(
-                    "UPDATE `Evento` SET `nome` = ?,`oraInizio` = ?, `oraFine` = ?, `descrizione` = ?,`IDAula` = ?, "
-                    + "`ricorrenza` = ?, `IDResponsabile` = ?, `IDCorso` = ?, `tipologiaEvento` = ?, `version` = ?,"
-                    + "`IDMaster` = ?, `Data` = ? WHERE `ID` = ?;");
+                    "UPDATE `evento` SET `nome` = ?, `oraInizio` = ?, `oraFine` = ?, `descrizione` = ?, "
+                    + "`IDAula` = ?, `ricorrenza` = ?, `IDResponsabile` = ?, `IDCorso` = ?, "
+                    + "`tipologiaEvento` = ?, `version` = ?, `IDMaster` = ?, `Data` = ?, "
+                    + "`dataFineRicorrenza` = ? WHERE `ID` = ?;");
 
             dEvento = connection.prepareStatement("DELETE FROM evento WHERE ID=?");
         } catch (SQLException ex) {
@@ -108,7 +109,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
             e.setVersion(rs.getLong("version"));
             e.setTipologiaEvento(TipologiaEvento.valueOf(rs.getObject("tipologiaEvento").toString()));
             e.setDataFineRicorrenza(rs.getDate("dataFineRicorrenza"));
-            
+
             return e;
         } catch (SQLException ex) {
             throw new DataException("Unable to create Evento object from ResultSet", ex);
@@ -210,36 +211,32 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
     }
 
     // TODO DA RIFARE
-    @Override
     public void storeEvento(Evento e) throws DataException {
-
         try {
-            if(e.getRicorrenza().toString() != "NESSUNA"){
-                
-                //TODO da gestire
+            if (e.getRicorrenza().toString() != "NESSUNA") {
+                //TODO: Gestire ricorrenze
                 throw new DataException("GESTIRE RICORRENZE");
             }
-            
-            if (e.getKey() != null && e.getKey() > 0) { 
 
+            if (e.getKey() != null && e.getKey() > 0) {
                 if (e instanceof DataItemProxy && !((DataItemProxy) e).isModified()) {
                     return;
                 }
-                
-                
-
                 uEvento.setString(1, e.getNome());
                 uEvento.setTime(2, e.getOraInizio());
                 uEvento.setTime(3, e.getOraFine());
                 uEvento.setString(4, e.getDescrizione());
-                uEvento.setInt(5, e.getIDMaster()); 
-                uEvento.setString(6, e.getRicorrenza().toString()); 
-                uEvento.setInt(7, e.getResponsabile().getKey()); 
-                uEvento.setInt(8, e.getCorso().getKey()); 
-                uEvento.setString(9, e.getTipologiaEvento().toString()); 
-                uEvento.setLong(10, e.getVersion());
-                uEvento.setInt(11, e.getKey()); 
-                
+                uEvento.setInt(5, e.getAula().getKey());
+                uEvento.setString(6, e.getRicorrenza().toString());
+                uEvento.setInt(7, e.getResponsabile().getKey());
+                uEvento.setInt(8, e.getCorso().getKey());
+                uEvento.setString(9, e.getTipologiaEvento().toString());
+                uEvento.setDate(10, e.getData());
+                uEvento.setDate(11, e.getDataFineRicorrenza());
+                uEvento.setLong(12, e.getVersion());
+                uEvento.setInt(13, e.getIDMaster());
+                uEvento.setInt(14, e.getKey());
+
                 if (uEvento.executeUpdate() == 0) {
                     throw new OptimisticLockException(e);
                 } else {
@@ -250,25 +247,21 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
                 iEvento.setTime(2, e.getOraInizio());
                 iEvento.setTime(3, e.getOraFine());
                 iEvento.setString(4, e.getDescrizione());
-                iEvento.setInt(5, e.getAula().getKey()); 
-                iEvento.setObject(6, e.getRicorrenza().toString()); 
-                iEvento.setInt(7, e.getResponsabile().getKey()); 
-                iEvento.setInt(8, e.getCorso().getKey()); 
-                iEvento.setString(9, e.getTipologiaEvento().toString()); 
-                iEvento.setLong(10, e.getVersion());
-                iEvento.setInt(11, e.getIDMaster()); 
-                iEvento.setDate(12, e.getData()); 
+                iEvento.setInt(5, e.getAula().getKey());
+                iEvento.setString(6, e.getRicorrenza().toString());
+                iEvento.setInt(7, e.getResponsabile().getKey());
+                iEvento.setInt(8, e.getCorso().getKey());
+                iEvento.setString(9, e.getTipologiaEvento().toString());
+                iEvento.setDate(10, e.getData());
+                iEvento.setDate(11, e.getDataFineRicorrenza());
+                iEvento.setLong(12, e.getVersion());
+                iEvento.setInt(13, e.getIDMaster());
 
                 if (iEvento.executeUpdate() == 1) {
-
                     try (ResultSet keys = iEvento.getGeneratedKeys()) {
-
                         if (keys.next()) {
-
                             int key = keys.getInt(1);
-
                             e.setKey(key);
-
                             dataLayer.getCache().add(Evento.class, e);
                         }
                     }
