@@ -61,6 +61,11 @@
         <servlet-name>login</servlet-name>
         <servlet-class>controllers.Login</servlet-class>
     </servlet>
+    
+    <servlet>
+        <servlet-name>EventiTreOre</servlet-name>
+        <servlet-class>controllers.EventiTreOre</servlet-class>
+    </servlet>
     <!-- Servlet Mapping -->
     <servlet-mapping>
         <servlet-name>AulaSelezionata</servlet-name>
@@ -119,8 +124,12 @@
         <servlet-name>EventiPerCorso</servlet-name>
         <url-pattern>/EventiPerCorso</url-pattern>
     </servlet-mapping>
+    
+     <servlet-mapping>
+        <servlet-name>EventiTreOre</servlet-name>
+        <url-pattern>/EventiTreOre</url-pattern>
+    </servlet-mapping>
 
-  
     <!-- Template Configuration Parameters -->
     <!--- __________________ Parametri per il Template __________________ -->
     <!-- template di outline -->

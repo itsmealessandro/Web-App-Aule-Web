@@ -6,6 +6,7 @@ import java.util.List;
 
 import data.domain.Aula;
 import data.domain.Corso;
+import data.domain.Dipartimento;
 import data.domain.Evento;
 import framework.data.DataException;
 
@@ -31,4 +32,7 @@ public interface EventoDAO {
   List<Evento> getEventiSettimanaliByCorso(Corso corso, LocalDate data, int dip_key) throws DataException;
 
   public List<Evento> getEventiByNome(String nome) throws DataException;
+  
+  List<Evento> getEventiByTreOre(Dipartimento dipartimento) throws DataException;
+
 }
