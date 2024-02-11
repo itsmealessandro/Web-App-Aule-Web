@@ -1,9 +1,11 @@
 package controllers;
 
 import data.dao.AuleWebDataLayer;
+import data.domain.Aula;
 import data.domain.Corso;
 import data.domain.Evento;
 import data.domain.Responsabile;
+import data.domainImpl.Ricorrenza;
 import data.domainImpl.TipologiaEvento;
 import framework.data.DataException;
 import framework.result.TemplateManagerException;
@@ -53,7 +55,8 @@ public class ModificaEvento extends AuleWebBaseController {
         }
     }
 
-    private void action_create(HttpServletRequest request, HttpServletResponse response, int e_key, int IDMaster, String nome, Time oraInizio, Time oraFine, String descrizione, String ricorrenza, String tipologiaEvento, Date giorno, int a_key, int r_key, int c_key) throws IOException, ServletException, TemplateManagerException {
+    private void action_create(HttpServletRequest request, HttpServletResponse response, int e_key, String nome, Time oraInizio, Time oraFine, String descrizione, 
+            String tipologiaEvento, Date giorno, String emailR, String nAula, String nCorso) throws IOException, ServletException, TemplateManagerException {
 
         TemplateResult res = new TemplateResult(getServletContext());
         AuleWebDataLayer dataLayer = (AuleWebDataLayer) request.getAttribute("datalayer");
@@ -68,6 +71,16 @@ public class ModificaEvento extends AuleWebBaseController {
             evento.setTipologiaEvento(TipologiaEvento.valueOf(tipologiaEvento));
             evento.setDescrizione(descrizione);
             evento.setNome(nome);
+            
+
+            Responsabile responsabile = dataLayer.getResponsabileDAO().getResponsabileByEmail(emailR);
+            evento.setResponsabile(responsabile);
+
+            Corso corso = dataLayer.getCorsoDAO().getCorsoByNome(nCorso);
+            evento.setCorso(corso);
+
+            Aula aula = dataLayer.getAulaDAO().getAulaByNome(nAula);
+            evento.setAula(aula);
 
             dataLayer.getEventoDAO().storeEvento(evento);
 
@@ -78,7 +91,9 @@ public class ModificaEvento extends AuleWebBaseController {
         }
     }
 
-    private void action_update(HttpServletRequest request, HttpServletResponse response, int e_key, int IDMaster, String nome, Time oraInizio, Time oraFine, String descrizione, String ricorrenza, String tipologiaEvento, Date giorno, String nAula, String emailR, String nCorso) throws IOException, ServletException, TemplateManagerException {
+    private void action_update(HttpServletRequest request, HttpServletResponse response, int e_key, Integer IDMaster, String nome, Time oraInizio, Time oraFine,
+            String descrizione, String ricorrenza, Date giorno, Date dataFineRicorrenza, String tipologiaEvento, String nAula, String emailR, String nCorso)
+            throws IOException, ServletException, TemplateManagerException {
 
         TemplateResult res = new TemplateResult(getServletContext());
         AuleWebDataLayer dataLayer = (AuleWebDataLayer) request.getAttribute("datalayer");
@@ -87,19 +102,26 @@ public class ModificaEvento extends AuleWebBaseController {
             Evento evento = dataLayer.getEventoDAO().createEvento();
 
             evento.setKey(e_key);
+            evento.setIDMaster(IDMaster);
+            evento.setNome(nome);
             evento.setOraInizio(oraInizio);
             evento.setOraFine(oraFine);
-            evento.setData(giorno);
-            evento.setTipologiaEvento(TipologiaEvento.valueOf(tipologiaEvento));
             evento.setDescrizione(descrizione);
-            evento.setNome(nome);
+            evento.setRicorrenza(Ricorrenza.valueOf(ricorrenza));
+            evento.setData(giorno);
+            evento.setDataFineRicorrenza(dataFineRicorrenza);
+            evento.setTipologiaEvento(TipologiaEvento.valueOf(tipologiaEvento));
+            
+            
+            
+            
 
             Responsabile responsabile = dataLayer.getResponsabileDAO().getResponsabileByEmail(emailR);
             evento.setResponsabile(responsabile);
-            
+
             Corso corso = dataLayer.getCorsoDAO().getCorsoByNome(nCorso);
             evento.setCorso(corso);
-            
+
             Aula aula = dataLayer.getAulaDAO().getAulaByNome(nAula);
             evento.setAula(aula);
 
@@ -142,18 +164,24 @@ public class ModificaEvento extends AuleWebBaseController {
         }
         e_key = SecurityHelpers.checkNumeric(request.getParameter("e_key"));
         try {
-            if (request.getParameter("IDMaster") != null
+            if (request.getParameter("IDMaster")!= null
                     && request.getParameter("oraInizio") != null
                     && request.getParameter("oraFine") != null
                     && request.getParameter("descrizione") != null
                     && request.getParameter("tipologiaEvento") != null
                     && request.getParameter("nome") != null
-                    && request.getParameter("aula") != null
+                    && request.getParameter("a_name") != null
                     && request.getParameter("corso") != null
-                    && request.getParameter("responsabile") != null
+                    && request.getParameter("emailR") != null
                     && request.getParameter("giorno") != null
+                    && request.getParameter("dataFineRicorrenza") != null
                     && request.getParameter("ricorrenza") != null) {
-
+                
+                //SE NON RICORRENTE VALORE ZERO
+                Integer IDMaster= SecurityHelpers.checkNumeric(request.getParameter("IDMaster"));
+                if (IDMaster == 0){
+                    IDMaster = null;
+                }
                 String oraInizio = request.getParameter("oraInizio");
                 String oraFine = request.getParameter("oraFine");
                 String giorno = request.getParameter("giorno");
@@ -161,20 +189,26 @@ public class ModificaEvento extends AuleWebBaseController {
                 String descrizione = request.getParameter("descrizione");
                 String nome = request.getParameter("nome");
                 String ricorrenza = request.getParameter("ricorrenza");
-                int IDMaster = SecurityHelpers.checkNumeric(request.getParameter("IDMaster"));
-                String aula = request.getParameter("aula");
+                String aula = request.getParameter("a_name");
                 String corso = request.getParameter("corso");
-                String responsabile = request.getParameter("responsabile");
+                String responsabile = request.getParameter("emailR");
+                String dataFineRicorrenza = request.getParameter("dataFineRicorrenza");
+                //SE NON RICORRENTE VALORE ZERO
+                Date dataFineRicorrenza_sql = null;
+                if(!dataFineRicorrenza.equals("0") ){
+                    dataFineRicorrenza_sql = Date.valueOf(dataFineRicorrenza);
+                }
                 
                 Time oraInizio_sql = Time.valueOf(oraInizio);
                 Time oraFine_sql = Time.valueOf(oraFine);
                 Date giorno_sql = Date.valueOf(giorno);
-                if (e_key != 0) {
-                    // Modifica
-                    action_update(request, response, e_key, IDMaster, nome, oraInizio_sql, oraFine_sql, descrizione, ricorrenza, tipologiaEvento, giorno_sql, aula, responsabile, corso);
+                
+                if(e_key != 0){
+                    action_update(request, response, e_key,IDMaster, nome, oraInizio_sql, oraFine_sql, descrizione, ricorrenza, 
+                            giorno_sql, dataFineRicorrenza_sql, tipologiaEvento, aula, responsabile, corso);
                 } else {
-                    // Creazione
-                    action_create(request, response, e_key, IDMaster, nome, oraInizio_sql, oraFine_sql, descrizione, ricorrenza, tipologiaEvento, giorno_sql, a_key, r_key, c_key);
+                    // Gestisci l'evento singolo
+                    //action_create(request, response, e_key, nome, oraInizio_sql, oraFine_sql, descrizione, tipologiaEvento, giorno_sql, responsabile, aula, corso, isRicorrente);
                 }
 
             } else if (e_key == 0) {
@@ -194,4 +228,5 @@ public class ModificaEvento extends AuleWebBaseController {
         }
 
     }
+
 }

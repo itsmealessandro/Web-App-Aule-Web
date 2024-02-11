@@ -33,4 +33,6 @@ public interface EventoDAO {
   
   List<Evento> getAllEventi() throws DataException;
   
+  List<Evento> getEventiRicorrenti(String nome, int IDresponsabile) throws DataException;
+  
 }

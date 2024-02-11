@@ -97,6 +97,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
         try {
             EventoProxy e = (EventoProxy) createEvento();
             e.setKey(rs.getInt("ID"));
+            e.setIDMaster(rs.getInt("IDMaster"));
             e.setNome(rs.getString("nome"));
             e.setOraInizio(rs.getTime("oraInizio"));
             e.setOraFine(rs.getTime("oraFine"));
@@ -217,25 +218,31 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
                 //TODO: Gestire ricorrenze
                 throw new DataException("GESTIRE RICORRENZE");
             }
-
+            
             if (e.getKey() != null && e.getKey() > 0) {
                 if (e instanceof DataItemProxy && !((DataItemProxy) e).isModified()) {
                     return;
                 }
-                uEvento.setString(1, e.getNome());
-                uEvento.setTime(2, e.getOraInizio());
-                uEvento.setTime(3, e.getOraFine());
-                uEvento.setString(4, e.getDescrizione());
-                uEvento.setInt(5, e.getAula().getKey());
-                uEvento.setString(6, e.getRicorrenza().toString());
-                uEvento.setInt(7, e.getResponsabile().getKey());
-                uEvento.setInt(8, e.getCorso().getKey());
-                uEvento.setString(9, e.getTipologiaEvento().toString());
-                uEvento.setDate(10, e.getData());
-                uEvento.setDate(11, e.getDataFineRicorrenza());
-                uEvento.setLong(12, e.getVersion());
-                uEvento.setInt(13, e.getIDMaster());
-                uEvento.setInt(14, e.getKey());
+                //UPDATE
+                uEvento.setInt(1, e.getKey());
+                //ID MASTER
+                uEvento.setNull(2, java.sql.Types.INTEGER);
+                uEvento.setString(3, e.getNome());
+                uEvento.setTime(4, e.getOraInizio());
+                uEvento.setTime(5, e.getOraFine());
+                uEvento.setString(6, e.getDescrizione());
+                uEvento.setString(7, e.getRicorrenza().toString());
+                uEvento.setDate(8, e.getData());
+                //DATA FINE RICORRENZA
+                uEvento.setNull(9, java.sql.Types.INTEGER);
+                uEvento.setString(10, e.getTipologiaEvento().toString());
+                uEvento.setInt(11, e.getResponsabile().getKey());
+                uEvento.setInt(12, e.getCorso().getKey());
+                uEvento.setInt(13, e.getAula().getKey());
+                
+                uEvento.setLong(14, e.getVersion());
+                
+                
 
                 if (uEvento.executeUpdate() == 0) {
                     throw new OptimisticLockException(e);
@@ -316,6 +323,24 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
             throw new DataException("Unable to load aule", ex);
         }
         return result;
+    }
+
+    @Override
+    public List<Evento> getEventiRicorrenti(String nome, int IDresponsabile) throws DataException {
+        List<Evento> result = new ArrayList();
+
+        try {
+            sEventiRicorrenti.setString(1, nome);
+            sEventiRicorrenti.setInt(2, IDresponsabile);
+            ResultSet rs = sEventiRicorrenti.executeQuery();
+
+            while (rs.next()) {
+                result.add((Evento) getEventoByID(rs.getInt("eventoID")));
+            }
+            return result;
+        } catch (SQLException ex) {
+            throw new DataException("Unable to load eventi", ex);
+        }
     }
 
 }

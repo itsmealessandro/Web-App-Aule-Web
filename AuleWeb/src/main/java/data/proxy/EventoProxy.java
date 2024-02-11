@@ -23,6 +23,7 @@ public class EventoProxy extends EventoImpl implements DataItemProxy {
     protected int aula_key = 0;
     protected int responsabile_key = 0;
     protected int corso_key = 0;
+    protected boolean isRicorrente;
 
     protected DataLayer dataLayer;
 
@@ -33,6 +34,7 @@ public class EventoProxy extends EventoImpl implements DataItemProxy {
         this.aula_key = 0;
         this.responsabile_key = 0;
         this.corso_key = 0;
+        this.isRicorrente = false;
     }
 
     @Override
@@ -42,7 +44,7 @@ public class EventoProxy extends EventoImpl implements DataItemProxy {
     }
 
     @Override
-    public void setIDMaster(int IDMaster) {
+    public void setIDMaster(Integer IDMaster) {
         super.setIDMaster(IDMaster);
         this.modified = true;
     }
@@ -93,17 +95,25 @@ public class EventoProxy extends EventoImpl implements DataItemProxy {
         this.modified = true;
     }
 
+    // Aggiunto getter e setter per il campo isRicorrente
+    public boolean isRicorrente() {
+        return isRicorrente;
+    }
+
+    public void setRicorrente(boolean isRicorrente) {
+        this.isRicorrente = isRicorrente;
+        this.modified = true;
+    }
+
     @Override
     public Aula getAula() {
-
         if (super.getAula() == null && aula_key > 0) {
             try {
                 super.setAula(
                         ((AulaDAO) dataLayer.getDAO(Aula.class)).getAulaByID(aula_key));
             } catch (DataException ex) {
-                Logger.getLogger(AulaProxy.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(EventoProxy.class.getName()).log(Level.SEVERE, null, ex);
             }
-
         }
         return super.getAula();
     }
@@ -117,15 +127,13 @@ public class EventoProxy extends EventoImpl implements DataItemProxy {
 
     @Override
     public Corso getCorso() {
-
         if (super.getCorso() == null && corso_key > 0) {
             try {
                 super.setCorso(
                         ((CorsoDAO) dataLayer.getDAO(Corso.class)).getCorso(corso_key));
             } catch (DataException ex) {
-                Logger.getLogger(AulaProxy.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(EventoProxy.class.getName()).log(Level.SEVERE, null, ex);
             }
-
         }
         return super.getCorso();
     }
@@ -139,15 +147,13 @@ public class EventoProxy extends EventoImpl implements DataItemProxy {
 
     @Override
     public Responsabile getResponsabile() {
-
         if (super.getResponsabile() == null && responsabile_key > 0) {
             try {
                 super.setResponsabile(
                         ((ResponsabileDAO) dataLayer.getDAO(Responsabile.class)).getResponsabile(responsabile_key));
             } catch (DataException ex) {
-                Logger.getLogger(AulaProxy.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(EventoProxy.class.getName()).log(Level.SEVERE, null, ex);
             }
-
         }
         return super.getResponsabile();
     }

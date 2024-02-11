@@ -10,7 +10,7 @@ import java.sql.Date;
 
 public class EventoImpl extends DataItemImpl<Integer> implements Evento {
 
-    private int IDMaster;
+    private Integer IDMaster;
     private String nome;
     private Time oraInizio;
     private Time oraFine;
@@ -22,11 +22,18 @@ public class EventoImpl extends DataItemImpl<Integer> implements Evento {
     private Aula aula;
     private Responsabile responsabile;
     private Corso corso;
+    private boolean isRicorrente; // Aggiunto campo isRicorrente
     
     @Override
-    public int getIDMaster() {
+    public Integer getIDMaster() {
         return IDMaster;
     }
+    
+    @Override
+    public void setIDMaster(Integer IDMaster) {
+        this.IDMaster = IDMaster;
+    }
+    
     @Override
     public Date getDataFineRicorrenza() {
         return dataFineRicorrenza;
@@ -35,10 +42,7 @@ public class EventoImpl extends DataItemImpl<Integer> implements Evento {
     public void setDataFineRicorrenza(Date dataFineRicorrenza) {
         this.dataFineRicorrenza = dataFineRicorrenza;
     }
-    @Override
-    public void setIDMaster(int iDMaster) {
-        IDMaster = iDMaster;
-    }
+    
 
     @Override
     public String getNome() {
@@ -138,6 +142,15 @@ public class EventoImpl extends DataItemImpl<Integer> implements Evento {
     @Override
     public void setTipologiaEvento(TipologiaEvento tipologiaEvento) {
         this.tipologiaEvento = tipologiaEvento;
+    }
+    
+    // Aggiunti metodi getter e setter per isRicorrente
+    public boolean isRicorrente() {
+        return isRicorrente;
+    }
+
+    public void setRicorrente(boolean isRicorrente) {
+        this.isRicorrente = isRicorrente;
     }
 
 }

@@ -1,7 +1,7 @@
 <h1>Modifica Evento</h1>
 
 <#if evento.key == 0>
-  <form method="post" action="ModificaEvento">
+<form method="post" action="ModificaEvento">
     <input type="hidden" name="e_key" value=0>
     <input type="text" name="nome">
     <input type="text" name="oraInizio">
@@ -13,27 +13,34 @@
     <input type="text" name="tipoRicorrenza">
     <input type="text" name="dataFineRicorrenza">
     <input type="submit" name="conf" value="Conferma">
-  </form>
+</form>
 <#else>
-  <form method="post" action="ModificaEvento">
-      
+<form method="post" action="ModificaEvento">
+    <#if evento.ricorrenza == "NESSUNA">
     <input type="hidden" name="IDMaster" value=0>
+    <#else> 
+    <input type="hidden" name="IDMaster" value="${evento.IDMaster}">
+    </#if>
     <input type="hidden" name="e_key" value="${evento.key}">
-    <input type="text" name="nome" value="${evento.nome}">
-    <input type="text" name="a_name" value="${evento.aula.nome}">
     <input type="text" name="oraInizio" value="${evento.oraInizio}">
     <input type="text" name="oraFine" value="${evento.oraFine}">
     <input type="text" name="descrizione" value="${evento.descrizione}">
     <input type="text" name="tipologiaEvento" value="${evento.tipologiaEvento}">
+    <input type="text" name="nome" value="${evento.nome}">
+    <input type="text" name="a_name" value="${evento.aula.nome}">
     <input type="text" name="corso" value="${evento.corso}">
-    <input type="text" name="data" value="${evento.data}">
+    <input type="text" name="emailR" value="${evento.responsabile.email}">
+    <input type="text" name="giorno" value="${evento.data}">
     <#if evento.ricorrenza != "NESSUNA">
-    <input type="text" name="tipoRicorrenza" value="${evento.ricorrenza}">
+    <input type="text" name="ricorrenza" value="${evento.ricorrenza}">
     <input type="text" name="dataFineRicorrenza" value="${evento.dataFineRicorrenza}">
     <#else>
-    <input type="text" name="tipoRicorrenza" value="NESSUNA">
+    <input type="hidden" name="dataFineRicorrenza" value="0">
+    <input type="text" name="ricorrenza" value="NESSUNA">
     </#if>
     <input type="submit" name="conf" value="Conferma">
     <input type="submit" name="delete" value="Elimina">
-  </form>
+</form>
 </#if>
+
+

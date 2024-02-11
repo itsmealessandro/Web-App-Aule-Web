@@ -168,19 +168,19 @@ INSERT INTO `dipartimento` (`ID`, `Nome`, `Descrizione`, `version`) VALUES
 
 CREATE TABLE `evento` (
   `ID` int(11) NOT NULL,
+  `IDMaster` int(11) DEFAULT NULL,
   `nome` varchar(100) DEFAULT NULL,
   `oraInizio` time DEFAULT NULL,
   `oraFine` time DEFAULT NULL,
   `descrizione` text DEFAULT NULL,
-  `IDAula` int(11) DEFAULT NULL,
   `ricorrenza` varchar(100) NOT NULL,
+  `Data` date DEFAULT NULL,
+  `dataFineRicorrenza` date DEFAULT NULL,
+  `tipologiaEvento` varchar(100) DEFAULT NULL,
   `IDResponsabile` int(11) DEFAULT NULL,
   `IDCorso` int(11) DEFAULT NULL,
-  `tipologiaEvento` varchar(100) DEFAULT NULL,
-  `version` int(11) NOT NULL,
-  `IDMaster` int(11) DEFAULT NULL,
-  `Data` date DEFAULT NULL,
-  `dataFineRicorrenza` date DEFAULT NULL
+  `IDAula` int(11) DEFAULT NULL,
+  `version` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
