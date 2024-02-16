@@ -132,17 +132,20 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
   @Override
   public Aula getAulaByName(String aula_name) throws DataException {
     Aula a = null;
+
+    System.out.println("Secondo input:" + aula_name);
     try {
-      sAulaPerID.setString(1, aula_name);
-      try (ResultSet rs = sAulaPerID.executeQuery()) {
+      sAulaByName.setString(1, aula_name);
+      try (ResultSet rs = sAulaByName.executeQuery()) {
         if (rs.next()) {
           a = getAulaByID(rs.getInt("ID"));
         }
       }
+      System.out.println("nome Proxy:" + a.getNome());
+      return a;
     } catch (SQLException ex) {
       throw new DataException("Unable to load aula by Name", ex);
     }
-    return a;
   }
 
   @Override
@@ -151,7 +154,7 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
 
     try (ResultSet rs = sAule.executeQuery()) {
       while (rs.next()) {
-        result.add((Aula) getAulaByID(rs.getInt("aulaID")));
+        result.add((Aula) getAulaByID(rs.getInt("ID")));
       }
     } catch (SQLException ex) {
       throw new DataException("Unable to load aule", ex);
@@ -175,7 +178,7 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
           // then getArticle, with its queries, will populate the
           // corresponding objects. Less efficient, but in this way
           // article creation logic is better encapsulated
-          result.add((Aula) getAulaByID(rs.getInt("eventoID")));
+          result.add((Aula) getAulaByID(rs.getInt("ID")));
         }
       }
     } catch (SQLException ex) {

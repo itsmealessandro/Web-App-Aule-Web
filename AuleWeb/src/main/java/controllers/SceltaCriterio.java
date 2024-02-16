@@ -6,6 +6,8 @@ import framework.result.TemplateResult;
 import framework.security.SecurityHelpers;
 
 import java.io.IOException;
+import java.sql.Date;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -48,22 +50,22 @@ public class SceltaCriterio extends AuleWebBaseController {
     }
   }
 
-  private void action_aula(HttpServletRequest request, HttpServletResponse response, int dip_key, String aula_n)
+  private void action_aula(HttpServletRequest request, HttpServletResponse response, int dip_key, String aula_n,
+      Date data)
       throws IOException, ServletException, TemplateManagerException {
 
     try {
       AuleWebDataLayer dataLayer = (AuleWebDataLayer) request.getAttribute("datalayer");
-      System.out.println(aula_n);
       Aula aula = dataLayer.getAulaDAO().getAulaByName(aula_n);
 
-      System.out.println("HI");
-      System.out.println(aula.getKey());
       StringBuffer url = new StringBuffer();
 
       url.append("EventiPerSettimana?");
       url.append("dip_key=" + dip_key);
       url.append("&&");
       url.append("aula_key=" + aula.getKey());
+      url.append("&&");
+      url.append("data=" + data);
 
       response.sendRedirect(url.toString());
 
@@ -89,14 +91,16 @@ public class SceltaCriterio extends AuleWebBaseController {
       if (request.getParameter("action") != null) {
 
         if (request.getParameter("action").equals("confCorso")) { // filtro corso
+
           String corso_n = request.getParameter("corso_n");
+          Date data = Date.valueOf(request.getParameter("data"));
 
           action_corso(request, response, dip_key, corso_n);
 
-        } else if (request.getParameter("action").equals("confAula")) { // fitlro aula
+        } else if (request.getParameter("action").equals("confAula")) { // filto aula
           String aula_n = request.getParameter("aula_n");
-
-          action_aula(request, response, dip_key, aula_n);
+          Date data = Date.valueOf(request.getParameter("data"));
+          action_aula(request, response, dip_key, aula_n, data);
         }
       }
 
