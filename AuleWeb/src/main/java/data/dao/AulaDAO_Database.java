@@ -18,7 +18,7 @@ import java.util.List;
 
 public class AulaDAO_Database extends DAO implements AulaDAO {
 
-  private PreparedStatement sAulaPerID;
+  private PreparedStatement sAulaPerID, sAulaByName;
   private PreparedStatement sAule, sAulePerDipartimento;
   private PreparedStatement iAula, uAula, dAula;
 
@@ -34,16 +34,10 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
       // precompiliamo tutte le query utilizzate nella classe
       // precompile all the queries uses in this class
       sAulaPerID = connection.prepareStatement("SELECT * FROM Aula WHERE ID=?");
+      sAulaByName = connection.prepareStatement("SELECT * FROM Aula WHERE Nome=?");
       sAule = connection.prepareStatement("SELECT ID AS aulaID FROM Aula");
       sAulePerDipartimento = connection.prepareStatement("SELECT ID FROM Aula WHERE IDdipartimento=?");
 
-      // notare l'ultimo paametro extra di questa chiamata a
-      // prepareStatement: lo usiamo per assicurarci che il JDBC
-      // restituisca la chiave generata automaticamente per il
-      // record inserito
-      // note the last parameter in this call to prepareStatement:
-      // it is used to ensure that the JDBC will sotre and return
-      // the auto generated key for the inserted recors
       iAula = connection.prepareStatement(
           "INSERT INTO Aula (nome, luogo, edificio, piano, capienza, preseElettriche, preseRete, note, "
               + "IDAttrezzatura, IDDipartimento, IDResponsabile) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
@@ -64,6 +58,7 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
     try {
 
       sAulaPerID.close();
+      sAulaByName.close();
       sAule.close();
       sAulePerDipartimento.close();
       iAula.close();
@@ -130,6 +125,26 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
       } catch (SQLException ex) {
         throw new DataException("Unable to load aula by ID", ex);
       }
+    }
+    return a;
+  }
+
+  @Override
+  public Aula getAulaByName(String aula_name) throws DataException {
+    Aula a = null;
+    try {
+      sAulaPerID.setString(1, aula_name);
+      try (ResultSet rs = sAulaPerID.executeQuery()) {
+        if (rs.next()) {
+          // Creiamo un'istanza di AulaProxy invece di Aula
+          a = creaNuovaAula(rs);
+          // e lo mettiamo anche nella cache
+          // and put it also in the cache
+          dataLayer.getCache().add(Aula.class, a);
+        }
+      }
+    } catch (SQLException ex) {
+      throw new DataException("Unable to load aula by Name", ex);
     }
     return a;
   }

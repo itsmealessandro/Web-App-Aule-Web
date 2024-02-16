@@ -1,21 +1,21 @@
 <h1>Scegli Un Criterio di Ricerca</h1>
 
 <h2>Eventi Settimanali per Corso</h2>
-<form method="POST" action="sceltaCriterio">
+<form method="POST" action="SceltaCriterio?action=confCorso">
   <input type="hidden" name="dip_key" value="${dipartimento.key}" />
   <p>Scelgi una data</p>
   <input type="date" name="data" />
   <p>Inserisci il nome di un Corso</p>
-  <input type="text" name="corso" />
-  <input type="submit" name="confCorso" value="conferma">
+  <input type="text" name="corso_n" />
+  <input type="submit" name="confCorso" value="Conferma">
 </form>
 <hr>
 <h2>Eventi Settimanali per Aula</h2>
-<form method="POST" action="sceltaCriterio">
+<form method="POST" action="SceltaCriterio?action=confAula">
   <input type="hidden" name="dip_key" value="${dipartimento.key}" />
   <p>Scelgi una data</p>
   <input type="date" name="data" />
   <p>Inserisci il nome di un'Aula</p>
-  <input type="text" name="aula" />
+  <input type="text" name="aula_n" />
   <input type="submit" name="confAula" value="conferma">
 </form>

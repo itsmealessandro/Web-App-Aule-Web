@@ -10,6 +10,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import data.dao.AuleWebDataLayer;
+import data.domain.Aula;
+import data.domain.Corso;
 import data.domain.Dipartimento;
 
 public class SceltaCriterio extends AuleWebBaseController {
@@ -31,19 +33,72 @@ public class SceltaCriterio extends AuleWebBaseController {
     }
   }
 
+  private void action_corso(HttpServletRequest request, HttpServletResponse response, int dip_key, String corso_n)
+      throws IOException, ServletException, TemplateManagerException {
+
+    try {
+      AuleWebDataLayer dataLayer = (AuleWebDataLayer) request.getAttribute("datalayer");
+
+      // TODO riga inserita solo per non dare errore
+      Aula aula = dataLayer.getAulaDAO().getAulaByName("aa");
+      // Corso corso = dataLayer.getCorsoDAO().getCorsoByName(corso_n);
+      // il metodo ènel branch Eventi2
+    } catch (DataException ex) {
+      handleError("Data access exception: " + ex.getMessage(), request, response);
+    }
+  }
+
+  private void action_aula(HttpServletRequest request, HttpServletResponse response, int dip_key, String aula_n)
+      throws IOException, ServletException, TemplateManagerException {
+
+    try {
+      AuleWebDataLayer dataLayer = (AuleWebDataLayer) request.getAttribute("datalayer");
+      System.out.println(aula_n);
+      Aula aula = dataLayer.getAulaDAO().getAulaByName(aula_n);
+
+      System.out.println("HI");
+      StringBuffer url = new StringBuffer();
+
+      url.append("EventiPerSettimana?");
+      url.append("dip_key=" + dip_key);
+      url.append("&&");
+      url.append("aula_key=" + aula.getKey());
+
+      response.sendRedirect(url.toString());
+
+    } catch (DataException ex) {
+      handleError("Data access exception: " + ex.getMessage(), request, response);
+    }
+  }
+
   @Override
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
       throws ServletException {
-
     request.setAttribute("page_title", "Gestione dipartimenti");
 
-    int dip_key = 0;
-    if (request.getParameter("dip_key") != null) {
-      dip_key = SecurityHelpers.checkNumeric(request.getParameter("dip_key"));
-    } else {
-      handleError("Nessun dipartimento Selezionato", request, response);
-    }
     try {
+      int dip_key = 0;
+      if (request.getParameter("dip_key") != null) {
+        dip_key = SecurityHelpers.checkNumeric(request.getParameter("dip_key"));
+      } else {
+        // TODO lanciare un'eccezione o interrompere il flusso del codice
+        handleError("Nessun dipartimento Selezionato", request, response);
+      }
+
+      if (request.getParameter("action") != null) {
+
+        if (request.getParameter("action").equals("confCorso")) { // filtro corso
+          String corso_n = request.getParameter("corso_n");
+
+          action_corso(request, response, dip_key, corso_n);
+
+        } else if (request.getParameter("action").equals("confAula")) { // fitlro aula
+          String aula_n = request.getParameter("aula_n");
+
+          action_aula(request, response, dip_key, aula_n);
+        }
+      }
+
       action_default(request, response, dip_key);
     } catch (NumberFormatException ex) {
       handleError("Invalid number submitted", request, response);
