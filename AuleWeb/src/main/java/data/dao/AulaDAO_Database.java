@@ -136,11 +136,7 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
       sAulaPerID.setString(1, aula_name);
       try (ResultSet rs = sAulaPerID.executeQuery()) {
         if (rs.next()) {
-          // Creiamo un'istanza di AulaProxy invece di Aula
-          a = creaNuovaAula(rs);
-          // e lo mettiamo anche nella cache
-          // and put it also in the cache
-          dataLayer.getCache().add(Aula.class, a);
+          a = getAulaByID(rs.getInt("ID"));
         }
       }
     } catch (SQLException ex) {

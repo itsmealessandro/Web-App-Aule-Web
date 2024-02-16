@@ -57,6 +57,7 @@ public class SceltaCriterio extends AuleWebBaseController {
       Aula aula = dataLayer.getAulaDAO().getAulaByName(aula_n);
 
       System.out.println("HI");
+      System.out.println(aula.getKey());
       StringBuffer url = new StringBuffer();
 
       url.append("EventiPerSettimana?");
