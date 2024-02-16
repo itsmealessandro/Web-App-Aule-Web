@@ -10,6 +10,10 @@
         <servlet-class>controllers.Homepage</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>TestCSS</servlet-name>
+        <servlet-class>controllers.TestCSS</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>EventiPerSettimana</servlet-name>
         <servlet-class>controllers.EventiPerSettimana</servlet-class>
     </servlet>
@@ -82,6 +86,10 @@
     <servlet-mapping>
         <servlet-name>Homepage</servlet-name>
         <url-pattern>/Homepage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TestCSS</servlet-name>
+        <url-pattern>/TestCSS</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>login</servlet-name>
