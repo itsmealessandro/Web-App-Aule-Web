@@ -57,10 +57,19 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
                     Statement.RETURN_GENERATED_KEYS);
 
             uEvento = connection.prepareStatement(
-                    "UPDATE `evento` SET `nome` = ?, `oraInizio` = ?, `oraFine` = ?, `descrizione` = ?, "
-                    + "`IDAula` = ?, `ricorrenza` = ?, `IDResponsabile` = ?, `IDCorso` = ?, "
-                    + "`tipologiaEvento` = ?, `version` = ?, `IDMaster` = ?, `Data` = ?, "
-                    + "`dataFineRicorrenza` = ? WHERE `ID` = ?;");
+                    "UPDATE evento\n"
+                    + "SET nome = :nome,\n"
+                    + "    oraInizio = :oraInizio,\n"
+                    + "    oraFine = :oraFine,\n"
+                    + "    descrizione = :descrizione,\n"
+                    + "    ricorrenza = :ricorrenza,\n"
+                    + "    Data = :data,\n"
+                    + "    dataFineRicorrenza = :dataFineRicorrenza,\n"
+                    + "    tipologiaEvento = :tipologiaEvento,\n"
+                    + "    IDResponsabile = :IDResponsabile,\n"
+                    + "    IDCorso = :IDCorso,\n"
+                    + "    IDAula = :IDAula\n"
+                    + "WHERE ID = :eventoID;");
 
             dEvento = connection.prepareStatement("DELETE FROM evento WHERE ID=?");
         } catch (SQLException ex) {
@@ -218,7 +227,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
                 //TODO: Gestire ricorrenze
                 throw new DataException("GESTIRE RICORRENZE");
             }
-            
+
             if (e.getKey() != null && e.getKey() > 0) {
                 if (e instanceof DataItemProxy && !((DataItemProxy) e).isModified()) {
                     return;
@@ -239,10 +248,8 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
                 uEvento.setInt(11, e.getResponsabile().getKey());
                 uEvento.setInt(12, e.getCorso().getKey());
                 uEvento.setInt(13, e.getAula().getKey());
-                
+
                 uEvento.setLong(14, e.getVersion());
-                
-                
 
                 if (uEvento.executeUpdate() == 0) {
                     throw new OptimisticLockException(e);
