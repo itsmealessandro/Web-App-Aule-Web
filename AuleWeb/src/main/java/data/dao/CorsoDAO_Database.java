@@ -22,7 +22,7 @@ import java.sql.Statement;
  */
 public class CorsoDAO_Database extends DAO implements CorsoDAO {
 
-  private PreparedStatement iCorso, uCorso, sCorsoByID,sCorsoByNome;
+  private PreparedStatement iCorso, uCorso, sCorsoByID, sCorsoByNome;
 
   public CorsoDAO_Database(DataLayer d) {
     super(d);
@@ -38,7 +38,7 @@ public class CorsoDAO_Database extends DAO implements CorsoDAO {
           Statement.RETURN_GENERATED_KEYS);
       uCorso = connection
           .prepareStatement("UPDATE Corso SET nome=?,responsabileID=?,version=? WHERE ID=? and version=?");
-      sCorsoByNome= connection.prepareStatement("SELECT * FROM corso WHERE Nome=?");
+      sCorsoByNome = connection.prepareStatement("SELECT * FROM Corso WHERE Nome=?");
     } catch (SQLException ex) {
       throw new DataException("Error initializing AuleWeb data layer", ex);
     }
@@ -151,19 +151,19 @@ public class CorsoDAO_Database extends DAO implements CorsoDAO {
       throw new DataException("Unable to store Corso", ex);
     }
   }
-  
+
   @Override
-    public Corso getCorsoByNome(String nome) throws DataException {
-        try {
-            sCorsoByNome.setString(1, nome);
-            try (ResultSet rs = sCorsoByNome.executeQuery()) {
-                if (rs.next()) {
-                    return getCorso(rs.getInt("ID"));
-                }
-            }
-        } catch (SQLException ex) {
-            throw new DataException("Unable to find corso", ex);
+  public Corso getCorsoByNome(String nome) throws DataException {
+    try {
+      sCorsoByNome.setString(1, nome);
+      try (ResultSet rs = sCorsoByNome.executeQuery()) {
+        if (rs.next()) {
+          return getCorso(rs.getInt("ID"));
         }
-        return null;
+      }
+    } catch (SQLException ex) {
+      throw new DataException("Unable to find corso", ex);
     }
+    return null;
+  }
 }
