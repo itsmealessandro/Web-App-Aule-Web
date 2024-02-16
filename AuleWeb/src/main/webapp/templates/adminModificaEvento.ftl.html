@@ -1,44 +1,52 @@
 <h1>Modifica Evento</h1>
 
 <#if evento.key==0>
-  <form method="post" action="ModificaEvento">
-    <input type="hidden" name="e_key" value=0>
-    <input type="text" name="nome">
-    <input type="text" name="oraInizio">
-    <input type="text" name="oraFine">
+<form method="post" action="ModificaEvento">
+    <input type="hidden" name="e_key" value="0">
+    <input type="time" name="oraInizio">
+    <input type="time" name="oraFine">
     <input type="text" name="descrizione">
     <input type="text" name="tipologiaEvento">
+    <input type="text" name="nome">
+    <input type="text" name="a_name">
     <input type="text" name="corso">
-    <input type="checkbox" name="ricorrente">
-    <input type="text" name="tipoRicorrenza">
+    <input type="text" name="emailR">
+    <input type="date" name="giorno">
+    <#if evento.ricorrenza != "NESSUNA">
+    <input type="text" name="ricorrenza">
     <input type="text" name="dataFineRicorrenza">
+    <#else>
+    <input type="text" name="dataFineRicorrenza" value="0">
+    <input type="text" name="ricorrenza" value="NESSUNA">
+    </#if>
     <input type="submit" name="conf" value="Conferma">
-  </form>
-  <#else>
-    <form method="post" action="ModificaEvento">
-      <#if evento.ricorrenza=="NESSUNA">
-        <input type="hidden" name="IDMaster" value=0>
-        <#else>
-          <input type="hidden" name="IDMaster" value="${evento.IDMaster}">
-      </#if>
-      <input type="hidden" name="e_key" value="${evento.key}">
-      <input type="time" name="oraInizio" value="${evento.oraInizio?string('HH:mm:ss')}">
-      <input type="time" name="oraFine" value="${evento.oraFine?string('HH:mm:ss')}">
-      <input type="text" name="descrizione" value="${evento.descrizione}">
-      <input type="text" name="tipologiaEvento" value="${evento.tipologiaEvento}">
-      <input type="text" name="nome" value="${evento.nome}">
-      <input type="text" name="a_name" value="${evento.aula.nome}">
-      <input type="text" name="corso" value="${evento.corso.nome}">
-      <input type="text" name="emailR" value="${evento.responsabile.email}">
-      <input type="date" name="giorno" value="${evento.data?string('yyyy-MM-dd')}">
-      <#if evento.ricorrenza !="NESSUNA">
-        <input type="text" name="ricorrenza" value="${evento.ricorrenza}">
-        <input type="text" name="dataFineRicorrenza" value="${evento.dataFineRicorrenza?string('yyyy-MM-dd')}">
-        <#else>
-          <input type="text" name="dataFineRicorrenza" value="0">
-          <input type="text" name="ricorrenza" value="NESSUNA">
-      </#if>
-      <input type="submit" name="conf" value="Conferma">
-      <input type="submit" name="delete" value="Elimina">
-    </form>
-  </#if>
+
+</form>
+<#else>
+<form method="post" action="ModificaEvento">
+    <#if evento.ricorrenza=="NESSUNA">
+    <input type="hidden" name="IDMaster" value=0>
+    <#else>
+    <input type="hidden" name="IDMaster" value="${evento.IDMaster}">
+    </#if>
+    <input type="hidden" name="e_key" value="${evento.key}">
+    <input type="time" name="oraInizio" value="${evento.oraInizio?string('HH:mm:ss')}">
+    <input type="time" name="oraFine" value="${evento.oraFine?string('HH:mm:ss')}">
+    <input type="text" name="descrizione" value="${evento.descrizione}">
+    <input type="text" name="tipologiaEvento" value="${evento.tipologiaEvento}">
+    <input type="text" name="nome" value="${evento.nome}">
+    <input type="text" name="a_name" value="${evento.aula.nome}">
+    <input type="text" name="corso" value="${evento.corso.nome}">
+    <input type="text" name="emailR" value="${evento.responsabile.email}">
+    <input type="date" name="giorno" value="${evento.data?string('yyyy-MM-dd')}">
+    <#if evento.ricorrenza !="NESSUNA">
+    <input type="text" name="ricorrenza" value="${evento.ricorrenza}">
+    <input type="text" name="dataFineRicorrenza" value="${evento.dataFineRicorrenza?string('yyyy-MM-dd')}">
+    <#else>
+    <input type="text" name="dataFineRicorrenza" value="0">
+    <input type="text" name="ricorrenza" value="NESSUNA">
+    </#if>
+    <input type="submit" name="conf" value="Conferma">
+    <input type="submit" name="delete" value="Elimina">
+</form>
+</#if>
