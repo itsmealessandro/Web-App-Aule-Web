@@ -89,7 +89,7 @@ public class ModificaEvento extends AuleWebBaseController {
       evento.setTipologiaEvento(TipologiaEvento.valueOf(tipologiaEvento));
 
       // Recupero del responsabile, aula e corso dall'input dell'utente
-      Aula aula = dataLayer.getAulaDAO().getAulaByNome(nAula);
+      Aula aula = dataLayer.getAulaDAO().getAulaByName(nAula);
       evento.setAula(aula);
 
       Responsabile responsabile = dataLayer.getResponsabileDAO().getResponsabileByEmail(emailR);
@@ -135,7 +135,7 @@ public class ModificaEvento extends AuleWebBaseController {
       Corso corso = dataLayer.getCorsoDAO().getCorsoByNome(nCorso);
       evento.setCorso(corso);
 
-      Aula aula = dataLayer.getAulaDAO().getAulaByNome(nAula);
+      Aula aula = dataLayer.getAulaDAO().getAulaByName(nAula);
       evento.setAula(aula);
 
       dataLayer.getEventoDAO().storeEvento(evento);

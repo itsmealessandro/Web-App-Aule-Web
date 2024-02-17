@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Feb 16, 2024 at 01:02 PM
+-- Generation Time: Feb 17, 2024 at 04:48 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -86,7 +86,7 @@ CREATE TABLE `Aula` (
   `note` text DEFAULT NULL,
   `IDAttrezzatura` int(11) DEFAULT NULL,
   `IDDipartimento` int(11) DEFAULT NULL,
-  `version` int(11) NOT NULL,
+  `version` int(11) NOT NULL DEFAULT 1,
   `IDResponsabile` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -180,7 +180,7 @@ CREATE TABLE `Evento` (
   `IDResponsabile` int(11) DEFAULT NULL,
   `IDCorso` int(11) DEFAULT NULL,
   `IDAula` int(11) DEFAULT NULL,
-  `version` int(11) NOT NULL
+  `version` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -196,7 +196,9 @@ INSERT INTO `Evento` (`ID`, `IDMaster`, `nome`, `oraInizio`, `oraFine`, `descriz
 (6, 3, 'Evento 6', '12:00:00', '14:00:00', 'Descrizione dell\'evento 6', 'SETTIMANALE', '2024-02-23', '2024-05-08', 'SEMINARIO', 9, 3, 7, 1),
 (7, NULL, 'Evento 7', '10:00:00', '12:00:00', 'Descrizione dell\'evento 7', 'NESSUNA', '2024-02-20', NULL, 'SEMINARIO', 2, 4, 3, 1),
 (9, NULL, 'Evento 9', '11:30:00', '13:30:00', 'Descrizione dell\'evento 9', 'NESSUNA', '2024-02-01', NULL, 'SEMINARIO', 7, 6, 8, 1),
-(10, NULL, 'Evento 10', '08:30:00', '10:30:00', 'Descrizione dell\'evento 10', 'NESSUNA', '2024-01-28', NULL, 'SEMINARIO', 4, 7, 2, 1);
+(10, NULL, 'Evento 10', '08:30:00', '10:30:00', 'Descrizione dell\'evento 10', 'NESSUNA', '2024-01-28', NULL, 'SEMINARIO', 4, 7, 2, 1),
+(13, NULL, 'a', '14:00:00', '14:00:00', 'a', 'NESSUNA', '2024-02-21', NULL, 'LEZIONE', 6, 1, 1, 1),
+(14, NULL, 'B', '21:00:00', '21:00:00', 'XD', 'NESSUNA', '2024-02-29', NULL, 'LEZIONE', 6, 2, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -319,7 +321,7 @@ ALTER TABLE `Dipartimento`
 -- AUTO_INCREMENT for table `Evento`
 --
 ALTER TABLE `Evento`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `Responsabile`

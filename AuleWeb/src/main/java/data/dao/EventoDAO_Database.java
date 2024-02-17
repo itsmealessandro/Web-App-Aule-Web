@@ -28,7 +28,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
 
 
   private PreparedStatement iEvento, uEvento, sEventoByID, sEventoByAula, sEventiByDay, sEventiByCorso,
-      sEventiRicorrenti, sAllEventi, sEventoIDMaster, sEventoIDMaster, sEventiSettimanaliByAula, sEventiByTreOre, sEventoByNome, dEvento;
+      sEventiRicorrenti, sAllEventi, sEventoIDMaster, sEventiSettimanaliByAula, sEventiByTreOre, sEventoByNome, dEvento;
 
   public EventoDAO_Database(DataLayer d) {
     super(d);
@@ -422,22 +422,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
     }
   }
 
-  @Override
-  public List<Evento> getEventiByNome(String nome) throws DataException {
-    List<Evento> result = new ArrayList();
-
-    try {
-      sEventiRicorrenti.setString(1, nome);
-      ResultSet rs = sEventiRicorrenti.executeQuery();
-
-      while (rs.next()) {
-        result.add((Evento) getEventoByID(rs.getInt("eventoID")));
-      }
-      return result;
-    } catch (SQLException ex) {
-      throw new DataException("Unable to load eventi", ex);
-    }
-  }
+ 
 
   @Override
   public List<Evento> getEventiSettimanaliByAula(Aula aula, LocalDate date, int dip_key) throws DataException {

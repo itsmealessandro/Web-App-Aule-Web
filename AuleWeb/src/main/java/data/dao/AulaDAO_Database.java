@@ -38,7 +38,6 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
       sAulaByName = connection.prepareStatement("SELECT * FROM Aula WHERE Nome=?");
       sAule = connection.prepareStatement("SELECT ID AS aulaID FROM Aula");
       sAulePerDipartimento = connection.prepareStatement("SELECT ID FROM Aula WHERE IDdipartimento=?");
-      sAulaByNome= connection.prepareStatement("SELECT * FROM Aula WHERE nome=?");
 
       iAula = connection.prepareStatement(
           "INSERT INTO Aula (nome, luogo, edificio, piano, capienza, preseElettriche, preseRete, note, "
@@ -322,19 +321,4 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
     }
   }
   
-  // TODO da rimuovere
-  @Override
-    public Aula getAulaByNome(String nome) throws DataException {
-        try {
-            sAulaByNome.setString(1, nome);
-            try (ResultSet rs = sAulaByNome.executeQuery()) {
-                if (rs.next()) {
-                    return getAulaByID(rs.getInt("ID"));
-                }
-            }
-        } catch (SQLException ex) {
-            throw new DataException("Unable to find aula", ex);
-        }
-        return null;
-    }
 }

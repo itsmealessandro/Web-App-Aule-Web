@@ -62,11 +62,7 @@
         <servlet-name>EventiPerCorso</servlet-name>
         <servlet-class>controllers.EventiPerCorso</servlet-class>
     </servlet>
-  
-    <servlet>
-        <servlet-name>login</servlet-name>
-        <servlet-class>controllers.Login</servlet-class>
-    </servlet>
+ 
     
     <servlet>
         <servlet-name>listadipartimenti</servlet-name>
@@ -166,11 +162,13 @@
     <servlet-mapping>
         <servlet-name>GestioneEventi</servlet-name>
         <url-pattern>/GestioneEventi</url-pattern>
+    </servlet-mapping>
 
      <servlet-mapping>
         <servlet-name>EventiTreOre</servlet-name>
         <url-pattern>/EventiTreOre</url-pattern>
     </servlet-mapping>
+    
 
     <!-- Template Configuration Parameters -->
     <!--- __________________ Parametri per il Template __________________ -->

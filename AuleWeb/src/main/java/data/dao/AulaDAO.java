@@ -29,6 +29,4 @@ public interface AulaDAO {
   void storeAula(Aula aula) throws DataException;
 
   void deleteAula(Aula aula) throws DataException;
-  
-  Aula getAulaByNome(String nome) throws DataException;
 }
