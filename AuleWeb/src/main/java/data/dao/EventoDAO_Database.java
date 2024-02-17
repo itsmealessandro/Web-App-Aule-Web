@@ -2,6 +2,7 @@ package data.dao;
 
 import data.domain.Aula;
 import data.domain.Corso;
+import data.domain.Dipartimento;
 import data.domain.Evento;
 import data.domainImpl.Ricorrenza;
 import data.domainImpl.TipologiaEvento;
@@ -25,8 +26,9 @@ import java.util.List;
 
 public class EventoDAO_Database extends DAO implements EventoDAO {
 
+
   private PreparedStatement iEvento, uEvento, sEventoByID, sEventoByAula, sEventiByDay, sEventiByCorso,
-      sEventiRicorrenti, sAllEventi, dEvento, sEventoIDMaster, sEventoByNome;
+      sEventiRicorrenti, sAllEventi, sEventoIDMaster, sEventoIDMaster, sEventiSettimanaliByAula, sEventiByTreOre, sEventoByNome, dEvento;
 
   public EventoDAO_Database(DataLayer d) {
     super(d);
@@ -41,7 +43,11 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
       sEventoIDMaster = connection.prepareStatement("SELECT * FROM Evento WHERE IDMaster = ?");
       sAllEventi = connection.prepareStatement("SELECT * FROM Evento");
       sEventoByAula = connection.prepareStatement("SELECT * FROM Evento WHERE IDAula=?");
+
       sEventoByNome = connection.prepareStatement("SELECT * FROM Evento WHERE nome = ?");
+
+      sEventiSettimanaliByAula = connection.prepareStatement(
+          "SELECT *FROM Evento AS ev INNER JOIN Aula AS au ON ev.IDAula = au.ID INNER JOIN Dipartimento AS d ON au.IDDipartimento = d.ID WHERE d.ID = ?  AND au.ID = ? AND ev.Data BETWEEN ? AND ?");
       sEventiByDay = connection.prepareStatement(
           " SELECT e.* FROM Evento e JOIN Aula a ON e.IDAula = a.ID JOIN Dipartimento d ON a.IDDipartimento = d.ID WHERE d.ID = ? AND e.dataInizio <= ? AND e.dataFine >= ?");
       sEventiByCorso = connection.prepareStatement(
@@ -74,6 +80,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
               + " WHERE ID = ? AND version = ?");
 
       dEvento = connection.prepareStatement("DELETE FROM evento WHERE ID=?");
+
     } catch (SQLException ex) {
       throw new DataException("Error initializing data layer", ex);
     }
@@ -92,6 +99,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
       sAllEventi.close();
       dEvento.close();
       sEventoByNome.close();
+      sEventiByTreOre.close();
 
     } catch (SQLException ex) {
       // TODO gestire l'eccezione
@@ -281,6 +289,22 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
 
     return listaEventi;
   }
+  
+  @Override
+    public List<Evento> getEventiByTreOre(Dipartimento dipartimento) throws DataException {
+        List<Evento> listaEventi = new ArrayList<>();
+        try {
+            sEventiByTreOre.setInt(1, dipartimento.getKey());
+            try (ResultSet resultSet = sEventiByTreOre.executeQuery()) {
+                while (resultSet.next()) {
+                    listaEventi.add((Evento) getEventoByID(resultSet.getInt("ID")));
+                }
+            }
+        } catch (SQLException sqlException) {
+            throw new DataException("Unable to load Eventi from Aula");
+        }
+        return listaEventi;
+        }
 
   // TODO DA RIFARE
   @Override
@@ -396,5 +420,49 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
     } catch (SQLException | OptimisticLockException ex) {
       throw new DataException("Unable to store Evento", ex);
     }
+  }
+
+  @Override
+  public List<Evento> getEventiByNome(String nome) throws DataException {
+    List<Evento> result = new ArrayList();
+
+    try {
+      sEventiRicorrenti.setString(1, nome);
+      ResultSet rs = sEventiRicorrenti.executeQuery();
+
+      while (rs.next()) {
+        result.add((Evento) getEventoByID(rs.getInt("eventoID")));
+      }
+      return result;
+    } catch (SQLException ex) {
+      throw new DataException("Unable to load eventi", ex);
+    }
+  }
+
+  @Override
+  public List<Evento> getEventiSettimanaliByAula(Aula aula, LocalDate date, int dip_key) throws DataException {
+    List<Evento> listaEventi = new ArrayList<>();
+    LocalDate inizioSettimana = date.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+    LocalDate fineSettimana = date.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+
+    Date inizioSettimanaSql = Date.valueOf(inizioSettimana);
+    Date fineSettimanaSql = Date.valueOf(fineSettimana);
+
+    try {
+      sEventiSettimanaliByAula.setInt(1, dip_key);
+      sEventiSettimanaliByAula.setInt(2, aula.getKey());
+      sEventiSettimanaliByAula.setDate(3, inizioSettimanaSql);
+      sEventiSettimanaliByAula.setDate(4, fineSettimanaSql);
+
+      try (ResultSet rs = sEventiSettimanaliByAula.executeQuery()) {
+        while (rs.next()) {
+          listaEventi.add(getEventoByID(rs.getInt("ID")));
+        }
+      }
+    } catch (SQLException ex) {
+      ex.printStackTrace();
+      throw new DataException("Unable to load Eventi Settimanali By Aula");
+    }
+    return listaEventi;
   }
 }

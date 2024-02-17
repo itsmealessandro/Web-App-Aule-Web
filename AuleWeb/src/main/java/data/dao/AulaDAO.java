@@ -11,8 +11,11 @@ public interface AulaDAO {
   // Crea e restituisce una nuova aula
   Aula createAula() throws DataException;
 
-  // Restituisce aula corrente
+  // Restituisce aula dato l'ID
   Aula getAulaByID(int aula_key) throws DataException;
+
+  // Restituisce aula dato il nome
+  Aula getAulaByName(String aula_name) throws DataException;
 
   // Restituisce tutte le aule disponibili
   List<Aula> getAllAule() throws DataException;
