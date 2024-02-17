@@ -18,7 +18,7 @@ import java.util.List;
 
 public class AulaDAO_Database extends DAO implements AulaDAO {
 
-  private PreparedStatement sAulaPerID;
+  private PreparedStatement sAulaPerID, sAulaByName;
   private PreparedStatement sAule, sAulePerDipartimento;
   private PreparedStatement iAula, uAula, dAula;
 
@@ -34,16 +34,10 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
       // precompiliamo tutte le query utilizzate nella classe
       // precompile all the queries uses in this class
       sAulaPerID = connection.prepareStatement("SELECT * FROM Aula WHERE ID=?");
+      sAulaByName = connection.prepareStatement("SELECT * FROM Aula WHERE Nome=?");
       sAule = connection.prepareStatement("SELECT ID AS aulaID FROM Aula");
       sAulePerDipartimento = connection.prepareStatement("SELECT ID FROM Aula WHERE IDdipartimento=?");
 
-      // notare l'ultimo paametro extra di questa chiamata a
-      // prepareStatement: lo usiamo per assicurarci che il JDBC
-      // restituisca la chiave generata automaticamente per il
-      // record inserito
-      // note the last parameter in this call to prepareStatement:
-      // it is used to ensure that the JDBC will sotre and return
-      // the auto generated key for the inserted recors
       iAula = connection.prepareStatement(
           "INSERT INTO Aula (nome, luogo, edificio, piano, capienza, preseElettriche, preseRete, note, "
               + "IDAttrezzatura, IDDipartimento, IDResponsabile) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
@@ -64,6 +58,7 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
     try {
 
       sAulaPerID.close();
+      sAulaByName.close();
       sAule.close();
       sAulePerDipartimento.close();
       iAula.close();
@@ -135,12 +130,31 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
   }
 
   @Override
+  public Aula getAulaByName(String aula_name) throws DataException {
+    Aula a = null;
+
+    System.out.println("Secondo input:" + aula_name);
+    try {
+      sAulaByName.setString(1, aula_name);
+      try (ResultSet rs = sAulaByName.executeQuery()) {
+        if (rs.next()) {
+          a = getAulaByID(rs.getInt("ID"));
+        }
+      }
+      System.out.println("nome Proxy:" + a.getNome());
+      return a;
+    } catch (SQLException ex) {
+      throw new DataException("Unable to load aula by Name", ex);
+    }
+  }
+
+  @Override
   public List<Aula> getAllAule() throws DataException {
     List<Aula> result = new ArrayList<>();
 
     try (ResultSet rs = sAule.executeQuery()) {
       while (rs.next()) {
-        result.add((Aula) getAulaByID(rs.getInt("aulaID")));
+        result.add((Aula) getAulaByID(rs.getInt("ID")));
       }
     } catch (SQLException ex) {
       throw new DataException("Unable to load aule", ex);
@@ -164,7 +178,7 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
           // then getArticle, with its queries, will populate the
           // corresponding objects. Less efficient, but in this way
           // article creation logic is better encapsulated
-          result.add((Aula) getAulaByID(rs.getInt("eventoID")));
+          result.add((Aula) getAulaByID(rs.getInt("ID")));
         }
       }
     } catch (SQLException ex) {

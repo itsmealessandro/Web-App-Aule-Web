@@ -1,13 +1,12 @@
 <h1>Homepage</h1>
 
-   <ul>
-    <li><a href="AulaSelezionata?d=${dipartimento1.key}">Matematica</a></li>
-    <li><a href="AulaSelezionata?d=${dipartimento2.key}">Fisica</a></li>
-    <li><a href="AulaSelezionata?d=${dipartimento3.key}">Biologia</a></li>
-    <li><a href="EventiPerSettimana?dip_key=2&&aula_key=2&&date=2024-01-28">Eventi Per Settimana</a></li>
-  </ul>
-<#if papera?exists && papera == "as">
-    <p><a href="GestioneDipartimenti">Gestione Dipartimenti</a></p>
-    <p><a href="GestioneAule">Gestione Aule</a></p>
+<ul>
+  <li><a href="SceltaCriterio?dip_key=${dipartimento1.key}">Matematica</a></li>
+  <li><a href="SceltaCriterio?dip_key=${dipartimento2.key}">Fisica</a></li>
+  <li><a href="SceltaCriterio?dip_key=${dipartimento3.key}">Biologia</a></li>
+  <li><a href="EventiPerSettimana?dip_key=2&&aula_key=2&&date=2024-01-28">Eventi Per Settimana</a></li>
+</ul>
+<#if papera?exists && papera=="as">
+  <p><a href="GestioneDipartimenti">Gestione Dipartimenti</a></p>
+  <p><a href="GestioneAule">Gestione Aule</a></p>
 </#if>
-
