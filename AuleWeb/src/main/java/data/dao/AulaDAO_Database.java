@@ -133,7 +133,6 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
   public Aula getAulaByName(String aula_name) throws DataException {
     Aula a = null;
 
-    System.out.println("Secondo input:" + aula_name);
     try {
       sAulaByName.setString(1, aula_name);
       try (ResultSet rs = sAulaByName.executeQuery()) {
@@ -141,7 +140,6 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
           a = getAulaByID(rs.getInt("ID"));
         }
       }
-      System.out.println("nome Proxy:" + a.getNome());
       return a;
     } catch (SQLException ex) {
       throw new DataException("Unable to load aula by Name", ex);
