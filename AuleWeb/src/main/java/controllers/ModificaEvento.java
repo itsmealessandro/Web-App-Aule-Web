@@ -48,7 +48,7 @@ public class ModificaEvento extends AuleWebBaseController {
             evento.setKey(0);
             request.setAttribute("evento", evento);
 
-            res.activate("adminModificaAula.ftl.html", request, response);
+            res.activate("adminModificaEvento.ftl.html", request, response);
 
         } catch (DataException ex) {
             handleError("Data access exception: " + ex.getMessage(), request, response);
@@ -83,13 +83,10 @@ public class ModificaEvento extends AuleWebBaseController {
 
             Aula aula = dataLayer.getAulaDAO().getAulaByNome(nAula);
             evento.setAula(aula);
-
+            
             if (!"NESSUNA".equals(ricorrenza)) {
                 throw new IllegalArgumentException("La ricorrenza non può essere diversa da NESSUNA per la creazione di un nuovo evento.");
             }
-
-            evento.setRicorrenza(Ricorrenza.NESSUNA);
-            evento.setDataFineRicorrenza(null);
 
             dataLayer.getEventoDAO().storeEvento(evento);
 

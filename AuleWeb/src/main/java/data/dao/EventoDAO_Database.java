@@ -306,33 +306,33 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
                  */
                 // UPDATE
                 // ID MASTER
-                iEvento.setNull(1, java.sql.Types.INTEGER);
-                iEvento.setString(2, e.getNome());
-                iEvento.setTime(3, e.getOraInizio());
-                iEvento.setTime(4, e.getOraFine());
-                iEvento.setString(5, e.getDescrizione());
-                iEvento.setString(6, e.getRicorrenza().toString());
-                iEvento.setDate(7, e.getData());
+                uEvento.setNull(1, java.sql.Types.INTEGER);
+                uEvento.setString(2, e.getNome());
+                uEvento.setTime(3, e.getOraInizio());
+                uEvento.setTime(4, e.getOraFine());
+                uEvento.setString(5, e.getDescrizione());
+                uEvento.setString(6, e.getRicorrenza().toString());
+                uEvento.setDate(7, e.getData());
                 // DATA FINE RICORRENZA
-                iEvento.setNull(8, java.sql.Types.INTEGER);
-                iEvento.setString(9, e.getTipologiaEvento().toString());
+                uEvento.setNull(8, java.sql.Types.INTEGER);
+                uEvento.setString(9, e.getTipologiaEvento().toString());
 
                 if (e.getResponsabile() != null) {
-                    iEvento.setInt(10, e.getResponsabile().getKey());
+                    uEvento.setInt(10, e.getResponsabile().getKey());
                 } else {
-                    iEvento.setNull(10, java.sql.Types.INTEGER);
+                    uEvento.setNull(10, java.sql.Types.INTEGER);
                 }
 
                 if (e.getCorso() != null) {
-                    iEvento.setInt(11, e.getCorso().getKey());
+                    uEvento.setInt(11, e.getCorso().getKey());
                 } else {
-                    iEvento.setNull(11, java.sql.Types.INTEGER);
+                    uEvento.setNull(11, java.sql.Types.INTEGER);
                 }
 
                 if (e.getAula() != null) {
-                    iEvento.setInt(12, e.getAula().getKey());
+                    uEvento.setInt(12, e.getAula().getKey());
                 } else {
-                    iEvento.setNull(12, java.sql.Types.INTEGER);
+                    uEvento.setNull(12, java.sql.Types.INTEGER);
                 }
 
                 long current_version = e.getVersion();
