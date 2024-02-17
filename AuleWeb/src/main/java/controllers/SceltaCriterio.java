@@ -35,7 +35,8 @@ public class SceltaCriterio extends AuleWebBaseController {
     }
   }
 
-  private void action_corso(HttpServletRequest request, HttpServletResponse response, int dip_key, String corso_n)
+  private void action_corso(HttpServletRequest request, HttpServletResponse response, int dip_key, String corso_n,
+      Date data)
       throws IOException, ServletException, TemplateManagerException {
 
     try {
@@ -44,7 +45,15 @@ public class SceltaCriterio extends AuleWebBaseController {
       // TODO riga inserita solo per non dare errore
       Aula aula = dataLayer.getAulaDAO().getAulaByName("aa");
       // Corso corso = dataLayer.getCorsoDAO().getCorsoByName(corso_n);
-      // il metodo ènel branch Eventi2
+      // il metodo è nel branch Eventi2
+      StringBuffer url = new StringBuffer();
+
+      url.append("EventiPerCorso?");
+      url.append("dip_key=" + dip_key);
+      url.append("&&");
+      // url.append("c_key=" + corso.getKey());
+      url.append("&&");
+      url.append("data=" + data);
     } catch (DataException ex) {
       handleError("Data access exception: " + ex.getMessage(), request, response);
     }
@@ -74,6 +83,17 @@ public class SceltaCriterio extends AuleWebBaseController {
     }
   }
 
+  private void action_tre_ore(HttpServletRequest request, HttpServletResponse response, int dip_key)
+      throws IOException, ServletException, TemplateManagerException {
+
+    StringBuffer url = new StringBuffer();
+
+    url.append("EventiTreOre?");
+    url.append("dip_key=" + dip_key);
+    response.sendRedirect(url.toString());
+
+  }
+
   @Override
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
       throws ServletException {
@@ -95,12 +115,15 @@ public class SceltaCriterio extends AuleWebBaseController {
           String corso_n = request.getParameter("corso_n");
           Date data = Date.valueOf(request.getParameter("data"));
 
-          action_corso(request, response, dip_key, corso_n);
+          action_corso(request, response, dip_key, corso_n, data);
 
         } else if (request.getParameter("action").equals("confAula")) { // filto aula
           String aula_n = request.getParameter("aula_n");
           Date data = Date.valueOf(request.getParameter("data"));
           action_aula(request, response, dip_key, aula_n, data);
+        } else if (request.getParameter("action").equals("confTreOre")) {
+          action_tre_ore(request, response, dip_key);
+
         }
       }
 
