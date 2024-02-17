@@ -197,6 +197,11 @@
         <param-value>true</param-value>
     </context-param>
     <!-- Session Configuration -->
+    <context-param>
+        <param-name>security.protect.patterns</param-name>
+        <!-- qui configuriamo i pattern delle URL da proteggere -->
+        <param-value>/GestioneEventi,/GestioneDipartimenti, /GestioneAule, /ModificaAula, /ModificaEvento, /ModificaDipartimento</param-value>        
+    </context-param>
     <!--- __________________ Fine Parametri per il Template __________________ -->
     <session-config>
         <session-timeout>
