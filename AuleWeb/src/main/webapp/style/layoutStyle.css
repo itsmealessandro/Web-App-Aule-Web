@@ -24,7 +24,16 @@ nav ul {
 nav ul li {
     display: inline;
     margin-right: 20px;
-    color: #fff;
+}
+
+nav ul li a:visited {
+    display: inline;
+    margin-right: 20px;
+    color: #ff7800;
+}
+
+nav ul li a:link {
+    color: #ffd700;
 }
 
 .main-content {
@@ -50,6 +59,13 @@ nav ul li {
 }
 
 .link a{
-    padding: 40px 0;
+    margin-left: 20%;
+}
+
+.link a:visited{
+    color: #ff7800;
+}
+
+.link a:link {
     color: #ffd700;
 }
