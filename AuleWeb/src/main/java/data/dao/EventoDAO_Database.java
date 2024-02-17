@@ -5,6 +5,7 @@ import data.domain.Corso;
 import data.domain.Dipartimento;
 import data.domain.Evento;
 import data.domainImpl.Ricorrenza;
+import data.domainImpl.TipologiaEvento;
 import data.proxy.EventoProxy;
 import framework.data.DAO;
 import framework.data.DataException;
@@ -25,7 +26,9 @@ import java.util.List;
 
 public class EventoDAO_Database extends DAO implements EventoDAO {
 
-  private PreparedStatement iEvento, uEvento, sEventoByID, sEventoByAula, sEventiByDay, sEventiByCorso, eventController,sEventiRicorrenti, sEventiSettimanaliByAula, sEventiByTreOre;
+
+  private PreparedStatement iEvento, uEvento, sEventoByID, sEventoByAula, sEventiByDay, sEventiByCorso,
+      sEventiRicorrenti, sAllEventi, sEventoIDMaster, sEventoIDMaster, sEventiSettimanaliByAula, sEventiByTreOre, sEventoByNome, dEvento;
 
   public EventoDAO_Database(DataLayer d) {
     super(d);
@@ -37,7 +40,12 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
       super.init();
 
       sEventoByID = connection.prepareStatement("SELECT * FROM Evento WHERE ID=?");
+      sEventoIDMaster = connection.prepareStatement("SELECT * FROM Evento WHERE IDMaster = ?");
+      sAllEventi = connection.prepareStatement("SELECT * FROM Evento");
       sEventoByAula = connection.prepareStatement("SELECT * FROM Evento WHERE IDAula=?");
+
+      sEventoByNome = connection.prepareStatement("SELECT * FROM Evento WHERE nome = ?");
+
       sEventiSettimanaliByAula = connection.prepareStatement(
           "SELECT *FROM Evento AS ev INNER JOIN Aula AS au ON ev.IDAula = au.ID INNER JOIN Dipartimento AS d ON au.IDDipartimento = d.ID WHERE d.ID = ?  AND au.ID = ? AND ev.Data BETWEEN ? AND ?");
       sEventiByDay = connection.prepareStatement(
@@ -50,21 +58,29 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
           .prepareStatement("SELECT ID AS eventoID FROM evento WHERE nome=? AND responsabileID=? order by giorno");
 
       iEvento = connection.prepareStatement(
-          "INSERT INTO `Evento` (`nome`, `oraInizio`, `oraFine`, `descrizione`, `IDAula`, `ricorrenza`,"
-              + " `IDResponsabile`, `IDCorso`, `tipologiaEvento`, `version`, `IDMaster`, `Data`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
+          "INSERT INTO Evento (IDMaster, nome, oraInizio, oraFine, descrizione, ricorrenza, Data, dataFineRicorrenza, tipologiaEvento, IDResponsabile, IDCorso, IDAula) "
+              + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
           Statement.RETURN_GENERATED_KEYS);
 
       uEvento = connection.prepareStatement(
-          "UPDATE `Evento` SET `nome` = ?,`oraInizio` = ?, `oraFine` = ?, `descrizione` = ?,`IDAula` = ?, "
-              + "`ricorrenza` = ?, `IDResponsabile` = ?, `IDCorso` = ?, `tipologiaEvento` = ?, `version` = ?,"
-              + "`IDMaster` = ?, `Data` = ? WHERE `ID` = ?;");
-      //TODO comprendere eventi gia iniziati
-       sEventiByTreOre = connection.prepareStatement("SELECT e.*\n" +
-            "FROM Evento e\n" +
-                " JOIN Aula a ON e.IDAula = a.ID\n" +
-                " WHERE e.oraInizio BETWEEN CURRENT_TIME() AND ADDTIME(CURRENT_TIME(), '03:00:00')\n" +
-                " AND e.Data = CURDATE()\n" +
-                " AND a.IDDipartimento = ?;" );
+          "UPDATE Evento\n"
+              + "SET IDMaster = ?,\n"
+              + "nome = ?,\n"
+              + "    oraInizio = ?,\n"
+              + "    oraFine = ?,\n"
+              + "    descrizione = ?,\n"
+              + "    ricorrenza = ?,\n"
+              + "    Data = ?,\n"
+              + "    dataFineRicorrenza = ?,\n"
+              + "    tipologiaEvento = ?,\n"
+              + "    IDResponsabile = ?,\n"
+              + "    IDCorso = ?,\n"
+              + "    IDAula = ?,\n"
+              + "    version = ?\n"
+              + " WHERE ID = ? AND version = ?");
+
+      dEvento = connection.prepareStatement("DELETE FROM evento WHERE ID=?");
+
     } catch (SQLException ex) {
       throw new DataException("Error initializing data layer", ex);
     }
@@ -80,6 +96,9 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
       sEventiRicorrenti.close();
       iEvento.close();
       uEvento.close();
+      sAllEventi.close();
+      dEvento.close();
+      sEventoByNome.close();
       sEventiByTreOre.close();
 
     } catch (SQLException ex) {
@@ -97,6 +116,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
     try {
       EventoProxy e = (EventoProxy) createEvento();
       e.setKey(rs.getInt("ID"));
+      e.setIDMaster(rs.getInt("IDMaster"));
       e.setNome(rs.getString("nome"));
       e.setOraInizio(rs.getTime("oraInizio"));
       e.setOraFine(rs.getTime("oraFine"));
@@ -107,6 +127,8 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
       e.setCorsoKey(rs.getInt("IDCorso"));
       e.setRicorrenza(Ricorrenza.valueOf(rs.getObject("ricorrenza").toString()));
       e.setVersion(rs.getLong("version"));
+      e.setTipologiaEvento(TipologiaEvento.valueOf(rs.getObject("tipologiaEvento").toString()));
+      e.setDataFineRicorrenza(rs.getDate("dataFineRicorrenza"));
 
       return e;
     } catch (SQLException ex) {
@@ -138,6 +160,66 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
       }
     }
     return e;
+  }
+
+  @Override
+  public List<Evento> getEventiByNome(String nome) throws DataException {
+    List<Evento> result = new ArrayList();
+
+    try {
+      sEventiRicorrenti.setString(1, nome);
+      ResultSet rs = sEventiRicorrenti.executeQuery();
+
+      while (rs.next()) {
+        result.add((Evento) getEventoByID(rs.getInt("ID")));
+      }
+      return result;
+    } catch (SQLException ex) {
+      throw new DataException("Unable to load eventi", ex);
+    }
+  }
+
+  @Override
+  public void deleteEvento(Evento evento) throws DataException {
+    try {
+      dEvento.setInt(1, evento.getKey());
+      dEvento.executeUpdate();
+    } catch (SQLException e) {
+      throw new DataException("Unable to Delete Evento", e);
+    }
+
+  }
+
+  @Override
+  public List<Evento> getAllEventi() throws DataException {
+    List<Evento> result = new ArrayList();
+
+    try (ResultSet rs = sAllEventi.executeQuery()) {
+      while (rs.next()) {
+        result.add((Evento) getEventoByID(rs.getInt("ID")));
+      }
+    } catch (SQLException ex) {
+      throw new DataException("Unable to load aule", ex);
+    }
+    return result;
+  }
+
+  @Override
+  public List<Evento> getEventiRicorrenti(String nome, int IDresponsabile) throws DataException {
+    List<Evento> result = new ArrayList();
+
+    try {
+      sEventiRicorrenti.setString(1, nome);
+      sEventiRicorrenti.setInt(2, IDresponsabile);
+      ResultSet rs = sEventiRicorrenti.executeQuery();
+
+      while (rs.next()) {
+        result.add((Evento) getEventoByID(rs.getInt("eventoID")));
+      }
+      return result;
+    } catch (SQLException ex) {
+      throw new DataException("Unable to load eventi", ex);
+    }
   }
 
   @Override
@@ -227,30 +309,63 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
   // TODO DA RIFARE
   @Override
   public void storeEvento(Evento e) throws DataException {
-
     try {
-      if (e.getKey() != null && e.getKey() > 0) { // update
+      if (!e.getRicorrenza().toString().equals(Ricorrenza.NESSUNA.toString())) {
+        // TODO: Gestire ricorrenze
+        throw new DataException("GESTIRE RICORRENZE");
+      }
 
+      if (e.getKey() != null && e.getKey() > 0) {
         if (e instanceof DataItemProxy && !((DataItemProxy) e).isModified()) {
           return;
         }
-        uEvento.setString(1, e.getNome());
-        uEvento.setTime(2, e.getOraInizio());
-        uEvento.setTime(3, e.getOraFine());
-        uEvento.setString(4, e.getDescrizione());
-        uEvento.setInt(5, e.getAula().getKey()); // Assumi che l'oggetto AulaImpl possa essere convertito in un formato
-        // adatto per il database
-        uEvento.setObject(6, e.getRicorrenza().toString());
-        uEvento.setInt(9, e.getResponsabile().getKey()); // Assumi che l'oggetto ResponsabileImpl possa essere
-        // convertito in un formato adatto per il database
-        uEvento.setInt(10, e.getCorso().getKey()); // Assumi che l'oggetto CorsoImpl possa essere convertito in un
-        // formato adatto per il database
-        uEvento.setString(11, e.getTipologiaEvento().toString());
-        // TipologiaEventoImpl possa essere convertito in un formato adatto per il
-        // database
-        uEvento.setLong(12, e.getVersion());
-        uEvento.setInt(13, e.getKey());
-        uEvento.setLong(14, e.getVersion());
+        /**
+         *
+         * "UPDATE Evento\n" + "SET "IDMaster = ?",\n + "nome = ?,\n" +
+         * " oraInizio = ?,\n" + " oraFine = ?,\n" + " descrizione =
+         * ?,\n" + " ricorrenza = ?,\n" + " Data = ?,\n" + "
+         * dataFineRicorrenza = ?,\n" + " tipologiaEvento = ?,\n" + "
+         * IDResponsabile = ?,\n" + " IDCorso = ?,\n" + " IDAula = ?,\n"
+         * + " version = ?\n" + " WHERE ID = ? AND version = ?");
+         *
+         */
+        // UPDATE
+        // ID MASTER
+        uEvento.setNull(1, java.sql.Types.INTEGER);
+        uEvento.setString(2, e.getNome());
+        uEvento.setTime(3, e.getOraInizio());
+        uEvento.setTime(4, e.getOraFine());
+        uEvento.setString(5, e.getDescrizione());
+        uEvento.setString(6, e.getRicorrenza().toString());
+        uEvento.setDate(7, e.getData());
+        // DATA FINE RICORRENZA
+        uEvento.setNull(8, java.sql.Types.INTEGER);
+        uEvento.setString(9, e.getTipologiaEvento().toString());
+
+        if (e.getResponsabile() != null) {
+          uEvento.setInt(10, e.getResponsabile().getKey());
+        } else {
+          uEvento.setNull(10, java.sql.Types.INTEGER);
+        }
+
+        if (e.getCorso() != null) {
+          uEvento.setInt(11, e.getCorso().getKey());
+        } else {
+          uEvento.setNull(11, java.sql.Types.INTEGER);
+        }
+
+        if (e.getAula() != null) {
+          uEvento.setInt(12, e.getAula().getKey());
+        } else {
+          uEvento.setNull(12, java.sql.Types.INTEGER);
+        }
+
+        long current_version = e.getVersion();
+        long next_version = current_version + 1;
+
+        uEvento.setLong(13, next_version);
+        uEvento.setInt(14, e.getKey());
+        uEvento.setLong(15, current_version);
 
         if (uEvento.executeUpdate() == 0) {
           throw new OptimisticLockException(e);
@@ -258,32 +373,41 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
           e.setVersion(e.getVersion() + 1);
         }
       } else { // insert
-        iEvento.setString(1, e.getNome());
-        iEvento.setTime(2, e.getOraInizio());
-        iEvento.setTime(3, e.getOraFine());
-        iEvento.setString(4, e.getDescrizione());
-        iEvento.setInt(5, e.getAula().getKey()); // Assumi che l'oggetto AulaImpl possa essere convertito in un formato
-        // adatto per il database
-        iEvento.setObject(6, e.getRicorrenza().toString()); // Assumi che l'oggetto
-        // Ricorrenza possa essere convertito in un formato adatto per il database
-        iEvento.setInt(9, e.getResponsabile().getKey()); // Assumi che l'oggetto ResponsabileImpl possa essere
-        // convertito in un formato adatto per il database
-        iEvento.setInt(10, e.getCorso().getKey()); // Assumi che l'oggetto CorsoImpl possa essere convertito in un
-        // formato adatto per il database
-        iEvento.setString(11, e.getTipologiaEvento().toString()); // Assumi che l'oggetto
-        // TipologiaEventoImpl possa essere convertito in un formato adatto per il
-        // database
+        // ID MASTER
+        iEvento.setNull(1, java.sql.Types.INTEGER);
+        iEvento.setString(2, e.getNome());
+        iEvento.setTime(3, e.getOraInizio());
+        iEvento.setTime(4, e.getOraFine());
+        iEvento.setString(5, e.getDescrizione());
+        iEvento.setString(6, e.getRicorrenza().toString());
+        iEvento.setDate(7, e.getData());
+        // DATA FINE RICORRENZA
+        iEvento.setNull(8, java.sql.Types.INTEGER);
+        iEvento.setString(9, e.getTipologiaEvento().toString());
+
+        if (e.getResponsabile() != null) {
+          iEvento.setInt(10, e.getResponsabile().getKey());
+        } else {
+          iEvento.setNull(10, java.sql.Types.INTEGER);
+        }
+
+        if (e.getCorso() != null) {
+          iEvento.setInt(11, e.getCorso().getKey());
+        } else {
+          iEvento.setNull(11, java.sql.Types.INTEGER);
+        }
+
+        if (e.getAula() != null) {
+          iEvento.setInt(12, e.getAula().getKey());
+        } else {
+          iEvento.setNull(12, java.sql.Types.INTEGER);
+        }
 
         if (iEvento.executeUpdate() == 1) {
-
           try (ResultSet keys = iEvento.getGeneratedKeys()) {
-
             if (keys.next()) {
-
               int key = keys.getInt(1);
-
               e.setKey(key);
-
               dataLayer.getCache().add(Evento.class, e);
             }
           }
