@@ -10,25 +10,39 @@ import java.sql.Date;
 
 public class EventoImpl extends DataItemImpl<Integer> implements Evento {
 
-    private int IDMaster;
+    private Integer IDMaster;
     private String nome;
     private Time oraInizio;
     private Time oraFine;
     private String descrizione;
-    private Aula aula;
     private Ricorrenza ricorrenza;
+    private TipologiaEvento tipologiaEvento;
+    private Date giorno;
+    private Date dataFineRicorrenza;
+    private Aula aula;
     private Responsabile responsabile;
     private Corso corso;
-    private TipologiaEvento tipologiaEvento;
-    private Date data;
-
-    public int getIDMaster() {
+    private boolean isRicorrente; // Aggiunto campo isRicorrente
+    
+    @Override
+    public Integer getIDMaster() {
         return IDMaster;
     }
-
-    public void setIDMaster(int iDMaster) {
-        IDMaster = iDMaster;
+    
+    @Override
+    public void setIDMaster(Integer IDMaster) {
+        this.IDMaster = IDMaster;
     }
+    
+    @Override
+    public Date getDataFineRicorrenza() {
+        return dataFineRicorrenza;
+    }
+    @Override
+    public void setDataFineRicorrenza(Date dataFineRicorrenza) {
+        this.dataFineRicorrenza = dataFineRicorrenza;
+    }
+    
 
     @Override
     public String getNome() {
@@ -92,12 +106,12 @@ public class EventoImpl extends DataItemImpl<Integer> implements Evento {
 
     @Override
     public Date getData() {
-        return data;
+        return giorno;
     }
 
     @Override
-    public void setData(Date data) {
-        this.data = data;
+    public void setData(Date giorno) {
+        this.giorno = giorno;
     }
 
     @Override
@@ -128,6 +142,15 @@ public class EventoImpl extends DataItemImpl<Integer> implements Evento {
     @Override
     public void setTipologiaEvento(TipologiaEvento tipologiaEvento) {
         this.tipologiaEvento = tipologiaEvento;
+    }
+    
+    // Aggiunti metodi getter e setter per isRicorrente
+    public boolean isRicorrente() {
+        return isRicorrente;
+    }
+
+    public void setRicorrente(boolean isRicorrente) {
+        this.isRicorrente = isRicorrente;
     }
 
 }

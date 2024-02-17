@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 
 <html lang="it">
@@ -24,3 +25,19 @@
         </section>
     </body>
 </html>
+
+<h1>Homepage</h1>
+
+<ul>
+  <li><a href="SceltaCriterio?dip_key=${dipartimento1.key}">Matematica</a></li>
+  <li><a href="SceltaCriterio?dip_key=${dipartimento2.key}">Fisica</a></li>
+  <li><a href="SceltaCriterio?dip_key=${dipartimento3.key}">Biologia</a></li>
+</ul>
+
+
+<#if papera?exists && papera == "as">
+    <p><a href="GestioneDipartimenti">Gestione Dipartimenti</a></p>
+    <p><a href="GestioneAule">Gestione Aule</a></p>
+    <p><a href="GestioneEventi">Gestione Eventi</a></p>
+</#if>
+
