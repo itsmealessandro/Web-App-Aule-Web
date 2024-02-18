@@ -26,7 +26,6 @@ import java.util.List;
 
 public class EventoDAO_Database extends DAO implements EventoDAO {
 
-
   private PreparedStatement iEvento, uEvento, sEventoByID, sEventoByAula, sEventiByDay, sEventiByCorso,
       sEventiRicorrenti, sAllEventi, sEventoIDMaster, sEventiSettimanaliByAula, sEventiByTreOre, sEventoByNome, dEvento;
 
@@ -164,7 +163,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
 
   @Override
   public List<Evento> getEventiByNome(String nome) throws DataException {
-    List<Evento> result = new ArrayList();
+    List<Evento> result = new ArrayList<>();
 
     try {
       sEventiRicorrenti.setString(1, nome);
@@ -177,17 +176,6 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
     } catch (SQLException ex) {
       throw new DataException("Unable to load eventi", ex);
     }
-  }
-
-  @Override
-  public void deleteEvento(Evento evento) throws DataException {
-    try {
-      dEvento.setInt(1, evento.getKey());
-      dEvento.executeUpdate();
-    } catch (SQLException e) {
-      throw new DataException("Unable to Delete Evento", e);
-    }
-
   }
 
   @Override
@@ -262,6 +250,33 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
   }
 
   @Override
+  public List<Evento> getEventiSettimanaliByAula(Aula aula, LocalDate date, int dip_key) throws DataException {
+    List<Evento> listaEventi = new ArrayList<>();
+    LocalDate inizioSettimana = date.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+    LocalDate fineSettimana = date.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+
+    Date inizioSettimanaSql = Date.valueOf(inizioSettimana);
+    Date fineSettimanaSql = Date.valueOf(fineSettimana);
+
+    try {
+      sEventiSettimanaliByAula.setInt(1, dip_key);
+      sEventiSettimanaliByAula.setInt(2, aula.getKey());
+      sEventiSettimanaliByAula.setDate(3, inizioSettimanaSql);
+      sEventiSettimanaliByAula.setDate(4, fineSettimanaSql);
+
+      try (ResultSet rs = sEventiSettimanaliByAula.executeQuery()) {
+        while (rs.next()) {
+          listaEventi.add(getEventoByID(rs.getInt("ID")));
+        }
+      }
+    } catch (SQLException ex) {
+      ex.printStackTrace();
+      throw new DataException("Unable to load Eventi Settimanali By Aula");
+    }
+    return listaEventi;
+  }
+
+  @Override
   public List<Evento> getEventiSettimanaliByCorso(Corso corso, LocalDate date, int dip_key) throws DataException {
 
     List<Evento> listaEventi = new ArrayList<>();
@@ -289,24 +304,23 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
 
     return listaEventi;
   }
-  
-  @Override
-    public List<Evento> getEventiByTreOre(Dipartimento dipartimento) throws DataException {
-        List<Evento> listaEventi = new ArrayList<>();
-        try {
-            sEventiByTreOre.setInt(1, dipartimento.getKey());
-            try (ResultSet resultSet = sEventiByTreOre.executeQuery()) {
-                while (resultSet.next()) {
-                    listaEventi.add((Evento) getEventoByID(resultSet.getInt("ID")));
-                }
-            }
-        } catch (SQLException sqlException) {
-            throw new DataException("Unable to load Eventi from Aula");
-        }
-        return listaEventi;
-        }
 
-  // TODO DA RIFARE
+  @Override
+  public List<Evento> getEventiByTreOre(Dipartimento dipartimento) throws DataException {
+    List<Evento> listaEventi = new ArrayList<>();
+    try {
+      sEventiByTreOre.setInt(1, dipartimento.getKey());
+      try (ResultSet resultSet = sEventiByTreOre.executeQuery()) {
+        while (resultSet.next()) {
+          listaEventi.add((Evento) getEventoByID(resultSet.getInt("ID")));
+        }
+      }
+    } catch (SQLException sqlException) {
+      throw new DataException("Unable to load Eventi from Aula");
+    }
+    return listaEventi;
+  }
+
   @Override
   public void storeEvento(Evento e) throws DataException {
     try {
@@ -422,32 +436,14 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
     }
   }
 
- 
-
   @Override
-  public List<Evento> getEventiSettimanaliByAula(Aula aula, LocalDate date, int dip_key) throws DataException {
-    List<Evento> listaEventi = new ArrayList<>();
-    LocalDate inizioSettimana = date.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
-    LocalDate fineSettimana = date.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
-
-    Date inizioSettimanaSql = Date.valueOf(inizioSettimana);
-    Date fineSettimanaSql = Date.valueOf(fineSettimana);
-
+  public void deleteEvento(Evento evento) throws DataException {
     try {
-      sEventiSettimanaliByAula.setInt(1, dip_key);
-      sEventiSettimanaliByAula.setInt(2, aula.getKey());
-      sEventiSettimanaliByAula.setDate(3, inizioSettimanaSql);
-      sEventiSettimanaliByAula.setDate(4, fineSettimanaSql);
-
-      try (ResultSet rs = sEventiSettimanaliByAula.executeQuery()) {
-        while (rs.next()) {
-          listaEventi.add(getEventoByID(rs.getInt("ID")));
-        }
-      }
-    } catch (SQLException ex) {
-      ex.printStackTrace();
-      throw new DataException("Unable to load Eventi Settimanali By Aula");
+      dEvento.setInt(1, evento.getKey());
+      dEvento.executeUpdate();
+    } catch (SQLException e) {
+      throw new DataException("Unable to Delete Evento", e);
     }
-    return listaEventi;
+
   }
 }
