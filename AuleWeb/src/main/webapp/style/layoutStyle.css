@@ -7,9 +7,12 @@ body {
 }
 
 .container {
-    width: 80%;
-    margin: 0 auto;
+    display: inline-block;
+    text-align: left;
     padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 header h1 {
@@ -50,10 +53,9 @@ nav ul li a:link {
 #footer {
     background-color: #46679c;
     color: #264224;
-    padding: 10px 0;
+    padding: 1px;
     text-align: center;
     position: fixed;
-    left: 0;
     bottom: 0;
     width: 100%;
 }
@@ -68,4 +70,26 @@ nav ul li a:link {
 
 .link a:link {
     color: #ffd700;
+}
+
+input[type="date"],
+input[type="text"],
+input[type="submit"] {
+    margin: 10px 0;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+input[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #ccc;
+    margin: 20px auto;
+    width: 80%;
 }
