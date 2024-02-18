@@ -50,7 +50,7 @@ public class DipartimentoDAO_Database extends DAO implements DipartimentoDAO {
       uDipartimento.close();
 
     } catch (SQLException ex) {
-      // TODO gestire l'eccezione
+      throw new DataException("Error in Destroy", ex);
     }
     super.destroy();
   }
