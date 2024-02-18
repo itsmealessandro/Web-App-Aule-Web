@@ -42,7 +42,7 @@
       <option value="MENSILE">MENSILE</option>
     </select>
     <label for="dataFineRicorrenza" id="labelDataFineRicorrenza">Data Fine Ricorrenza:</label>
-    <input type="date" id="dataFineRicorrenza">
+    <input type="date" id="dataFineRicorrenza" name="dataFineRicorrenza">
     <input type="submit" name="conf" value="Conferma">
   </form>
   <#else>
@@ -86,7 +86,8 @@
         </select>
         <p>Data Fine Ricorrenza:</p>
         <label for="dataFineRicorrenza" id="labelDataFineRicorrenza">Data Fine Ricorrenza:</label>
-        <input type="date" id="dataFineRicorrenza" value="${evento.dataFineRicorrenza?string('yyyy-MM-dd')}" readonly>
+        <input type="date" id="dataFineRicorrenza" name="dataFineRicorrenza"
+          value="${evento.dataFineRicorrenza?string('yyyy-MM-dd')}" readonly>
         <#else>
           <input type=" hidden" name="dataFineRicorrenza" value="0">
           <input type="hidden" name="ricorrenza" value="NESSUNA">
@@ -123,7 +124,7 @@
 <script>
 
   var ricorrenza;
-  <#if evento.ricorrenza != "NESSUNA" >
+  <#if evento.ricorrenza?? && evento.ricorrenza != "NESSUNA" >
     // Inizializza il valore del menu a discesa con il valore di ricorrenza
     window.onload = function () {
       document.getElementById("ricorrenza").value = "${evento.ricorrenza}";
@@ -141,6 +142,7 @@
         dataFineRicorrenzaInput.style.display = "none"; // Nascondi il campo di input
         labelDataFineRicorrenza.style.display = "none"; // Nascondi l'etichetta del campo
       } else {
+
         dataFineRicorrenzaInput.style.display = "inline"; // Mostra il campo di input
         labelDataFineRicorrenza.style.display = "inline"; // Mostra l'etichetta del campo
       }

@@ -72,12 +72,13 @@ public class ModificaEvento extends AuleWebBaseController {
 
       Evento evento = dataLayer.getEventoDAO().createEvento(); // Creazione di un nuovo evento
       if (!ricorrenza.equals("NESSUNA")) {
-
-        evento.setIDMaster(IDMaster); // null nel caso di eventi NON ricorrenti
+        evento.setIDMaster(IDMaster);
         evento.setDataFineRicorrenza(dataFineRicorrenza);
+        evento.setRicorrenza(Ricorrenza.valueOf(ricorrenza));
       } else {
 
         evento.setIDMaster(null); // null nel caso di eventi NON ricorrenti
+        evento.setRicorrenza(Ricorrenza.NESSUNA);
         evento.setDataFineRicorrenza(null);
       }
 
@@ -86,7 +87,6 @@ public class ModificaEvento extends AuleWebBaseController {
       evento.setOraInizio(oraInizio);
       evento.setOraFine(oraFine);
       evento.setDescrizione(descrizione);
-      evento.setRicorrenza(Ricorrenza.NESSUNA);
       evento.setData(giorno);
       evento.setTipologiaEvento(TipologiaEvento.valueOf(tipologiaEvento));
 

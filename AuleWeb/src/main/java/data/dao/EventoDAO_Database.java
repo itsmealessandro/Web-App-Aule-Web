@@ -26,9 +26,9 @@ import java.util.List;
 
 public class EventoDAO_Database extends DAO implements EventoDAO {
 
-  private PreparedStatement iEvento, uEvento, sEventoByID, sEventoByAula, sEventiByDay, sEventiByCorso,
-      sAllEventi, sEventiByIDMaster, sEventiSettimanaliByAula, sEventiByTreOre, sEventoByNome,
-      dEvento;
+  private PreparedStatement sEventoByID, sEventoByAula, sEventiByDay, sEventiByCorso,
+      sAllEventi, sEventiByIDMaster, sEventiSettimanaliByAula, sEventiByTreOre, sEventoByNome, sMAXIDMaster,
+      dEvento, iEvento, uEvento;
 
   public EventoDAO_Database(DataLayer d) {
     super(d);
@@ -44,6 +44,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
       sAllEventi = connection.prepareStatement("SELECT * FROM Evento");
       sEventoByAula = connection.prepareStatement("SELECT * FROM Evento WHERE IDAula=?");
       sEventoByNome = connection.prepareStatement("SELECT * FROM Evento WHERE nome = ?");
+      sMAXIDMaster = connection.prepareStatement("SELECT MAX(IDMaster) AS Max_IDMaster FROM Evento");
 
       sEventiSettimanaliByAula = connection.prepareStatement(
           "SELECT *FROM Evento AS ev INNER JOIN Aula AS au ON ev.IDAula = au.ID INNER JOIN Dipartimento AS d ON au.IDDipartimento = d.ID WHERE d.ID = ?  AND au.ID = ? AND ev.Data BETWEEN ? AND ?");
@@ -93,6 +94,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
   public void destroy() throws DataException {
     try {
       sEventoByID.close();
+      sMAXIDMaster.close();
       sEventiByIDMaster.close();
       sEventoByAula.close();
       sEventiByDay.close();
@@ -311,10 +313,119 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
   public void storeEvento(Evento e) throws DataException {
     try {
       if (!e.getRicorrenza().toString().equals(Ricorrenza.NESSUNA.toString())) {
-        // TODO: Gestire ricorrenze
-        throw new DataException("GESTIRE RICORRENZE");
-      }
+        storeEventoRicorrente(e);
+      } else {
 
+        if (e.getKey() != null && e.getKey() > 0) {
+          if (e instanceof DataItemProxy && !((DataItemProxy) e).isModified()) {
+            return;
+          }
+          /**
+           *
+           * "UPDATE Evento\n" + "SET "IDMaster = ?",\n + "nome = ?,\n" +
+           * " oraInizio = ?,\n" + " oraFine = ?,\n" + " descrizione =
+           * ?,\n" + " ricorrenza = ?,\n" + " Data = ?,\n" + "
+           * dataFineRicorrenza = ?,\n" + " tipologiaEvento = ?,\n" + "
+           * IDResponsabile = ?,\n" + " IDCorso = ?,\n" + " IDAula = ?,\n"
+           * + " version = ?\n" + " WHERE ID = ? AND version = ?");
+           *
+           */
+          // UPDATE
+          // ID MASTER
+          uEvento.setNull(1, java.sql.Types.INTEGER);
+          uEvento.setString(2, e.getNome());
+          uEvento.setTime(3, e.getOraInizio());
+          uEvento.setTime(4, e.getOraFine());
+          uEvento.setString(5, e.getDescrizione());
+          uEvento.setString(6, e.getRicorrenza().toString());
+          uEvento.setDate(7, e.getData());
+          // DATA FINE RICORRENZA
+          uEvento.setNull(8, java.sql.Types.INTEGER);
+          uEvento.setString(9, e.getTipologiaEvento().toString());
+
+          if (e.getResponsabile() != null) {
+            uEvento.setInt(10, e.getResponsabile().getKey());
+          } else {
+            uEvento.setNull(10, java.sql.Types.INTEGER);
+          }
+
+          if (e.getCorso() != null) {
+            uEvento.setInt(11, e.getCorso().getKey());
+          } else {
+            uEvento.setNull(11, java.sql.Types.INTEGER);
+          }
+
+          if (e.getAula() != null) {
+            uEvento.setInt(12, e.getAula().getKey());
+          } else {
+            uEvento.setNull(12, java.sql.Types.INTEGER);
+          }
+
+          long current_version = e.getVersion();
+          long next_version = current_version + 1;
+
+          uEvento.setLong(13, next_version);
+          uEvento.setInt(14, e.getKey());
+          uEvento.setLong(15, current_version);
+
+          if (uEvento.executeUpdate() == 0) {
+            throw new OptimisticLockException(e);
+          } else {
+            e.setVersion(e.getVersion() + 1);
+          }
+        } else { // insert
+          // ID MASTER
+          iEvento.setNull(1, java.sql.Types.INTEGER);
+          iEvento.setString(2, e.getNome());
+          iEvento.setTime(3, e.getOraInizio());
+          iEvento.setTime(4, e.getOraFine());
+          iEvento.setString(5, e.getDescrizione());
+          iEvento.setString(6, e.getRicorrenza().toString());
+          iEvento.setDate(7, e.getData());
+          // DATA FINE RICORRENZA
+          iEvento.setNull(8, java.sql.Types.INTEGER);
+          iEvento.setString(9, e.getTipologiaEvento().toString());
+
+          if (e.getResponsabile() != null) {
+            iEvento.setInt(10, e.getResponsabile().getKey());
+          } else {
+            iEvento.setNull(10, java.sql.Types.INTEGER);
+          }
+
+          if (e.getCorso() != null) {
+            iEvento.setInt(11, e.getCorso().getKey());
+          } else {
+            iEvento.setNull(11, java.sql.Types.INTEGER);
+          }
+
+          if (e.getAula() != null) {
+            iEvento.setInt(12, e.getAula().getKey());
+          } else {
+            iEvento.setNull(12, java.sql.Types.INTEGER);
+          }
+
+          if (iEvento.executeUpdate() == 1) {
+            try (ResultSet keys = iEvento.getGeneratedKeys()) {
+              if (keys.next()) {
+                int key = keys.getInt(1);
+                e.setKey(key);
+                dataLayer.getCache().add(Evento.class, e);
+              }
+            }
+          }
+        }
+
+        if (e instanceof DataItemProxy) {
+          ((DataItemProxy) e).setModified(false);
+        }
+      }
+    } catch (SQLException | OptimisticLockException ex) {
+      throw new DataException("Unable to store Evento", ex);
+    }
+  }
+
+  private void storeEventoRicorrente(Evento e) throws DataException {
+    try {
       if (e.getKey() != null && e.getKey() > 0) {
         if (e instanceof DataItemProxy && !((DataItemProxy) e).isModified()) {
           return;
@@ -331,7 +442,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
          */
         // UPDATE
         // ID MASTER
-        uEvento.setNull(1, java.sql.Types.INTEGER);
+        uEvento.setInt(1, e.getIDMaster());
         uEvento.setString(2, e.getNome());
         uEvento.setTime(3, e.getOraInizio());
         uEvento.setTime(4, e.getOraFine());
@@ -339,7 +450,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
         uEvento.setString(6, e.getRicorrenza().toString());
         uEvento.setDate(7, e.getData());
         // DATA FINE RICORRENZA
-        uEvento.setNull(8, java.sql.Types.INTEGER);
+        uEvento.setDate(8, e.getDataFineRicorrenza());
         uEvento.setString(9, e.getTipologiaEvento().toString());
 
         if (e.getResponsabile() != null) {
@@ -372,17 +483,51 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
         } else {
           e.setVersion(e.getVersion() + 1);
         }
+        if (e instanceof DataItemProxy) {
+          ((DataItemProxy) e).setModified(false);
+        }
       } else { // insert
+
         // ID MASTER
-        iEvento.setNull(1, java.sql.Types.INTEGER);
+        int IDMaster = 0;
+        try (ResultSet key = sMAXIDMaster.executeQuery()) {
+          if (key.next()) {
+            IDMaster = key.getInt(1);
+            IDMaster++;
+          }
+        }
+
+        if (e.getRicorrenza().toString().equals("GIORNALIERA")) {
+          storeEventoGiornaliero(e, IDMaster);
+        } else if (e.getRicorrenza().toString().equals("SETTIMANALE")) {
+          storeEventoSettimanale(e, IDMaster);
+        } else {
+          storeEventoMensile(e, IDMaster);
+        }
+
+      }
+
+    } catch (SQLException | OptimisticLockException ex) {
+      throw new DataException("Unable to store Evento Ricorrente", ex);
+    }
+  }
+
+  private void storeEventoGiornaliero(Evento e, int IDMaster) throws DataException {
+
+    LocalDate istanzaGiornaliera = e.getData().toLocalDate();
+    while (istanzaGiornaliera.isBefore(e.getDataFineRicorrenza().toLocalDate())) {
+      Date istanzaGiornalieraSQL = Date.valueOf(istanzaGiornaliera);
+
+      try {
+        iEvento.setInt(1, IDMaster);
         iEvento.setString(2, e.getNome());
         iEvento.setTime(3, e.getOraInizio());
         iEvento.setTime(4, e.getOraFine());
         iEvento.setString(5, e.getDescrizione());
         iEvento.setString(6, e.getRicorrenza().toString());
-        iEvento.setDate(7, e.getData());
+        iEvento.setDate(7, istanzaGiornalieraSQL);
         // DATA FINE RICORRENZA
-        iEvento.setNull(8, java.sql.Types.INTEGER);
+        iEvento.setDate(8, e.getDataFineRicorrenza());
         iEvento.setString(9, e.getTipologiaEvento().toString());
 
         if (e.getResponsabile() != null) {
@@ -412,13 +557,123 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
             }
           }
         }
+        if (e instanceof DataItemProxy) {
+          ((DataItemProxy) e).setModified(false);
+        }
+      } catch (SQLException ex) {
+        throw new DataException("Unable to store Evento Ricorrente", ex);
       }
+      istanzaGiornaliera = istanzaGiornaliera.plusDays(1);
+    }
+  }
 
-      if (e instanceof DataItemProxy) {
-        ((DataItemProxy) e).setModified(false);
+  private void storeEventoSettimanale(Evento e, int IDMaster) throws DataException {
+
+    LocalDate istanzaSettimanale = e.getData().toLocalDate();
+    while (istanzaSettimanale.isBefore(e.getDataFineRicorrenza().toLocalDate())) {
+      Date istanzaSettimanaleSQL = Date.valueOf(istanzaSettimanale);
+
+      try {
+        iEvento.setInt(1, IDMaster);
+        iEvento.setString(2, e.getNome());
+        iEvento.setTime(3, e.getOraInizio());
+        iEvento.setTime(4, e.getOraFine());
+        iEvento.setString(5, e.getDescrizione());
+        iEvento.setString(6, e.getRicorrenza().toString());
+        iEvento.setDate(7, istanzaSettimanaleSQL);
+        // DATA FINE RICORRENZA
+        iEvento.setDate(8, e.getDataFineRicorrenza());
+        iEvento.setString(9, e.getTipologiaEvento().toString());
+
+        if (e.getResponsabile() != null) {
+          iEvento.setInt(10, e.getResponsabile().getKey());
+        } else {
+          iEvento.setNull(10, java.sql.Types.INTEGER);
+        }
+
+        if (e.getCorso() != null) {
+          iEvento.setInt(11, e.getCorso().getKey());
+        } else {
+          iEvento.setNull(11, java.sql.Types.INTEGER);
+        }
+
+        if (e.getAula() != null) {
+          iEvento.setInt(12, e.getAula().getKey());
+        } else {
+          iEvento.setNull(12, java.sql.Types.INTEGER);
+        }
+
+        if (iEvento.executeUpdate() == 1) {
+          try (ResultSet keys = iEvento.getGeneratedKeys()) {
+            if (keys.next()) {
+              int key = keys.getInt(1);
+              e.setKey(key);
+              dataLayer.getCache().add(Evento.class, e);
+            }
+          }
+        }
+        if (e instanceof DataItemProxy) {
+          ((DataItemProxy) e).setModified(false);
+        }
+      } catch (SQLException ex) {
+        throw new DataException("Unable to store Evento Ricorrente", ex);
       }
-    } catch (SQLException | OptimisticLockException ex) {
-      throw new DataException("Unable to store Evento", ex);
+      istanzaSettimanale = istanzaSettimanale.plusDays(7);
+    }
+  }
+
+  private void storeEventoMensile(Evento e, int IDMaster) throws DataException {
+
+    LocalDate IstanzaMensile = e.getData().toLocalDate();
+    while (IstanzaMensile.isBefore(e.getDataFineRicorrenza().toLocalDate())) {
+      Date IstanzaMensileSQL = Date.valueOf(IstanzaMensile);
+
+      try {
+        iEvento.setInt(1, IDMaster);
+        iEvento.setString(2, e.getNome());
+        iEvento.setTime(3, e.getOraInizio());
+        iEvento.setTime(4, e.getOraFine());
+        iEvento.setString(5, e.getDescrizione());
+        iEvento.setString(6, e.getRicorrenza().toString());
+        iEvento.setDate(7, IstanzaMensileSQL);
+        // DATA FINE RICORRENZA
+        iEvento.setDate(8, e.getDataFineRicorrenza());
+        iEvento.setString(9, e.getTipologiaEvento().toString());
+
+        if (e.getResponsabile() != null) {
+          iEvento.setInt(10, e.getResponsabile().getKey());
+        } else {
+          iEvento.setNull(10, java.sql.Types.INTEGER);
+        }
+
+        if (e.getCorso() != null) {
+          iEvento.setInt(11, e.getCorso().getKey());
+        } else {
+          iEvento.setNull(11, java.sql.Types.INTEGER);
+        }
+
+        if (e.getAula() != null) {
+          iEvento.setInt(12, e.getAula().getKey());
+        } else {
+          iEvento.setNull(12, java.sql.Types.INTEGER);
+        }
+
+        if (iEvento.executeUpdate() == 1) {
+          try (ResultSet keys = iEvento.getGeneratedKeys()) {
+            if (keys.next()) {
+              int key = keys.getInt(1);
+              e.setKey(key);
+              dataLayer.getCache().add(Evento.class, e);
+            }
+          }
+        }
+        if (e instanceof DataItemProxy) {
+          ((DataItemProxy) e).setModified(false);
+        }
+      } catch (SQLException ex) {
+        throw new DataException("Unable to store Evento Ricorrente", ex);
+      }
+      IstanzaMensile = IstanzaMensile.plusMonths(1);
     }
   }
 
