@@ -171,7 +171,7 @@ public class ModificaEvento extends AuleWebBaseController {
 
     int e_key;
     try {
-      if (request.getParameter("e_key") == null) {
+          if (request.getParameter("e_key") == null) {
         throw new DataException("Nessun Evento Selezionato");
       }
       e_key = SecurityHelpers.checkNumeric(request.getParameter("e_key"));

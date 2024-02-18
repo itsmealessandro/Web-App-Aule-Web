@@ -78,7 +78,8 @@
       <input type="date" name="giorno" value="${evento.data?string('yyyy-MM-dd')}">
       <#if evento.ricorrenza !="NESSUNA">
         <label for="ricorrenza">Seleziona la ricorrenza:</label>
-        <select id="ricorrenza" onchange="gestisciRicorrenza()" name="ricorrenza" disabled>
+        <input type="hidden" name="ricorrenza" value="${evento.ricorrenza}" />
+        <select id="ricorrenza" onchange="gestisciRicorrenza()" disabled>
           <option value="NESSUNA">NESSUNA</option>
           <option value="GIORNALIERA">GIORNALIERA</option>
           <option value="SETTIMANALE">SETTIMANALE</option>
@@ -86,8 +87,8 @@
         </select>
         <p>Data Fine Ricorrenza:</p>
         <label for="dataFineRicorrenza" id="labelDataFineRicorrenza">Data Fine Ricorrenza:</label>
-        <input type="date" id="dataFineRicorrenza" name="dataFineRicorrenza"
-          value="${evento.dataFineRicorrenza?string('yyyy-MM-dd')}" readonly>
+        <input type="hidden" name="dataFineRicorrenza" value="${evento.dataFineRicorrenza?string('yyyy-MM-dd')}" />
+        <input type="date" id="dataFineRicorrenza" value="${evento.dataFineRicorrenza?string('yyyy-MM-dd')}" readonly>
         <#else>
           <input type=" hidden" name="dataFineRicorrenza" value="0">
           <input type="hidden" name="ricorrenza" value="NESSUNA">
@@ -96,6 +97,7 @@
       <input type="submit" name="delete" value="Elimina">
     </form>
 </#if>
+
 <script>
   function arrotondaOra(input) {
     // Ottieni il valore dell'input
@@ -128,6 +130,8 @@
     // Inizializza il valore del menu a discesa con il valore di ricorrenza
     window.onload = function () {
       document.getElementById("ricorrenza").value = "${evento.ricorrenza}";
+      gestisciRicorrenza(); // Chiama la funzione per assicurarti che l'interfaccia rifletta lo stato iniziale correttamente
+      document.getElementById("dataFineRicorrenza").value = "${evento.dataFineRicorrenza}";
       gestisciRicorrenza(); // Chiama la funzione per assicurarti che l'interfaccia rifletta lo stato iniziale correttamente
     };
   </#if >
