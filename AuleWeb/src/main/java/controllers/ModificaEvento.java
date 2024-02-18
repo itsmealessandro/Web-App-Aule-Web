@@ -70,22 +70,24 @@ public class ModificaEvento extends AuleWebBaseController {
 
     try {
 
-      System.out.println(ricorrenza + "______________________________________________________________");
+      Evento evento = dataLayer.getEventoDAO().createEvento(); // Creazione di un nuovo evento
       if (!ricorrenza.equals("NESSUNA")) {
-        throw new IOException("Evento Ricorrente non gestito");
+
+        evento.setIDMaster(IDMaster); // null nel caso di eventi NON ricorrenti
+        evento.setDataFineRicorrenza(dataFineRicorrenza);
+      } else {
+
+        evento.setIDMaster(null); // null nel caso di eventi NON ricorrenti
+        evento.setDataFineRicorrenza(null);
       }
 
-      Evento evento = dataLayer.getEventoDAO().createEvento(); // Creazione di un nuovo evento
-
       evento.setKey(e_key);
-      evento.setIDMaster(null); // null nel caso di eventi NON ricorrenti
       evento.setNome(nome);
       evento.setOraInizio(oraInizio);
       evento.setOraFine(oraFine);
       evento.setDescrizione(descrizione);
       evento.setRicorrenza(Ricorrenza.NESSUNA);
       evento.setData(giorno);
-      evento.setDataFineRicorrenza(null);
       evento.setTipologiaEvento(TipologiaEvento.valueOf(tipologiaEvento));
 
       // Recupero del responsabile, aula e corso dall'input dell'utente
@@ -147,10 +149,6 @@ public class ModificaEvento extends AuleWebBaseController {
     }
   }
 
-  private void action_no_evento() {
-    // TODO gestire caso senza aula passata
-  }
-
   private void action_delete(HttpServletRequest request, HttpServletResponse response, int e_key)
       throws IOException, ServletException, TemplateManagerException {
 
@@ -172,11 +170,12 @@ public class ModificaEvento extends AuleWebBaseController {
       throws ServletException {
 
     int e_key;
-    if (request.getParameter("e_key") == null) {
-      action_no_evento();
-    }
-    e_key = SecurityHelpers.checkNumeric(request.getParameter("e_key"));
     try {
+      if (request.getParameter("e_key") == null) {
+        throw new DataException("Nessun Evento Selezionat");
+      }
+      e_key = SecurityHelpers.checkNumeric(request.getParameter("e_key"));
+
       if (request.getParameter("IDMaster") != null
           && request.getParameter("oraInizio") != null
           && request.getParameter("oraFine") != null
@@ -222,6 +221,7 @@ public class ModificaEvento extends AuleWebBaseController {
         String corso = request.getParameter("corso");
         String responsabile = request.getParameter("emailR");
         String dataFineRicorrenza = request.getParameter("dataFineRicorrenza");
+
         // SE NON RICORRENTE VALORE ZERO
         Date dataFineRicorrenza_sql = null;
         if (!dataFineRicorrenza.equals("0")) {
