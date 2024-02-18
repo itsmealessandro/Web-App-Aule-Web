@@ -27,7 +27,8 @@ import java.util.List;
 public class EventoDAO_Database extends DAO implements EventoDAO {
 
   private PreparedStatement iEvento, uEvento, sEventoByID, sEventoByAula, sEventiByDay, sEventiByCorso,
-      sEventiRicorrenti, sAllEventi, sEventoIDMaster, sEventiSettimanaliByAula, sEventiByTreOre, sEventoByNome, dEvento;
+      sEventiRicorrenti, sAllEventi, sEventiByIDMaster, sEventiSettimanaliByAula, sEventiByTreOre, sEventoByNome,
+      dEvento;
 
   public EventoDAO_Database(DataLayer d) {
     super(d);
@@ -39,10 +40,9 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
       super.init();
 
       sEventoByID = connection.prepareStatement("SELECT * FROM Evento WHERE ID=?");
-      sEventoIDMaster = connection.prepareStatement("SELECT * FROM Evento WHERE IDMaster = ?");
+      sEventiByIDMaster = connection.prepareStatement("SELECT * FROM Evento WHERE IDMaster = ?");
       sAllEventi = connection.prepareStatement("SELECT * FROM Evento");
       sEventoByAula = connection.prepareStatement("SELECT * FROM Evento WHERE IDAula=?");
-
       sEventoByNome = connection.prepareStatement("SELECT * FROM Evento WHERE nome = ?");
 
       sEventiSettimanaliByAula = connection.prepareStatement(
@@ -54,7 +54,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
               + " WHERE c.ID = ? AND a.IDDipartimento = ? "
               + " AND e.Data BETWEEN ? AND ?");
       sEventiRicorrenti = connection
-          .prepareStatement("SELECT ID AS eventoID FROM evento WHERE nome=? AND responsabileID=? order by giorno");
+          .prepareStatement("SELECT * FROM Evento WHERE IDMaster=?");
 
       iEvento = connection.prepareStatement(
           "INSERT INTO Evento (IDMaster, nome, oraInizio, oraFine, descrizione, ricorrenza, Data, dataFineRicorrenza, tipologiaEvento, IDResponsabile, IDCorso, IDAula) "
@@ -89,6 +89,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
   public void destroy() throws DataException {
     try {
       sEventoByID.close();
+      sEventiByIDMaster.close();
       sEventoByAula.close();
       sEventiByDay.close();
       sEventiByCorso.close();
@@ -180,7 +181,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
 
   @Override
   public List<Evento> getAllEventi() throws DataException {
-    List<Evento> result = new ArrayList();
+    List<Evento> result = new ArrayList<>();
 
     try (ResultSet rs = sAllEventi.executeQuery()) {
       while (rs.next()) {
@@ -190,24 +191,6 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
       throw new DataException("Unable to load aule", ex);
     }
     return result;
-  }
-
-  @Override
-  public List<Evento> getEventiRicorrenti(String nome, int IDresponsabile) throws DataException {
-    List<Evento> result = new ArrayList();
-
-    try {
-      sEventiRicorrenti.setString(1, nome);
-      sEventiRicorrenti.setInt(2, IDresponsabile);
-      ResultSet rs = sEventiRicorrenti.executeQuery();
-
-      while (rs.next()) {
-        result.add((Evento) getEventoByID(rs.getInt("eventoID")));
-      }
-      return result;
-    } catch (SQLException ex) {
-      throw new DataException("Unable to load eventi", ex);
-    }
   }
 
   @Override
@@ -317,6 +300,23 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
       }
     } catch (SQLException sqlException) {
       throw new DataException("Unable to load Eventi from Aula");
+    }
+    return listaEventi;
+  }
+
+  @Override
+  public List<Evento> getEventiRicorrentiByIDMaster(Integer IDMaster) throws DataException {
+    List<Evento> listaEventi = new ArrayList<>();
+
+    try {
+      sEventiByIDMaster.setInt(1, IDMaster);
+      try (ResultSet resultSet = sEventiByIDMaster.executeQuery()) {
+        while (resultSet.next()) {
+          listaEventi.add((Evento) getEventoByID(resultSet.getInt("ID")));
+        }
+      }
+    } catch (SQLException sqlException) {
+      throw new DataException("Unable to load Eventi by IDMaster");
     }
     return listaEventi;
   }
