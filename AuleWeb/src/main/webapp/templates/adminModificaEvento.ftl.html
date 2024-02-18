@@ -95,6 +95,9 @@
       </#if>
       <input type="submit" name="conf" value="Conferma">
       <input type="submit" name="delete" value="Elimina">
+      <#if evento.ricorrenza !="NESSUNA">
+        <input type="submit" name="deleteRicorrenti" value="Elimina Tutti Eventi Associati">
+      </#if>
     </form>
 </#if>
 

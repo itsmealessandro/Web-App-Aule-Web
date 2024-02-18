@@ -27,8 +27,8 @@ import java.util.List;
 public class EventoDAO_Database extends DAO implements EventoDAO {
 
   private PreparedStatement sEventoByID, sEventoByAula, sEventiByDay, sEventiByCorso,
-      sAllEventi, sEventiByIDMaster, sEventiSettimanaliByAula, sEventiByTreOre, sEventoByNome, sMAXIDMaster,
-      dEvento, iEvento, uEvento;
+      sAllEventi, sEventiByIDMaster, sEventiSettimanaliByAula, sEventiByTreOre, sEventoByNome, sMAXIDMaster, iEvento,
+      uEvento, dEvento, dEventiByIDMaster;
 
   public EventoDAO_Database(DataLayer d) {
     super(d);
@@ -83,7 +83,9 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
               + "    version = ?\n"
               + " WHERE ID = ? AND version = ?");
 
-      dEvento = connection.prepareStatement("DELETE FROM evento WHERE ID=?");
+      dEvento = connection.prepareStatement("DELETE FROM Evento WHERE ID=?");
+
+      dEventiByIDMaster = connection.prepareStatement("DELETE FROM Evento WHERE IDMaster=?");
 
     } catch (SQLException ex) {
       throw new DataException("Error initializing data layer", ex);
@@ -106,6 +108,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
       iEvento.close();
       uEvento.close();
       dEvento.close();
+      dEventiByIDMaster.close();
 
     } catch (SQLException ex) {
       throw new DataException("Error in Destroy", ex);
@@ -684,6 +687,16 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
       dEvento.executeUpdate();
     } catch (SQLException e) {
       throw new DataException("Unable to Delete Evento", e);
+    }
+
+  }
+
+  public void deleteEventiRicorrenti(Evento evento) throws DataException {
+    try {
+      dEventiByIDMaster.setInt(1, evento.getIDMaster());
+      dEventiByIDMaster.executeUpdate();
+    } catch (SQLException e) {
+      throw new DataException("Unable to Delete Eventi Ricorrenti", e);
     }
 
   }

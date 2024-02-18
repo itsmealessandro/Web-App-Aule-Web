@@ -165,17 +165,39 @@ public class ModificaEvento extends AuleWebBaseController {
     }
   }
 
+  private void action_delete_ricorrenti(HttpServletRequest request, HttpServletResponse response, int e_key)
+      throws IOException, ServletException, TemplateManagerException {
+
+    TemplateResult res = new TemplateResult(getServletContext());
+    AuleWebDataLayer dataLayer = (AuleWebDataLayer) request.getAttribute("datalayer");
+
+    try {
+      Evento evento = dataLayer.getEventoDAO().getEventoByID(e_key);
+      dataLayer.getEventoDAO().deleteEventiRicorrenti(evento);
+
+      res.activate("operazioneEseguita.ftl.html", request, response);
+    } catch (DataException e) {
+      handleError("Data access exception: " + e.getMessage(), request, response);
+    }
+  }
+
   @Override
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
       throws ServletException {
 
     int e_key;
     try {
-          if (request.getParameter("e_key") == null) {
+      if (request.getParameter("e_key") == null) {
         throw new DataException("Nessun Evento Selezionato");
       }
       e_key = SecurityHelpers.checkNumeric(request.getParameter("e_key"));
-      if (request.getParameter("IDMaster") != null
+      if (request.getParameter("delete") != null) {
+        // Premuto Elimina
+        action_delete(request, response, e_key);
+      } else if (request.getParameter("deleteRicorrenti") != null) {
+        // Premuto Elimina
+        action_delete_ricorrenti(request, response, e_key);
+      } else if (request.getParameter("IDMaster") != null
           && request.getParameter("oraInizio") != null
           && request.getParameter("oraFine") != null
           && request.getParameter("descrizione") != null
@@ -254,9 +276,6 @@ public class ModificaEvento extends AuleWebBaseController {
       } else if (e_key == 0) {
         // Modalità Creazione
         action_prepare_creation(request, response);
-      } else if (request.getParameter("delete") != null) {
-        // Premuto Elimina
-        action_delete(request, response, e_key);
       } else {
         // Mostra Evento
         action_default(request, response, e_key);

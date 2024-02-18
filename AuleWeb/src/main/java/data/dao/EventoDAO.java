@@ -41,4 +41,6 @@ public interface EventoDAO {
 
   void deleteEvento(Evento evento) throws DataException;
 
+  void deleteEventiRicorrenti(Evento evento) throws DataException;
+
 }
