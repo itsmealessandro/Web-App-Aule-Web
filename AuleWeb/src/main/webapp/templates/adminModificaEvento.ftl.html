@@ -33,8 +33,9 @@
     <input type="text" name="emailR">
     <p>Data:</p>
     <input type="date" name="giorno">
+
     <label for="ricorrenza">Seleziona la ricorrenza:</label>
-    <select id="ricorrenza" onchange="gestisciRicorrenza()" value="NESSUNA">
+    <select id="ricorrenza" onchange="gestisciRicorrenza()" value="NESSUNA" name="ricorrenza">
       <option value="NESSUNA">NESSUNA</option>
       <option value="GIORNALIERA">GIORNALIERA</option>
       <option value="SETTIMANALE">SETTIMANALE</option>
@@ -94,8 +95,9 @@
 </#if>
 
 <script>
+  var ricorrenza = "NESSUNA"; // Inizializza la variabile ricorrenza
   function gestisciRicorrenza() {
-    var ricorrenza = document.getElementById("ricorrenza").value;
+    ricorrenza = document.getElementById("ricorrenza").value;
     var dataFineRicorrenzaInput = document.getElementById("dataFineRicorrenza");
     var labelDataFineRicorrenza = document.getElementById("labelDataFineRicorrenza");
 

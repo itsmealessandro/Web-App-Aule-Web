@@ -175,7 +175,6 @@ public class ModificaEvento extends AuleWebBaseController {
         throw new DataException("Nessun Evento Selezionato");
       }
       e_key = SecurityHelpers.checkNumeric(request.getParameter("e_key"));
-
       if (request.getParameter("IDMaster") != null
           && request.getParameter("oraInizio") != null
           && request.getParameter("oraFine") != null
@@ -185,8 +184,8 @@ public class ModificaEvento extends AuleWebBaseController {
           && request.getParameter("a_name") != null
           && request.getParameter("corso") != null
           && request.getParameter("emailR") != null
-          && request.getParameter("giorno") != null
-          && request.getParameter("ricorrenza") != null) {
+          && request.getParameter("ricorrenza") != null
+          && request.getParameter("giorno") != null) {
 
         // Controllo Ricorrenza
         String ricorrenza = request.getParameter("ricorrenza");
