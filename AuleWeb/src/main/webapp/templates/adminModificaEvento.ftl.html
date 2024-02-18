@@ -1,4 +1,15 @@
 <h1>Modifica Evento</h1>
+<style>
+  #dataFineRicorrenza {
+    display: none;
+    /* Nascondi il campo di input per la dataFineRicorrenza all'avvio */
+  }
+
+  #labelDataFineRicorrenza {
+    display: none;
+    /* Nascondi il campo di input per la dataFineRicorrenza all'avvio */
+  }
+</style>
 
 <#if evento.key==0>
   <form method="post" action="ModificaEvento">
@@ -20,12 +31,17 @@
     <input type="text" name="corso">
     <p>Email Responsabile:</p>
     <input type="text" name="emailR">
-    <p>Giorno:</p>
+    <p>Data:</p>
     <input type="date" name="giorno">
-    <p>Ricorrenza:</p>
-    <input type="text" name="ricorrenza">
-    <p>Data Fine Ricorrenza:</p>
-    <input type="text" name="dataFineRicorrenza">
+    <label for="ricorrenza">Seleziona la ricorrenza:</label>
+    <select id="ricorrenza" onchange="gestisciRicorrenza()" value="NESSUNA">
+      <option value="NESSUNA">NESSUNA</option>
+      <option value="GIORNALIERA">GIORNALIERA</option>
+      <option value="SETTIMANALE">SETTIMANALE</option>
+      <option value="MENSILE">MENSILE</option>
+    </select>
+    <label for="dataFineRicorrenza" id="labelDataFineRicorrenza">Data Fine Ricorrenza:</label>
+    <input type="date" id="dataFineRicorrenza">
     <input type="submit" name="conf" value="Conferma">
   </form>
   <#else>
@@ -58,15 +74,38 @@
       <p>Giorno:</p>
       <input type="date" name="giorno" value="${evento.data?string('yyyy-MM-dd')}">
       <#if evento.ricorrenza !="NESSUNA">
-        <p>Ricorrenza:</p>
-        <input type="text" name="ricorrenza" value="${evento.ricorrenza}">
+        <label for="ricorrenza">Seleziona la ricorrenza:</label>
+        <select id="ricorrenza" onchange="gestisciRicorrenza()">
+          <option value="NESSUNA">NESSUNA</option>
+          <option value="GIORNALIERA">Opzione 1</option>
+          <option value="SETTIMANALE">Opzione 2</option>
+          <option value="MENSILE">Opzione 3</option>
+        </select>
         <p>Data Fine Ricorrenza:</p>
-        <input type="text" name="dataFineRicorrenza" value="${evento.dataFineRicorrenza?string('yyyy-MM-dd')}">
+        <label for="dataFineRicorrenza" id="labelDataFineRicorrenza">Data Fine Ricorrenza:</label>
+        <input type="date" id="dataFineRicorrenza" value="${evento.dataFineRicorrenza?string('yyyy-MM-dd')}">
         <#else>
-          <input type="hidden" name="dataFineRicorrenza" value="0">
+          <input type=" hidden" name="dataFineRicorrenza" value="0">
           <input type="hidden" name="ricorrenza" value="NESSUNA">
       </#if>
       <input type="submit" name="conf" value="Conferma">
       <input type="submit" name="delete" value="Elimina">
     </form>
 </#if>
+
+<script>
+  function gestisciRicorrenza() {
+    var ricorrenza = document.getElementById("ricorrenza").value;
+    var dataFineRicorrenzaInput = document.getElementById("dataFineRicorrenza");
+    var labelDataFineRicorrenza = document.getElementById("labelDataFineRicorrenza");
+
+    if (ricorrenza === "NESSUNA") {
+      dataFineRicorrenzaInput.value = ""; // Azzera il valore del campo data
+      dataFineRicorrenzaInput.style.display = "none"; // Nascondi il campo di input
+      labelDataFineRicorrenza.style.display = "none"; // Nascondi l'etichetta del campo
+    } else {
+      dataFineRicorrenzaInput.style.display = "inline"; // Mostra il campo di input
+      labelDataFineRicorrenza.style.display = "inline"; // Mostra l'etichetta del campo
+    }
+  }
+</script>

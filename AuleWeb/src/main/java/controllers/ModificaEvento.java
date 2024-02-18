@@ -172,7 +172,7 @@ public class ModificaEvento extends AuleWebBaseController {
     int e_key;
     try {
       if (request.getParameter("e_key") == null) {
-        throw new DataException("Nessun Evento Selezionat");
+        throw new DataException("Nessun Evento Selezionato");
       }
       e_key = SecurityHelpers.checkNumeric(request.getParameter("e_key"));
 
@@ -186,16 +186,26 @@ public class ModificaEvento extends AuleWebBaseController {
           && request.getParameter("corso") != null
           && request.getParameter("emailR") != null
           && request.getParameter("giorno") != null
-          && request.getParameter("dataFineRicorrenza") != null
           && request.getParameter("ricorrenza") != null) {
 
+        // Controllo Ricorrenza
+        String ricorrenza = request.getParameter("ricorrenza");
+        String dataFineRicorrenza = "0";
+        if (!ricorrenza.equals("NESSUNA")) {
+          dataFineRicorrenza = request.getParameter("dataFineRicorrenza");
+        }
+
+        // SE NON RICORRENTE VALORE ZERO
+        Date dataFineRicorrenza_sql = null;
+        if (!dataFineRicorrenza.equals("0")) {
+          dataFineRicorrenza_sql = Date.valueOf(dataFineRicorrenza);
+        }
         // SE NON RICORRENTE VALORE ZERO
         Integer IDMaster = SecurityHelpers.checkNumeric(request.getParameter("IDMaster"));
         if (IDMaster == 0) {
           IDMaster = null;
         }
 
-        // TODO INSERIRE CONTROLLO DATI VALIDI
         String oraInizio = request.getParameter("oraInizio");
         String oraFine = request.getParameter("oraFine");
         String giorno = request.getParameter("giorno");
@@ -211,22 +221,13 @@ public class ModificaEvento extends AuleWebBaseController {
         }
         if (!trovato) {
           throw new DataException("Input TipologiaEvento non Valido");
-
         }
 
         String descrizione = request.getParameter("descrizione");
         String nome = request.getParameter("nome");
-        String ricorrenza = request.getParameter("ricorrenza");
         String aula = request.getParameter("a_name");
         String corso = request.getParameter("corso");
         String responsabile = request.getParameter("emailR");
-        String dataFineRicorrenza = request.getParameter("dataFineRicorrenza");
-
-        // SE NON RICORRENTE VALORE ZERO
-        Date dataFineRicorrenza_sql = null;
-        if (!dataFineRicorrenza.equals("0")) {
-          dataFineRicorrenza_sql = Date.valueOf(dataFineRicorrenza);
-        }
 
         // Conversione a sql
         String timeWithSecOI = oraInizio + ":00";
