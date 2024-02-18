@@ -27,7 +27,7 @@ import java.util.List;
 public class EventoDAO_Database extends DAO implements EventoDAO {
 
   private PreparedStatement iEvento, uEvento, sEventoByID, sEventoByAula, sEventiByDay, sEventiByCorso,
-      sEventiRicorrenti, sAllEventi, sEventiByIDMaster, sEventiSettimanaliByAula, sEventiByTreOre, sEventoByNome,
+      sAllEventi, sEventiByIDMaster, sEventiSettimanaliByAula, sEventiByTreOre, sEventoByNome,
       dEvento;
 
   public EventoDAO_Database(DataLayer d) {
@@ -53,8 +53,12 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
           " SELECT e.* FROM Evento e JOIN Aula a ON e.IDAula = a.ID JOIN Corso c ON e.IDCorso = c.ID "
               + " WHERE c.ID = ? AND a.IDDipartimento = ? "
               + " AND e.Data BETWEEN ? AND ?");
-      sEventiRicorrenti = connection
-          .prepareStatement("SELECT * FROM Evento WHERE IDMaster=?");
+      sEventiByTreOre = connection.prepareStatement("SELECT e.*\n" +
+          "FROM Evento e\n" +
+          " JOIN Aula a ON e.IDAula = a.ID\n" +
+          " WHERE e.oraInizio BETWEEN CURRENT_TIME() AND ADDTIME(CURRENT_TIME(), '03:00:00')\n" +
+          " AND e.Data = CURDATE()\n" +
+          " AND a.IDDipartimento = ?;");
 
       iEvento = connection.prepareStatement(
           "INSERT INTO Evento (IDMaster, nome, oraInizio, oraFine, descrizione, ricorrenza, Data, dataFineRicorrenza, tipologiaEvento, IDResponsabile, IDCorso, IDAula) "
@@ -93,16 +97,16 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
       sEventoByAula.close();
       sEventiByDay.close();
       sEventiByCorso.close();
-      sEventiRicorrenti.close();
-      iEvento.close();
-      uEvento.close();
-      sAllEventi.close();
-      dEvento.close();
       sEventoByNome.close();
       sEventiByTreOre.close();
+      sAllEventi.close();
+
+      iEvento.close();
+      uEvento.close();
+      dEvento.close();
 
     } catch (SQLException ex) {
-      // TODO gestire l'eccezione
+      throw new DataException("Error in Destroy", ex);
     }
     super.destroy();
   }
@@ -160,23 +164,6 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
       }
     }
     return e;
-  }
-
-  @Override
-  public List<Evento> getEventiByNome(String nome) throws DataException {
-    List<Evento> result = new ArrayList<>();
-
-    try {
-      sEventiRicorrenti.setString(1, nome);
-      ResultSet rs = sEventiRicorrenti.executeQuery();
-
-      while (rs.next()) {
-        result.add((Evento) getEventoByID(rs.getInt("ID")));
-      }
-      return result;
-    } catch (SQLException ex) {
-      throw new DataException("Unable to load eventi", ex);
-    }
   }
 
   @Override
@@ -281,7 +268,6 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
         }
       }
     } catch (SQLException ex) {
-      ex.printStackTrace();
       throw new DataException("Unable to load Eventi by Day");
     }
 
