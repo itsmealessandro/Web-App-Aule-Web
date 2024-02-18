@@ -129,10 +129,6 @@ public class ModificaAula extends AuleWebBaseController {
     }
   }
 
-  private void action_no_aula() {
-    // TODO gestire caso senza aula passata
-  }
-
   private void action_delete(HttpServletRequest request, HttpServletResponse response, int a_key)
       throws IOException, ServletException, TemplateManagerException {
 
@@ -154,13 +150,18 @@ public class ModificaAula extends AuleWebBaseController {
       throws ServletException {
 
     request.setAttribute("page_title", "Modifica Aula");
-    int a_key;
-    if (request.getParameter("a_key") == null) {
-      action_no_aula();
-    }
-    a_key = SecurityHelpers.checkNumeric(request.getParameter("a_key"));
 
     try {
+
+      if (request.getParameter("a_key") == null) {
+        throw new DataException("nessuan aula selezionata");
+      }
+      int a_key;
+      a_key = SecurityHelpers.checkNumeric(request.getParameter("a_key"));
+      if (request.getParameter("delete") != null) {
+        // Premuto Elimina
+        action_delete(request, response, a_key);
+      }
       // Conferma Premuto
       if (request.getParameter("dipartimento") != null
           && request.getParameter("nome") != null
@@ -199,9 +200,6 @@ public class ModificaAula extends AuleWebBaseController {
       } else if (a_key == 0) {
         // Modalità Creazione
         action_prepare_creation(request, response);
-      } else if (request.getParameter("delete") != null) {
-        // Premuto Elimina
-        action_delete(request, response, a_key);
       } else {
         // Mostra Aula
         action_default(request, response, a_key);
@@ -210,7 +208,9 @@ public class ModificaAula extends AuleWebBaseController {
     } catch (NumberFormatException ex) {
       handleError("Invalid number submitted", request, response);
     } catch (IOException | TemplateManagerException ex) {
-      handleError(ex, request, response);
+      handleError(ex.getMessage(), request, response);
+    } catch (DataException ex) {
+      handleError(ex.getMessage(), request, response);
     }
   }
 

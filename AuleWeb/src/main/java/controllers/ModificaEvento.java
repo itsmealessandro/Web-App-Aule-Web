@@ -195,10 +195,26 @@ public class ModificaEvento extends AuleWebBaseController {
         if (IDMaster == 0) {
           IDMaster = null;
         }
+
+        // TODO INSERIRE CONTROLLO DATI VALIDI
         String oraInizio = request.getParameter("oraInizio");
         String oraFine = request.getParameter("oraFine");
         String giorno = request.getParameter("giorno");
         String tipologiaEvento = request.getParameter("tipologiaEvento");
+
+        // Controllo TipologiaEvento
+        boolean trovato = false;
+        for (TipologiaEvento t : TipologiaEvento.values()) {
+          if (t.toString().equals(tipologiaEvento)) {
+            trovato = true;
+            break;
+          }
+        }
+        if (!trovato) {
+          throw new DataException("Input TipologiaEvento non Valido");
+
+        }
+
         String descrizione = request.getParameter("descrizione");
         String nome = request.getParameter("nome");
         String ricorrenza = request.getParameter("ricorrenza");
@@ -217,7 +233,7 @@ public class ModificaEvento extends AuleWebBaseController {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         java.util.Date data1 = sdf.parse(timeWithSecOI);
 
-        String timeWithSecOF = oraInizio + ":00";
+        String timeWithSecOF = oraFine + ":00";
         SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm:ss");
         java.util.Date data2 = sdf2.parse(timeWithSecOF);
 
@@ -249,6 +265,8 @@ public class ModificaEvento extends AuleWebBaseController {
       handleError("Invalid number submitted", request, response);
     } catch (IOException | TemplateManagerException ex) {
       handleError(ex, request, response);
+    } catch (DataException ex) {
+      handleError(ex.getMessage(), request, response);
     }
 
   }
