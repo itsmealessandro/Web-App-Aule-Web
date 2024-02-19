@@ -1,27 +1,48 @@
-<h1>Scegli Un Criterio di Ricerca</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scegli Un Criterio di Ricerca</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Scegli Un Criterio di Ricerca</h1>
 
-<h2>Eventi Settimanali per Corso</h2>
-<form method="POST" action="SceltaCriterio?action=confCorso">
-  <input type="hidden" name="dip_key" value="${dipartimento.key}" />
-  <p>Scelgi una data</p>
-  <input type="date" name="data" />
-  <p>Inserisci il nome di un Corso</p>
-  <input type="text" name="corso_n" />
-  <input type="submit" name="confCorso" value="Conferma">
-</form>
-<hr>
-<h2>Eventi Settimanali per Aula</h2>
-<form method="POST" action="SceltaCriterio?action=confAula">
-  <input type="hidden" name="dip_key" value="${dipartimento.key}" />
-  <p>Scelgi una data</p>
-  <input type="date" name="data" />
-  <p>Inserisci il nome di un'Aula</p>
-  <input type="text" name="aula_n" />
-  <input type="submit" name="confAula" value="conferma">
-</form>
-<hr>
-<h2>Eventi delle prossime Tre Ore</h2>
-<form method="POST" action="SceltaCriterio?action=confTreOre">
-  <input type="hidden" name="dip_key" value="${dipartimento.key}" />
-  <input type="submit" name="confTreOre" value="Ricerca">
-</form>
+    <div class="container">
+        <h2>Eventi Settimanali per Corso</h2>
+        <form method="POST" action="SceltaCriterio?action=confCorso">
+            <input type="hidden" name="dip_key" value="${dipartimento.key}" />
+            <p>Scegli una data</p>
+            <input type="date" name="data" />
+            <p>Inserisci il nome di un Corso</p>
+            <input type="text" name="corso_n" />
+            <input type="submit" name="confCorso" value="Conferma">
+        </form>
+    </div>
+
+    <hr>
+
+    <div class="container">
+        <h2>Eventi Settimanali per Aula</h2>
+        <form method="POST" action="SceltaCriterio?action=confAula">
+            <input type="hidden" name="dip_key" value="${dipartimento.key}" />
+            <p>Scegli una data</p>
+            <input type="date" name="data" />
+            <p>Inserisci il nome di un'Aula</p>
+            <input type="text" name="aula_n" />
+            <input type="submit" name="confAula" value="Conferma">
+        </form>
+    </div>
+
+    <hr>
+
+    <div class="container">
+        <h2>Eventi delle prossime Tre Ore</h2>
+        <form method="POST" action="SceltaCriterio?action=confTreOre">
+            <input type="hidden" name="dip_key" value="${dipartimento.key}" />
+            <input type="submit" name="confTreOre" value="Ricerca">
+        </form>
+    </div>
+</body>
+</html>
