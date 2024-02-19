@@ -29,7 +29,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
 
   private PreparedStatement sEventoByID, sEventoByAula, sEventiByDay, sEventiByCorso,
       sAllEventi, sEventiByIDMaster, sEventiSettimanaliByAula, sEventiByTreOre, sEventoByNome, sMAXIDMaster, iEvento,
-      uEvento, dEvento, dEventiByIDMaster,sEventiByOre;
+      uEvento, dEvento, dEventiByIDMaster, sEventiByOre;
 
   public EventoDAO_Database(DataLayer d) {
     super(d);
@@ -50,7 +50,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
       sEventiSettimanaliByAula = connection.prepareStatement(
           "SELECT *FROM Evento AS ev INNER JOIN Aula AS au ON ev.IDAula = au.ID INNER JOIN Dipartimento AS d ON au.IDDipartimento = d.ID WHERE d.ID = ?  AND au.ID = ? AND ev.Data BETWEEN ? AND ?");
       sEventiByDay = connection.prepareStatement(
-          " SELECT e.* FROM Evento e JOIN Aula a ON e.IDAula = a.ID JOIN Dipartimento d ON a.IDDipartimento = d.ID WHERE d.ID = ? AND e.dataInizio <= ? AND e.dataFine >= ?");
+          " SELECT e.* FROM Evento e JOIN Aula a ON e.IDAula = a.ID JOIN Dipartimento d ON a.IDDipartimento = d.ID WHERE d.ID = ? AND e.data = ?");
       sEventiByCorso = connection.prepareStatement(
           " SELECT e.* FROM Evento e JOIN Aula a ON e.IDAula = a.ID JOIN Corso c ON e.IDCorso = c.ID "
               + " WHERE c.ID = ? AND a.IDDipartimento = ? "
@@ -83,7 +83,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
               + "    IDAula = ?,\n"
               + "    version = ?\n"
               + " WHERE ID = ? AND version = ?");
-      
+
       sEventiByOre = connection.prepareStatement("SELECT * FROM Evento WHERE oraInizio >= ? AND oraFine <= ?");
 
       dEvento = connection.prepareStatement("DELETE FROM Evento WHERE ID=?");
@@ -215,7 +215,6 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
     try {
       sEventiByDay.setInt(1, dip_key);
       sEventiByDay.setDate(2, data);
-      sEventiByDay.setDate(3, data);
 
       try (ResultSet rSet = sEventiByDay.executeQuery()) {
         while (rSet.next()) {
@@ -315,18 +314,17 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
     }
     return listaEventi;
   }
-  
+
   @Override
-  public List<Evento> getEventiByOrario (Time oraInizio, Time oraFine) throws DataException {
+  public List<Evento> getEventiByOrario(Time oraInizio, Time oraFine) throws DataException {
     List<Evento> listaEventi = new ArrayList<>();
     try {
-        
-        
+
       sEventiByTreOre.setTime(1, oraInizio);
       sEventiByTreOre.setTime(2, oraFine);
       try (ResultSet resultSet = sEventiByOre.executeQuery()) {
-      while (resultSet.next()) {
-        listaEventi.add((Evento) getEventoByID(resultSet.getInt("ID")));
+        while (resultSet.next()) {
+          listaEventi.add((Evento) getEventoByID(resultSet.getInt("ID")));
         }
       }
     } catch (SQLException sqlException) {

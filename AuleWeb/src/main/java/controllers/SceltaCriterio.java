@@ -94,6 +94,20 @@ public class SceltaCriterio extends AuleWebBaseController {
 
   }
 
+  private void action_giorno(HttpServletRequest request, HttpServletResponse response, int dip_key,
+      Date data)
+      throws IOException, ServletException, TemplateManagerException {
+
+    StringBuffer url = new StringBuffer();
+
+    url.append("EventiPerGiorno?");
+    url.append("dip_key=" + dip_key);
+    url.append("&&");
+    url.append("date=" + data);
+
+    response.sendRedirect(url.toString());
+  }
+
   @Override
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
       throws ServletException {
@@ -123,6 +137,9 @@ public class SceltaCriterio extends AuleWebBaseController {
         } else if (request.getParameter("action").equals("confTreOre")) {
           action_tre_ore(request, response, dip_key);
 
+        } else if (request.getParameter("action").equals("confGiorno")) {
+          Date data = Date.valueOf(request.getParameter("data"));
+          action_giorno(request, response, dip_key, data);
         }
       }
 
