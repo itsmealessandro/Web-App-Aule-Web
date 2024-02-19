@@ -1,19 +1,23 @@
 <div id="header">
     <nav>
         <ul>
-            <li><a href="Homepage">Homepage</a></li>
-            <#if logininfo??>
+            <!-- Pulsante Homepage -->
+            <li><a href="Homepage"><button>Homepage</button></a></li>
 
-            <li>${logininfo.username} <a href="logout?referrer=${thispageurl?url}"><button class="login-button">Logout</button></a></li>
-            <li><a href="GestioneDipartimenti">Gestione Dipartimenti</a></li>
-            <li><a href="GestioneAule">Gestione Aule</a></li>
-            <li><a href="GestioneEventi">Gestione Eventi</a></li>
+            <!-- Se l'utente è loggato -->
+            <#if logininfo??>
+                <!-- Altri link -->
+                <li><a href="GestioneDipartimenti"><button>Gestione Dipartimenti</button></a></li>
+                <li><a href="GestioneAule"><button>Gestione Aule</button></a></li>
+                <li><a href="GestioneEventi"><button>Gestione Eventi</button></a></li>
+                <!-- Pulsante Logout (sempre in fondo alla lista) -->
+                <li>Utente: ${logininfo.username} <a href="logout?referrer=${thispageurl?url}"><button class="login-button">Logout</button></a></li>
             <#else>
-            <li><a href="login?referrer=${thispageurl?url}"><button class="login-button">Login</button></a></li>
+                <!-- Pulsante Login -->
+                <li><a href="login?referrer=${thispageurl?url}"><button>Login</button></a></li>
             </#if>
         </ul>
     </nav>
-
 </div>
 
 

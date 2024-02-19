@@ -16,6 +16,12 @@ body {
     border-radius: 5px;
 }
 
+.scContainer {
+    display: flex; /* Imposta il contenitore come flex container */
+    flex-wrap: nowrap; /* Impedisce il wrapping degli elementi */
+    justify-content: center;
+}
+
 .homeContainer {
     max-width: 800px;
     margin: 0 auto;
@@ -77,6 +83,8 @@ nav ul li a:link {
     margin-top: -5%; /* Margine superiore negativo pari all'altezza del footer */
 }
 
+
+
 .link a{
     margin-left: 20%;
 }
@@ -89,20 +97,42 @@ nav ul li a:link {
     color: #ffd700;
 }
 
-input[type="date"],
-input[type="text"],
-input[type="submit"] {
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
     margin: 10px 0;
-    padding: 8px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    color: #fff;
+    background-color: #5c4c2a;
+
 }
 
 input[type="submit"] {
-    background-color: #007bff;
-    color: #fff;
+    width: 50%;
+    padding: 10px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #f7d36d;
+    color: #333;
+    font-size: 16px;
     cursor: pointer;
 }
+
+input[type="submit"]:hover {
+    background-color: #212121;
+    color: #ff7800;
+}
+
+input[type="date"]
 
 hr {
     border: none;
@@ -123,7 +153,6 @@ hr {
     border-radius: 5%;
     border-color: #212121;
     border-width: 10px;
-
     width: 300%; /* Imposta la larghezza a 300 pixel */
     height: 100%; /* Imposta l'altezza a 200 pixel */
 }
@@ -160,19 +189,21 @@ hr {
 }
 
 .sceltaCriterio {
-    display: inline-block; /* Imposta i contenitori come elementi inline-block */
-    margin-right: 20px; /* Aggiunge uno spazio di 20px tra i contenitori */
+    display: inline-block;
     flex: 1;
-    background-color: #212121;
+    background-color: #a8966f;
     border: 10px solid;
     border-radius: 5%;
     border-color: #212121;
-    border-width: 10px;
+    border-width: 5px;
+    max-width: 800px;
+    margin: 20px;
+    padding: 20px;
+    text-align: center;
 }
 
-.container-wrapper {
-    white-space: nowrap; /* Evita che i contenitori vadano a capo */
-}
+
+
 
 .spacer{
     padding-bottom: 41%;
@@ -201,18 +232,45 @@ hr {
 
 .tableTitle th{
     color: #fff;
-    background-color: #5c4c2a; /* Colore testo per celle della tabella */
+    background-color: #5c4c2a; /* Colore testo per celle titolo della tabella */
 }
 
 .tableContent td{
     color: #fff;
-    background-color: #212121; /* Colore testo per celle della tabella */
+    background-color: #212121; /* Colore testo per celle valore della tabella */
 }
 
 .tableContent td a{
-    color: #ffd700;    
+    color: #ffd700;
 }
 
+button {
+    padding: 8px 16px;
+    background-color: #555; /* Colore di sfondo in stato normale */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Transizione del colore di sfondo */
+    color: #ff7800; /* Colore del testo in stato normale */
+}
+
+/* Stile quando si passa sopra il pulsante */
+button:hover {
+    background-color: #ddd; /* Colore di sfondo quando si fa hover */
+    color: #555; /* Colore del testo quando si fa hover */
+}
+
+/* Stile per il link intorno al pulsante */
+a {
+    text-decoration: none; /* Rimuovere sottolineatura dai link */
+    color: inherit; /* Ereditare il colore del testo dal genitore */
+}
+
+/* Stile per il link intorno al pulsante quando si fa hover */
+a:hover {
+    text-decoration: none; /* Rimuovere sottolineatura dai link */
+    color: inherit; /* Ereditare il colore del testo dal genitore */
+}
 
 
 
