@@ -2,17 +2,19 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    text-align: center;
     background-color: #363b4a;
     color: #fff;
+    padding-bottom: 5%; /* Altezza uguale a quella del footer */
 }
 
 .container {
-    display: inline-block;
-    text-align: left;
+    max-width: 800px;
+    margin: 0 auto;
     padding: 20px;
-    background-color: #fff;
+    text-align: center;
+    background-color: #635d73;
     border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 header h1 {
@@ -51,13 +53,14 @@ nav ul li a:link {
 }
 
 #footer {
-    background-color: #46679c;
-    color: #264224;
-    padding: 1px;
-    text-align: center;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
+    background-color: #46679c;/* Colore di sfondo del footer */
+    color: #264224;/* Colore del testo del footer */
+    position: fixed; /* Posizionamento fisso per il footer */
+    bottom: 0; /* Lo posizioniamo in basso */
+    width: 100%; /* Occupa tutta la larghezza della finestra */
+    height: 5%; /* Altezza del footer */
+    text-align: center; /* Allineamento del testo al centro */
+    margin-top: -5%; /* Margine superiore negativo pari all'altezza del footer */
 }
 
 .link a{
@@ -92,4 +95,26 @@ hr {
     border-top: 1px solid #ccc;
     margin: 20px auto;
     width: 80%;
+}
+
+.image-row {
+    display: flex;
+    justify-content: center; /* Centra orizzontalmente le immagini */
+}
+
+.image-item {
+    flex: 1;
+    margin-right: 10px;
+    margin: 0 10px; /* Aggiunge spazio tra le immagini */
+}
+
+.image-item img {
+    max-width: 100%;
+    height: auto;
+    display: block; /* Impedisce l'aggiunta di spazi vuoti sotto le immagini */
+}
+
+.image-item p {
+    text-align: center;
+    margin-top: 10px;
 }

@@ -3,6 +3,10 @@
 
 <html lang="it">
     <head>
+        <link rel="stylesheet" href="../style/layoutStyle.css" type="text/css"/>
+        <link rel="stylesheet" href="../style/homepageStyle.css" type="text/css">
+
+
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Home Page</title>
@@ -11,22 +15,35 @@
         <section class="main-content">
             <div class="container">
                 <h2>Benvenuti sulla Homepage</h2>
-                <p>Sto testando il CSS</p>
-            </div>
-            <div class="link">
-                <nav>
-                    <ul>
-                        <li><a href="SceltaCriterio?dip_key=${dipartimento1.key}">Matematica</a></li>
-                        <li><a href="SceltaCriterio?dip_key=${dipartimento2.key}">Fisica</a></li>
-                        <li><a href="SceltaCriterio?dip_key=${dipartimento3.key}">Biologia</a></li>
-                    </ul>
-                </nav>
-            </div>
-
-            <div>
-                <img src="AuleWeb\target\AuleWeb-version\images\img_3.jpg" alt="Description of the image">
-            </div>
+                <p>Scegliere un dipartimento per iniziare la ricerca</p>
+            </div>           
         </section>
+
+        <div class="container">
+            <div class="image-row">
+                <div class="image-item">
+                    <a href="SceltaCriterio?dip_key=${dipartimento1.key}">
+                        <img src="AuleWeb\target\AuleWeb-version\images\img_3.jpg" alt="Immagine 1">
+                        <p>Matematica</p>
+                    </a>
+                </div>
+                <div class="image-item">
+                    <a href="SceltaCriterio?dip_key=${dipartimento2.key}">
+                        <img src="immagine2.jpg" alt="Immagine 2">
+                        <p>Fisica</p>
+                    </a>
+                </div>
+                <div class="image-item">
+                    <a href="SceltaCriterio?dip_key=${dipartimento3.key}">
+                        <img src="immagine3.jpg" alt="Immagine 3">
+                        <p>Biologia</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+
     </body>
 </html>
 <#if papera?exists && papera == "as">
