@@ -18,7 +18,6 @@ import java.util.List;
 
 public class AulaDAO_Database extends DAO implements AulaDAO {
 
-
   private PreparedStatement sAulaPerID, sAulaByName;
   private PreparedStatement sAule, sAulePerDipartimento;
   private PreparedStatement iAula, uAula, dAula;
@@ -36,7 +35,7 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
       // precompile all the queries uses in this class
       sAulaPerID = connection.prepareStatement("SELECT * FROM Aula WHERE ID=?");
       sAulaByName = connection.prepareStatement("SELECT * FROM Aula WHERE Nome=?");
-      sAule = connection.prepareStatement("SELECT ID AS aulaID FROM Aula");
+      sAule = connection.prepareStatement("SELECT ID FROM Aula");
       sAulePerDipartimento = connection.prepareStatement("SELECT ID FROM Aula WHERE IDdipartimento=?");
 
       iAula = connection.prepareStatement(
@@ -134,7 +133,6 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
   public Aula getAulaByName(String aula_name) throws DataException {
     Aula a = null;
 
-    System.out.println("Secondo input:" + aula_name);
     try {
       sAulaByName.setString(1, aula_name);
       try (ResultSet rs = sAulaByName.executeQuery()) {
@@ -142,7 +140,6 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
           a = getAulaByID(rs.getInt("ID"));
         }
       }
-      System.out.println("nome Proxy:" + a.getNome());
       return a;
     } catch (SQLException ex) {
       throw new DataException("Unable to load aula by Name", ex);
@@ -320,5 +317,5 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
       throw new DataException("Unable to Delete Aula", e);
     }
   }
-  
+
 }
