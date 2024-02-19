@@ -19,7 +19,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class EsportaEventoCSV extends AuleWebBaseController {
+public class EsportaEventiCSV extends AuleWebBaseController {
     
     private void action_expEventoCSV(HttpServletRequest request, HttpServletResponse response, Time oraInizio, Time oraFine) throws IOException {
         try {
@@ -67,7 +67,7 @@ public class EsportaEventoCSV extends AuleWebBaseController {
         } catch (DataException ex) {
              handleError(ex, request, response);
         } catch (ParseException ex) {
-            Logger.getLogger(EsportaEventoCSV.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EsportaEventiCSV.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
