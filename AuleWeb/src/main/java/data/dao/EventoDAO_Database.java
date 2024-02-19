@@ -18,6 +18,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
@@ -28,7 +29,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
 
   private PreparedStatement sEventoByID, sEventoByAula, sEventiByDay, sEventiByCorso,
       sAllEventi, sEventiByIDMaster, sEventiSettimanaliByAula, sEventiByTreOre, sEventoByNome, sMAXIDMaster, iEvento,
-      uEvento, dEvento, dEventiByIDMaster;
+      uEvento, dEvento, dEventiByIDMaster,sEventiByOre;
 
   public EventoDAO_Database(DataLayer d) {
     super(d);
@@ -82,6 +83,8 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
               + "    IDAula = ?,\n"
               + "    version = ?\n"
               + " WHERE ID = ? AND version = ?");
+      
+      sEventiByOre = connection.prepareStatement("SELECT * FROM Evento WHERE oraInizio >= ? AND oraFine <= ?");
 
       dEvento = connection.prepareStatement("DELETE FROM Evento WHERE ID=?");
 
@@ -104,6 +107,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
       sEventoByNome.close();
       sEventiByTreOre.close();
       sAllEventi.close();
+      sEventiByOre.close();
 
       iEvento.close();
       uEvento.close();
@@ -308,6 +312,25 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
       }
     } catch (SQLException sqlException) {
       throw new DataException("Unable to load Eventi by IDMaster");
+    }
+    return listaEventi;
+  }
+  
+  @Override
+  public List<Evento> getEventiByOrario (Time oraInizio, Time oraFine) throws DataException {
+    List<Evento> listaEventi = new ArrayList<>();
+    try {
+        
+        
+      sEventiByTreOre.setTime(1, oraInizio);
+      sEventiByTreOre.setTime(2, oraFine);
+      try (ResultSet resultSet = sEventiByOre.executeQuery()) {
+      while (resultSet.next()) {
+        listaEventi.add((Evento) getEventoByID(resultSet.getInt("ID")));
+        }
+      }
+    } catch (SQLException sqlException) {
+      throw new DataException("Unable to load Eventi");
     }
     return listaEventi;
   }

@@ -86,6 +86,11 @@
         <servlet-name>EventiTreOre</servlet-name>
         <servlet-class>controllers.EventiTreOre</servlet-class>
     </servlet>
+    
+    <servlet>
+        <servlet-name>EsportaAuleCSV</servlet-name>
+        <servlet-class>controllers.EsportaAuleCSV</servlet-class>
+    </servlet>
   
     <!-- Servlet Mapping -->
     <servlet-mapping>
@@ -176,6 +181,12 @@
         <servlet-name>EventiTreOre</servlet-name>
         <url-pattern>/EventiTreOre</url-pattern>
     </servlet-mapping>
+    
+     <servlet-mapping>
+        <servlet-name>EsportaAuleCSV</servlet-name>
+        <url-pattern>/EsportaAuleCSV</url-pattern>
+    </servlet-mapping>
+    
     
 
     <!-- Template Configuration Parameters -->

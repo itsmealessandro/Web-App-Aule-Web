@@ -9,6 +9,7 @@ import data.domain.Corso;
 import data.domain.Dipartimento;
 import data.domain.Evento;
 import framework.data.DataException;
+import java.sql.Time;
 
 public interface EventoDAO {
 
@@ -35,6 +36,8 @@ public interface EventoDAO {
 
   // Restituisce tutte le istanze di un evento ricorrente dato un ID master
   List<Evento> getEventiRicorrentiByIDMaster(Integer IDMaster) throws DataException;
+  
+  List<Evento> getEventiByOrario(Time oraInizio, Time oraFine) throws DataException;
 
   // Salva l'evento corrente
   void storeEvento(Evento evento) throws DataException;

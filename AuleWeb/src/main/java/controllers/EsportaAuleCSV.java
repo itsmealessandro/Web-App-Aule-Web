@@ -2,8 +2,6 @@ package controllers;
 
 import data.dao.AuleWebDataLayer;
 import data.domain.Aula;
-import data.domain.Dipartimento;
-import data.domain.Evento;
 import framework.data.DataException;
 import framework.result.StreamResult;
 import framework.result.TemplateManagerException;
@@ -13,6 +11,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,7 +25,9 @@ import javax.servlet.http.HttpServletResponse;
 public class EsportaAuleCSV extends AuleWebBaseController {
 
     private void action_expCSV(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        
         try {
+            
             StreamResult result = new StreamResult(getServletContext());
 
             File in = new File(getServletContext().getRealPath("") + File.separatorChar + "aule.csv");
@@ -51,6 +53,7 @@ public class EsportaAuleCSV extends AuleWebBaseController {
 
                 writer.newLine();
             }
+         
 
             writer.flush();
             writer.close();
@@ -58,11 +61,19 @@ public class EsportaAuleCSV extends AuleWebBaseController {
             result.activate(request, response);
         } catch (DataException ex) {
             // handleError(ex, request, response);
-        }
+        } 
     }
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            
+           
+      action_expCSV(request, response);
+      
+            throw new UnsupportedOperationException("errore");
+        } catch (IOException ex) {
+            Logger.getLogger(EsportaAuleCSV.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
