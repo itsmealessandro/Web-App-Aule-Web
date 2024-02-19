@@ -43,18 +43,17 @@ public class SceltaCriterio extends AuleWebBaseController {
     try {
       AuleWebDataLayer dataLayer = (AuleWebDataLayer) request.getAttribute("datalayer");
 
-      // TODO riga inserita solo per non dare errore
-      Aula aula = dataLayer.getAulaDAO().getAulaByName("aa");
-      // Corso corso = dataLayer.getCorsoDAO().getCorsoByName(corso_n);
-      // il metodo è nel branch Eventi2
+      Corso corso = dataLayer.getCorsoDAO().getCorsoByNome(corso_n);
       StringBuffer url = new StringBuffer();
 
       url.append("EventiPerCorso?");
       url.append("dip_key=" + dip_key);
       url.append("&&");
-      // url.append("c_key=" + corso.getKey());
+      url.append("c_key=" + corso.getKey());
       url.append("&&");
       url.append("date=" + data);
+
+      response.sendRedirect(url.toString());
     } catch (DataException ex) {
       handleError("Data access exception: " + ex.getMessage(), request, response);
     }
@@ -105,8 +104,7 @@ public class SceltaCriterio extends AuleWebBaseController {
       if (request.getParameter("dip_key") != null) {
         dip_key = SecurityHelpers.checkNumeric(request.getParameter("dip_key"));
       } else {
-        // TODO lanciare un'eccezione o interrompere il flusso del codice
-        handleError("Nessun dipartimento Selezionato", request, response);
+        throw new DataException("");
       }
 
       if (request.getParameter("action") != null) {
@@ -133,6 +131,8 @@ public class SceltaCriterio extends AuleWebBaseController {
       handleError("Invalid number submitted", request, response);
     } catch (IOException | TemplateManagerException ex) {
       handleError(ex, request, response);
+    } catch (DataException ex) {
+      handleError("Nessun dipartimento Selezionato", request, response);
     }
   }
 
