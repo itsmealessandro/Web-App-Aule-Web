@@ -1,38 +1,33 @@
 
 
-        <section class="main-content">
-            <div class="container">
-                <h2>Benvenuti sulla Homepage</h2>
-                <p>Scegliere un dipartimento per iniziare la ricerca</p>
+        
+            <div class="homeContainer">
+                <h1>Benvenuti sulla Homepage</h1>
+                <h3>Scegliere un dipartimento per iniziare la ricerca</h3>
             </div>           
-        </section>
+        
 
         <div class="container">
             <div class="image-row">
                 <div class="image-item">
                     <a href="SceltaCriterio?dip_key=${dipartimento1.key}">
-                        <img src="images/img_1.jpg" alt="Immagine 1">
+                        <img src="images/img_1.jpg" alt="Immagine 1" width="500" height="200">
                         <p>Matematica</p>
                     </a>
                 </div>
                 <div class="image-item">
                     <a href="SceltaCriterio?dip_key=${dipartimento2.key}">
-                        <img src="images/img_2.png" alt="Immagine 2">
+                        <img src="images/img_2.png" alt="Immagine 2" width="500" height="400">
                         <p>Fisica</p>
                     </a>
                 </div>
                 <div class="image-item">
                     <a href="SceltaCriterio?dip_key=${dipartimento3.key}">
-                        <img src="AuleWeb\target\AuleWeb-version\images\img_3.jpg" alt="Immagine 3">
+                        <img src="images/img_3.jpg" alt="Immagine 3" width="500" height="200">
                         <p>Biologia</p>
                     </a>
                 </div>
             </div>
         </div>
  
-<#if papera?exists && papera == "as">
-<p><a href="GestioneDipartimenti">Gestione Dipartimenti</a></p>
-<p><a href="GestioneAule">Gestione Aule</a></p>
-<p><a href="GestioneEventi">Gestione Eventi</a></p>
-</#if>
 

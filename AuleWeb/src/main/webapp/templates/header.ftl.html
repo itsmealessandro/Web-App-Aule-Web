@@ -2,11 +2,18 @@
     <nav>
         <ul>
             <li><a href="Homepage">Homepage</a></li>
-            <li><a href="TestCSS">TestCSS</a></li>
-            <li><a href="EventiPerSettimana?dip_key=2&&aula_key=2&&date=2024-01-28">Eventi Per Settimana</a></li>
-            <li><a href="login">Login</a></li>
+            <#if logininfo??>
+
+            <li>${logininfo.username} <a href="logout?referrer=${thispageurl?url}"><button class="login-button">Logout</button></a></li>
+            <li><a href="GestioneDipartimenti">Gestione Dipartimenti</a></li>
+            <li><a href="GestioneAule">Gestione Aule</a></li>
+            <li><a href="GestioneEventi">Gestione Eventi</a></li>
+            <#else>
+            <li><a href="login?referrer=${thispageurl?url}"><button class="login-button">Login</button></a></li>
+            </#if>
         </ul>
     </nav>
+
 </div>
 
 

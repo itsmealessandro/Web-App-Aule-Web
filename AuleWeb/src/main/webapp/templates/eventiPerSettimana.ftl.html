@@ -1,22 +1,28 @@
 <h1>Eventi Per Settimana</h1>
 <#if eventi?has_content>
 
-<table>
-    <tr>
-        <th>Nome</th>
-        <th>Ora Inizio</th>
-        <th>Ora Fine</th>
-        <th>Descrizione</th>
-        <th>Tipologia Evento</th>
-        <th>Data</th>
-        <th>Responsabile</th>
-        <th>Corso</th>
-        <th>Aula</th>
-    </tr>
+
+
+<table class="tableStyle">
+
+    
+        <tr class="tableTitle">
+            <th>Nome</th>
+            <th>Ora Inizio</th>
+            <th>Ora Fine</th>
+            <th>Descrizione</th>
+            <th>Tipologia Evento</th>
+            <th>Data</th>
+            <th>Responsabile</th>
+            <th>Corso</th>
+            <th>Aula</th>
+        </tr>
+   
+
     <!-- Qui inserisci i dati della tabella -->
 
     <#list eventi as evento>
-     <tr>
+    <tr class="tableContent">
         <td>${evento.nome}</td>
         <td>${evento.oraInizio}</td>
         <td>${evento.oraFine}</td>
@@ -28,7 +34,7 @@
         <td>${evento.aula.nome}</td>
     </tr>
     </#list>
-    
+
 </table>
 <#else>
 <h2>Nessun Evento Trovato</h2>

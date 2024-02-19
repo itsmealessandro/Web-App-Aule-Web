@@ -16,6 +16,22 @@ body {
     border-radius: 5px;
 }
 
+.homeContainer {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.homeContainer h1{
+    font-size: 400%;
+}
+
+.homeContainer h2{
+    font-size: 200%;
+}
+
 header h1 {
     margin: 0;
 }
@@ -101,14 +117,15 @@ hr {
 }
 
 .image-item {
-    flex: 1;
-    margin-right: 10px;
-    margin: 0 10px; /* Aggiunge spazio tra le immagini */
+    margin: 10px 10px; /* Aggiunge spazio tra i blocchi */
     background-color: #212121;
     border: 2px solid;
     border-radius: 5%;
     border-color: #212121;
-    border-width: 5px;
+    border-width: 10px;
+
+    width: 300%; /* Imposta la larghezza a 300 pixel */
+    height: 100%; /* Imposta l'altezza a 200 pixel */
 }
 
 .image-item p{
@@ -121,6 +138,7 @@ hr {
     display: block; /* Impedisce l'aggiunta di spazi vuoti sotto le immagini */
     border-bottom: 2px solid;
     border-width: 5px;
+    border-radius: 5%;
     border-color: #212121;
 }
 
@@ -128,3 +146,73 @@ hr {
     text-align: center;
     margin-top: 10px;
 }
+
+#login {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+    border-radius: 5px;
+    height: auto;
+    border: 2px solid;
+    border-width: 5px;
+    border-color: #212121;
+}
+
+.sceltaCriterio {
+    display: inline-block; /* Imposta i contenitori come elementi inline-block */
+    margin-right: 20px; /* Aggiunge uno spazio di 20px tra i contenitori */
+    flex: 1;
+    background-color: #212121;
+    border: 10px solid;
+    border-radius: 5%;
+    border-color: #212121;
+    border-width: 10px;
+}
+
+.container-wrapper {
+    white-space: nowrap; /* Evita che i contenitori vadano a capo */
+}
+
+.spacer{
+    padding-bottom: 41%;
+}
+
+.tableStyle{
+    text-align: center;
+    width: 80%;
+    border-collapse: collapse;
+    margin: 0 auto; /* Centrare la tabella rispetto alla pagina */
+}
+
+.tableStyle th, td {
+    background-color: #f2f2f2;
+    border: 5px solid black;
+    padding: 8px;
+}
+
+.tableStyle th {
+    background-color: #f2f2f2;
+    color: #333; /* Colore testo per intestazioni di colonna */
+}
+.tableStyle td {
+    color: #333; /* Colore testo per celle della tabella */
+}
+
+.tableTitle th{
+    color: #fff;
+    background-color: #5c4c2a; /* Colore testo per celle della tabella */
+}
+
+.tableContent td{
+    color: #fff;
+    background-color: #212121; /* Colore testo per celle della tabella */
+}
+
+.tableContent td a{
+    color: #ffd700;    
+}
+
+
+
+
