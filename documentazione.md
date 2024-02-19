@@ -10,22 +10,34 @@ Il progetto AuleWeb è una versione semplificata e migliorata visivamente del si
 4. Accesso in lettura libero al front-end del sito senza autenticazione.
 5. Visualizzazione degli eventi associati ad una specifica aula, in una specifica settimana.
 6. Visualizzazione degli eventi associati ad uno specifico corso, in una specifica settimana.
-6. Visualizzazione dello stato di allocazione delle aule in varie modalità, come eventi associati a una specifica aula in una settimana, eventi per ogni aula in un giorno specifico, eventi attuali e prossimi tre ore, e eventi associati a un corso in una settimana determinata.
-7. Possibilità per gli utenti di esportare gli eventi in formato CSV o iCalendar.
-8. Accesso e gestione riservati agli utenti-amministratori per la modifica dei dati, inclusa la configurazione delle aule e dei gruppi, la gestione degli eventi e l'esportazione/importazione dei dati in formato CSV.
+7. Visualizzazione degli eventi di ciascuna aula in un determinato giorno.
+8. Visualizzazione degli eventi delle prossime tre ore.
+9. Possibilità per gli utenti di esportare gli eventi in formato CSV.
+10. Possibilità per gli amministratori di esportare le aule in formato CSV.
 
-## Utilizzo del Sistema
-Il sistema può essere utilizzato per gestire in modo efficiente le informazioni relative alle aule e agli eventi presso l'Ateneo. Gli utenti possono accedere al front-end per visualizzare le informazioni pertinenti e esportare gli eventi secondo le proprie esigenze. Gli utenti-amministratori hanno accesso aggiuntivo per modificare i dati e configurare il sistema secondo le necessità.
+## Funzionalità Escluse
+- Importazione in formato CSV Aule e Eventi.
+
+## Utilizzo del Sito
+Il sito è navigabile a partire dalla Homepage, dove un utente normale può:
+- Scegliere un diparatimento.
+- Eseguire la login o la Logout.
+Un amministratore invece (utente che ha fatto la login) avrà la possibilità di andare sulle pagine relative alla gestione di Diparatimenti, Aule, Eventi.
+
+Gli utenti una volta scelto il diparatimento potranno ottenere una lista di eventi in base a quello che ricercano, quindi:
+1. Visualizzazione degli eventi associati ad una specifica aula, in una specifica settimana.
+2. Visualizzazione degli eventi associati ad uno specifico corso, in una specifica settimana.
+3. Visualizzazione degli eventi di ciascuna aula di un diparatimento in un determinato giorno.
+4. Visualizzazione degli eventi delle prossime tre ore.
+
+Abbiamo utilizzato JavaScript esclusivamente per permette agli amministratori di gestire meglio gli eventi ricorrenti.
 
 ## Tecnologie Utilizzate
-Il sistema AuleWeb è stato sviluppato utilizzando le seguenti tecnologie:
-- Linguaggio di programmazione: [inserire linguaggio di programmazione utilizzato, ad esempio Java]
-- Frameworks e librerie: [inserire eventuali frameworks e librerie utilizzati]
-- Database: [inserire il tipo di database utilizzato, ad esempio MySQL]
-- Altro: [inserire altre tecnologie utilizzate, ad esempio HTML, CSS, JavaScript]
+- Linguaggio di programmazione: JAVA.
+- Frameworks e librerie: FreeMarker, Javax.
+- Database: mysql.
 
-## Conclusioni
-Il progetto AuleWeb offre una soluzione efficace per la gestione delle informazioni sulle aule e gli eventi presso l'Ateneo. Con funzionalità intuitive e accesso riservato agli amministratori per la gestione dei dati, il sistema si propone di migliorare l'efficienza e la trasparenza nella pianificazione e nell'utilizzo delle risorse disponibili.
+## Contributo dei Membri del Gruppo di Lavoro
 
 ## Contributo dei Membri del Gruppo di Lavoro
 Il progetto è stato sviluppato da un gruppo di lavoro composto da quattro membri. Di seguito viene riportato il contributo effettivo offerto da ciascun componente alla realizzazione finale del progetto:
