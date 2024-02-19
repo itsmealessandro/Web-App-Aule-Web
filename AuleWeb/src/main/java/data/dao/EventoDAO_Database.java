@@ -26,9 +26,9 @@ import java.util.List;
 
 public class EventoDAO_Database extends DAO implements EventoDAO {
 
-
-  private PreparedStatement iEvento, uEvento, sEventoByID, sEventoByAula, sEventiByDay, sEventiByCorso,
-      sEventiRicorrenti, sAllEventi, sEventoIDMaster, sEventiSettimanaliByAula, sEventiByTreOre, sEventoByNome, dEvento;
+  private PreparedStatement sEventoByID, sEventoByAula, sEventiByDay, sEventiByCorso,
+      sAllEventi, sEventiByIDMaster, sEventiSettimanaliByAula, sEventiByTreOre, sEventoByNome, sMAXIDMaster, iEvento,
+      uEvento, dEvento, dEventiByIDMaster;
 
   public EventoDAO_Database(DataLayer d) {
     super(d);
@@ -40,11 +40,11 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
       super.init();
 
       sEventoByID = connection.prepareStatement("SELECT * FROM Evento WHERE ID=?");
-      sEventoIDMaster = connection.prepareStatement("SELECT * FROM Evento WHERE IDMaster = ?");
+      sEventiByIDMaster = connection.prepareStatement("SELECT * FROM Evento WHERE IDMaster = ?");
       sAllEventi = connection.prepareStatement("SELECT * FROM Evento");
       sEventoByAula = connection.prepareStatement("SELECT * FROM Evento WHERE IDAula=?");
-
       sEventoByNome = connection.prepareStatement("SELECT * FROM Evento WHERE nome = ?");
+      sMAXIDMaster = connection.prepareStatement("SELECT MAX(IDMaster) AS Max_IDMaster FROM Evento");
 
       sEventiSettimanaliByAula = connection.prepareStatement(
           "SELECT *FROM Evento AS ev INNER JOIN Aula AS au ON ev.IDAula = au.ID INNER JOIN Dipartimento AS d ON au.IDDipartimento = d.ID WHERE d.ID = ?  AND au.ID = ? AND ev.Data BETWEEN ? AND ?");
@@ -54,8 +54,12 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
           " SELECT e.* FROM Evento e JOIN Aula a ON e.IDAula = a.ID JOIN Corso c ON e.IDCorso = c.ID "
               + " WHERE c.ID = ? AND a.IDDipartimento = ? "
               + " AND e.Data BETWEEN ? AND ?");
-      sEventiRicorrenti = connection
-          .prepareStatement("SELECT ID AS eventoID FROM evento WHERE nome=? AND responsabileID=? order by giorno");
+      sEventiByTreOre = connection.prepareStatement("SELECT e.*\n" +
+          "FROM Evento e\n" +
+          " JOIN Aula a ON e.IDAula = a.ID\n" +
+          " WHERE e.oraInizio BETWEEN CURRENT_TIME() AND ADDTIME(CURRENT_TIME(), '03:00:00')\n" +
+          " AND e.Data = CURDATE()\n" +
+          " AND a.IDDipartimento = ?;");
 
       iEvento = connection.prepareStatement(
           "INSERT INTO Evento (IDMaster, nome, oraInizio, oraFine, descrizione, ricorrenza, Data, dataFineRicorrenza, tipologiaEvento, IDResponsabile, IDCorso, IDAula) "
@@ -79,7 +83,9 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
               + "    version = ?\n"
               + " WHERE ID = ? AND version = ?");
 
-      dEvento = connection.prepareStatement("DELETE FROM evento WHERE ID=?");
+      dEvento = connection.prepareStatement("DELETE FROM Evento WHERE ID=?");
+
+      dEventiByIDMaster = connection.prepareStatement("DELETE FROM Evento WHERE IDMaster=?");
 
     } catch (SQLException ex) {
       throw new DataException("Error initializing data layer", ex);
@@ -90,19 +96,22 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
   public void destroy() throws DataException {
     try {
       sEventoByID.close();
+      sMAXIDMaster.close();
+      sEventiByIDMaster.close();
       sEventoByAula.close();
       sEventiByDay.close();
       sEventiByCorso.close();
-      sEventiRicorrenti.close();
-      iEvento.close();
-      uEvento.close();
-      sAllEventi.close();
-      dEvento.close();
       sEventoByNome.close();
       sEventiByTreOre.close();
+      sAllEventi.close();
+
+      iEvento.close();
+      uEvento.close();
+      dEvento.close();
+      dEventiByIDMaster.close();
 
     } catch (SQLException ex) {
-      // TODO gestire l'eccezione
+      throw new DataException("Error in Destroy", ex);
     }
     super.destroy();
   }
@@ -163,36 +172,8 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
   }
 
   @Override
-  public List<Evento> getEventiByNome(String nome) throws DataException {
-    List<Evento> result = new ArrayList();
-
-    try {
-      sEventiRicorrenti.setString(1, nome);
-      ResultSet rs = sEventiRicorrenti.executeQuery();
-
-      while (rs.next()) {
-        result.add((Evento) getEventoByID(rs.getInt("ID")));
-      }
-      return result;
-    } catch (SQLException ex) {
-      throw new DataException("Unable to load eventi", ex);
-    }
-  }
-
-  @Override
-  public void deleteEvento(Evento evento) throws DataException {
-    try {
-      dEvento.setInt(1, evento.getKey());
-      dEvento.executeUpdate();
-    } catch (SQLException e) {
-      throw new DataException("Unable to Delete Evento", e);
-    }
-
-  }
-
-  @Override
   public List<Evento> getAllEventi() throws DataException {
-    List<Evento> result = new ArrayList();
+    List<Evento> result = new ArrayList<>();
 
     try (ResultSet rs = sAllEventi.executeQuery()) {
       while (rs.next()) {
@@ -202,24 +183,6 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
       throw new DataException("Unable to load aule", ex);
     }
     return result;
-  }
-
-  @Override
-  public List<Evento> getEventiRicorrenti(String nome, int IDresponsabile) throws DataException {
-    List<Evento> result = new ArrayList();
-
-    try {
-      sEventiRicorrenti.setString(1, nome);
-      sEventiRicorrenti.setInt(2, IDresponsabile);
-      ResultSet rs = sEventiRicorrenti.executeQuery();
-
-      while (rs.next()) {
-        result.add((Evento) getEventoByID(rs.getInt("eventoID")));
-      }
-      return result;
-    } catch (SQLException ex) {
-      throw new DataException("Unable to load eventi", ex);
-    }
   }
 
   @Override
@@ -262,6 +225,33 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
   }
 
   @Override
+  public List<Evento> getEventiSettimanaliByAula(Aula aula, LocalDate date, int dip_key) throws DataException {
+    List<Evento> listaEventi = new ArrayList<>();
+    LocalDate inizioSettimana = date.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+    LocalDate fineSettimana = date.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+
+    Date inizioSettimanaSql = Date.valueOf(inizioSettimana);
+    Date fineSettimanaSql = Date.valueOf(fineSettimana);
+
+    try {
+      sEventiSettimanaliByAula.setInt(1, dip_key);
+      sEventiSettimanaliByAula.setInt(2, aula.getKey());
+      sEventiSettimanaliByAula.setDate(3, inizioSettimanaSql);
+      sEventiSettimanaliByAula.setDate(4, fineSettimanaSql);
+
+      try (ResultSet rs = sEventiSettimanaliByAula.executeQuery()) {
+        while (rs.next()) {
+          listaEventi.add(getEventoByID(rs.getInt("ID")));
+        }
+      }
+    } catch (SQLException ex) {
+      ex.printStackTrace();
+      throw new DataException("Unable to load Eventi Settimanali By Aula");
+    }
+    return listaEventi;
+  }
+
+  @Override
   public List<Evento> getEventiSettimanaliByCorso(Corso corso, LocalDate date, int dip_key) throws DataException {
 
     List<Evento> listaEventi = new ArrayList<>();
@@ -283,38 +273,162 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
         }
       }
     } catch (SQLException ex) {
-      ex.printStackTrace();
       throw new DataException("Unable to load Eventi by Day");
     }
 
     return listaEventi;
   }
-  
-  @Override
-    public List<Evento> getEventiByTreOre(Dipartimento dipartimento) throws DataException {
-        List<Evento> listaEventi = new ArrayList<>();
-        try {
-            sEventiByTreOre.setInt(1, dipartimento.getKey());
-            try (ResultSet resultSet = sEventiByTreOre.executeQuery()) {
-                while (resultSet.next()) {
-                    listaEventi.add((Evento) getEventoByID(resultSet.getInt("ID")));
-                }
-            }
-        } catch (SQLException sqlException) {
-            throw new DataException("Unable to load Eventi from Aula");
-        }
-        return listaEventi;
-        }
 
-  // TODO DA RIFARE
+  @Override
+  public List<Evento> getEventiByTreOre(Dipartimento dipartimento) throws DataException {
+    List<Evento> listaEventi = new ArrayList<>();
+    try {
+      sEventiByTreOre.setInt(1, dipartimento.getKey());
+      try (ResultSet resultSet = sEventiByTreOre.executeQuery()) {
+        while (resultSet.next()) {
+          listaEventi.add((Evento) getEventoByID(resultSet.getInt("ID")));
+        }
+      }
+    } catch (SQLException sqlException) {
+      throw new DataException("Unable to load Eventi from Aula");
+    }
+    return listaEventi;
+  }
+
+  @Override
+  public List<Evento> getEventiRicorrentiByIDMaster(Integer IDMaster) throws DataException {
+    List<Evento> listaEventi = new ArrayList<>();
+
+    try {
+      sEventiByIDMaster.setInt(1, IDMaster);
+      try (ResultSet resultSet = sEventiByIDMaster.executeQuery()) {
+        while (resultSet.next()) {
+          listaEventi.add((Evento) getEventoByID(resultSet.getInt("ID")));
+        }
+      }
+    } catch (SQLException sqlException) {
+      throw new DataException("Unable to load Eventi by IDMaster");
+    }
+    return listaEventi;
+  }
+
   @Override
   public void storeEvento(Evento e) throws DataException {
     try {
       if (!e.getRicorrenza().toString().equals(Ricorrenza.NESSUNA.toString())) {
-        // TODO: Gestire ricorrenze
-        throw new DataException("GESTIRE RICORRENZE");
-      }
+        storeEventoRicorrente(e);
+      } else {
 
+        if (e.getKey() != null && e.getKey() > 0) {
+          if (e instanceof DataItemProxy && !((DataItemProxy) e).isModified()) {
+            return;
+          }
+          /**
+           *
+           * "UPDATE Evento\n" + "SET "IDMaster = ?",\n + "nome = ?,\n" +
+           * " oraInizio = ?,\n" + " oraFine = ?,\n" + " descrizione =
+           * ?,\n" + " ricorrenza = ?,\n" + " Data = ?,\n" + "
+           * dataFineRicorrenza = ?,\n" + " tipologiaEvento = ?,\n" + "
+           * IDResponsabile = ?,\n" + " IDCorso = ?,\n" + " IDAula = ?,\n"
+           * + " version = ?\n" + " WHERE ID = ? AND version = ?");
+           *
+           */
+          // UPDATE
+          // ID MASTER
+          uEvento.setNull(1, java.sql.Types.INTEGER);
+          uEvento.setString(2, e.getNome());
+          uEvento.setTime(3, e.getOraInizio());
+          uEvento.setTime(4, e.getOraFine());
+          uEvento.setString(5, e.getDescrizione());
+          uEvento.setString(6, e.getRicorrenza().toString());
+          uEvento.setDate(7, e.getData());
+          // DATA FINE RICORRENZA
+          uEvento.setNull(8, java.sql.Types.INTEGER);
+          uEvento.setString(9, e.getTipologiaEvento().toString());
+
+          if (e.getResponsabile() != null) {
+            uEvento.setInt(10, e.getResponsabile().getKey());
+          } else {
+            uEvento.setNull(10, java.sql.Types.INTEGER);
+          }
+
+          if (e.getCorso() != null) {
+            uEvento.setInt(11, e.getCorso().getKey());
+          } else {
+            uEvento.setNull(11, java.sql.Types.INTEGER);
+          }
+
+          if (e.getAula() != null) {
+            uEvento.setInt(12, e.getAula().getKey());
+          } else {
+            uEvento.setNull(12, java.sql.Types.INTEGER);
+          }
+
+          long current_version = e.getVersion();
+          long next_version = current_version + 1;
+
+          uEvento.setLong(13, next_version);
+          uEvento.setInt(14, e.getKey());
+          uEvento.setLong(15, current_version);
+
+          if (uEvento.executeUpdate() == 0) {
+            throw new OptimisticLockException(e);
+          } else {
+            e.setVersion(e.getVersion() + 1);
+          }
+        } else { // insert
+          // ID MASTER
+          iEvento.setNull(1, java.sql.Types.INTEGER);
+          iEvento.setString(2, e.getNome());
+          iEvento.setTime(3, e.getOraInizio());
+          iEvento.setTime(4, e.getOraFine());
+          iEvento.setString(5, e.getDescrizione());
+          iEvento.setString(6, e.getRicorrenza().toString());
+          iEvento.setDate(7, e.getData());
+          // DATA FINE RICORRENZA
+          iEvento.setNull(8, java.sql.Types.INTEGER);
+          iEvento.setString(9, e.getTipologiaEvento().toString());
+
+          if (e.getResponsabile() != null) {
+            iEvento.setInt(10, e.getResponsabile().getKey());
+          } else {
+            iEvento.setNull(10, java.sql.Types.INTEGER);
+          }
+
+          if (e.getCorso() != null) {
+            iEvento.setInt(11, e.getCorso().getKey());
+          } else {
+            iEvento.setNull(11, java.sql.Types.INTEGER);
+          }
+
+          if (e.getAula() != null) {
+            iEvento.setInt(12, e.getAula().getKey());
+          } else {
+            iEvento.setNull(12, java.sql.Types.INTEGER);
+          }
+
+          if (iEvento.executeUpdate() == 1) {
+            try (ResultSet keys = iEvento.getGeneratedKeys()) {
+              if (keys.next()) {
+                int key = keys.getInt(1);
+                e.setKey(key);
+                dataLayer.getCache().add(Evento.class, e);
+              }
+            }
+          }
+        }
+
+        if (e instanceof DataItemProxy) {
+          ((DataItemProxy) e).setModified(false);
+        }
+      }
+    } catch (SQLException | OptimisticLockException ex) {
+      throw new DataException("Unable to store Evento", ex);
+    }
+  }
+
+  private void storeEventoRicorrente(Evento e) throws DataException {
+    try {
       if (e.getKey() != null && e.getKey() > 0) {
         if (e instanceof DataItemProxy && !((DataItemProxy) e).isModified()) {
           return;
@@ -331,7 +445,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
          */
         // UPDATE
         // ID MASTER
-        uEvento.setNull(1, java.sql.Types.INTEGER);
+        uEvento.setInt(1, e.getIDMaster());
         uEvento.setString(2, e.getNome());
         uEvento.setTime(3, e.getOraInizio());
         uEvento.setTime(4, e.getOraFine());
@@ -339,7 +453,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
         uEvento.setString(6, e.getRicorrenza().toString());
         uEvento.setDate(7, e.getData());
         // DATA FINE RICORRENZA
-        uEvento.setNull(8, java.sql.Types.INTEGER);
+        uEvento.setDate(8, e.getDataFineRicorrenza());
         uEvento.setString(9, e.getTipologiaEvento().toString());
 
         if (e.getResponsabile() != null) {
@@ -372,17 +486,51 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
         } else {
           e.setVersion(e.getVersion() + 1);
         }
+        if (e instanceof DataItemProxy) {
+          ((DataItemProxy) e).setModified(false);
+        }
       } else { // insert
+
         // ID MASTER
-        iEvento.setNull(1, java.sql.Types.INTEGER);
+        int IDMaster = 0;
+        try (ResultSet key = sMAXIDMaster.executeQuery()) {
+          if (key.next()) {
+            IDMaster = key.getInt(1);
+            IDMaster++;
+          }
+        }
+
+        if (e.getRicorrenza().toString().equals("GIORNALIERA")) {
+          storeEventoGiornaliero(e, IDMaster);
+        } else if (e.getRicorrenza().toString().equals("SETTIMANALE")) {
+          storeEventoSettimanale(e, IDMaster);
+        } else {
+          storeEventoMensile(e, IDMaster);
+        }
+
+      }
+
+    } catch (SQLException | OptimisticLockException ex) {
+      throw new DataException("Unable to store Evento Ricorrente", ex);
+    }
+  }
+
+  private void storeEventoGiornaliero(Evento e, int IDMaster) throws DataException {
+
+    LocalDate istanzaGiornaliera = e.getData().toLocalDate();
+    while (istanzaGiornaliera.isBefore(e.getDataFineRicorrenza().toLocalDate())) {
+      Date istanzaGiornalieraSQL = Date.valueOf(istanzaGiornaliera);
+
+      try {
+        iEvento.setInt(1, IDMaster);
         iEvento.setString(2, e.getNome());
         iEvento.setTime(3, e.getOraInizio());
         iEvento.setTime(4, e.getOraFine());
         iEvento.setString(5, e.getDescrizione());
         iEvento.setString(6, e.getRicorrenza().toString());
-        iEvento.setDate(7, e.getData());
+        iEvento.setDate(7, istanzaGiornalieraSQL);
         // DATA FINE RICORRENZA
-        iEvento.setNull(8, java.sql.Types.INTEGER);
+        iEvento.setDate(8, e.getDataFineRicorrenza());
         iEvento.setString(9, e.getTipologiaEvento().toString());
 
         if (e.getResponsabile() != null) {
@@ -412,42 +560,144 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
             }
           }
         }
+        if (e instanceof DataItemProxy) {
+          ((DataItemProxy) e).setModified(false);
+        }
+      } catch (SQLException ex) {
+        throw new DataException("Unable to store Evento Ricorrente", ex);
       }
-
-      if (e instanceof DataItemProxy) {
-        ((DataItemProxy) e).setModified(false);
-      }
-    } catch (SQLException | OptimisticLockException ex) {
-      throw new DataException("Unable to store Evento", ex);
+      istanzaGiornaliera = istanzaGiornaliera.plusDays(1);
     }
   }
 
- 
+  private void storeEventoSettimanale(Evento e, int IDMaster) throws DataException {
+
+    LocalDate istanzaSettimanale = e.getData().toLocalDate();
+    while (istanzaSettimanale.isBefore(e.getDataFineRicorrenza().toLocalDate())) {
+      Date istanzaSettimanaleSQL = Date.valueOf(istanzaSettimanale);
+
+      try {
+        iEvento.setInt(1, IDMaster);
+        iEvento.setString(2, e.getNome());
+        iEvento.setTime(3, e.getOraInizio());
+        iEvento.setTime(4, e.getOraFine());
+        iEvento.setString(5, e.getDescrizione());
+        iEvento.setString(6, e.getRicorrenza().toString());
+        iEvento.setDate(7, istanzaSettimanaleSQL);
+        // DATA FINE RICORRENZA
+        iEvento.setDate(8, e.getDataFineRicorrenza());
+        iEvento.setString(9, e.getTipologiaEvento().toString());
+
+        if (e.getResponsabile() != null) {
+          iEvento.setInt(10, e.getResponsabile().getKey());
+        } else {
+          iEvento.setNull(10, java.sql.Types.INTEGER);
+        }
+
+        if (e.getCorso() != null) {
+          iEvento.setInt(11, e.getCorso().getKey());
+        } else {
+          iEvento.setNull(11, java.sql.Types.INTEGER);
+        }
+
+        if (e.getAula() != null) {
+          iEvento.setInt(12, e.getAula().getKey());
+        } else {
+          iEvento.setNull(12, java.sql.Types.INTEGER);
+        }
+
+        if (iEvento.executeUpdate() == 1) {
+          try (ResultSet keys = iEvento.getGeneratedKeys()) {
+            if (keys.next()) {
+              int key = keys.getInt(1);
+              e.setKey(key);
+              dataLayer.getCache().add(Evento.class, e);
+            }
+          }
+        }
+        if (e instanceof DataItemProxy) {
+          ((DataItemProxy) e).setModified(false);
+        }
+      } catch (SQLException ex) {
+        throw new DataException("Unable to store Evento Ricorrente", ex);
+      }
+      istanzaSettimanale = istanzaSettimanale.plusDays(7);
+    }
+  }
+
+  private void storeEventoMensile(Evento e, int IDMaster) throws DataException {
+
+    LocalDate IstanzaMensile = e.getData().toLocalDate();
+    while (IstanzaMensile.isBefore(e.getDataFineRicorrenza().toLocalDate())) {
+      Date IstanzaMensileSQL = Date.valueOf(IstanzaMensile);
+
+      try {
+        iEvento.setInt(1, IDMaster);
+        iEvento.setString(2, e.getNome());
+        iEvento.setTime(3, e.getOraInizio());
+        iEvento.setTime(4, e.getOraFine());
+        iEvento.setString(5, e.getDescrizione());
+        iEvento.setString(6, e.getRicorrenza().toString());
+        iEvento.setDate(7, IstanzaMensileSQL);
+        // DATA FINE RICORRENZA
+        iEvento.setDate(8, e.getDataFineRicorrenza());
+        iEvento.setString(9, e.getTipologiaEvento().toString());
+
+        if (e.getResponsabile() != null) {
+          iEvento.setInt(10, e.getResponsabile().getKey());
+        } else {
+          iEvento.setNull(10, java.sql.Types.INTEGER);
+        }
+
+        if (e.getCorso() != null) {
+          iEvento.setInt(11, e.getCorso().getKey());
+        } else {
+          iEvento.setNull(11, java.sql.Types.INTEGER);
+        }
+
+        if (e.getAula() != null) {
+          iEvento.setInt(12, e.getAula().getKey());
+        } else {
+          iEvento.setNull(12, java.sql.Types.INTEGER);
+        }
+
+        if (iEvento.executeUpdate() == 1) {
+          try (ResultSet keys = iEvento.getGeneratedKeys()) {
+            if (keys.next()) {
+              int key = keys.getInt(1);
+              e.setKey(key);
+              dataLayer.getCache().add(Evento.class, e);
+            }
+          }
+        }
+        if (e instanceof DataItemProxy) {
+          ((DataItemProxy) e).setModified(false);
+        }
+      } catch (SQLException ex) {
+        throw new DataException("Unable to store Evento Ricorrente", ex);
+      }
+      IstanzaMensile = IstanzaMensile.plusMonths(1);
+    }
+  }
 
   @Override
-  public List<Evento> getEventiSettimanaliByAula(Aula aula, LocalDate date, int dip_key) throws DataException {
-    List<Evento> listaEventi = new ArrayList<>();
-    LocalDate inizioSettimana = date.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
-    LocalDate fineSettimana = date.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
-
-    Date inizioSettimanaSql = Date.valueOf(inizioSettimana);
-    Date fineSettimanaSql = Date.valueOf(fineSettimana);
-
+  public void deleteEvento(Evento evento) throws DataException {
     try {
-      sEventiSettimanaliByAula.setInt(1, dip_key);
-      sEventiSettimanaliByAula.setInt(2, aula.getKey());
-      sEventiSettimanaliByAula.setDate(3, inizioSettimanaSql);
-      sEventiSettimanaliByAula.setDate(4, fineSettimanaSql);
-
-      try (ResultSet rs = sEventiSettimanaliByAula.executeQuery()) {
-        while (rs.next()) {
-          listaEventi.add(getEventoByID(rs.getInt("ID")));
-        }
-      }
-    } catch (SQLException ex) {
-      ex.printStackTrace();
-      throw new DataException("Unable to load Eventi Settimanali By Aula");
+      dEvento.setInt(1, evento.getKey());
+      dEvento.executeUpdate();
+    } catch (SQLException e) {
+      throw new DataException("Unable to Delete Evento", e);
     }
-    return listaEventi;
+
+  }
+
+  public void deleteEventiRicorrenti(Evento evento) throws DataException {
+    try {
+      dEventiByIDMaster.setInt(1, evento.getIDMaster());
+      dEventiByIDMaster.executeUpdate();
+    } catch (SQLException e) {
+      throw new DataException("Unable to Delete Eventi Ricorrenti", e);
+    }
+
   }
 }

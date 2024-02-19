@@ -6,10 +6,6 @@ import framework.result.TemplateResult;
 import framework.security.SecurityHelpers;
 
 import java.io.IOException;
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -21,64 +17,62 @@ import data.domain.Evento;
 
 public class EventiTreOre extends AuleWebBaseController {
 
-    private void action_eventi_tre_ore(HttpServletRequest request, HttpServletResponse response, int dipKey)
-            throws IOException, ServletException, TemplateManagerException {
-        try {
-             TemplateResult res = new TemplateResult(getServletContext());
-             AuleWebDataLayer dataLayer = (AuleWebDataLayer) request.getAttribute("datalayer");
+  private void action_eventi_tre_ore(HttpServletRequest request, HttpServletResponse response, int dipKey)
+      throws IOException, ServletException, TemplateManagerException {
+    try {
+      TemplateResult res = new TemplateResult(getServletContext());
+      AuleWebDataLayer dataLayer = (AuleWebDataLayer) request.getAttribute("datalayer");
 
-             Dipartimento dipartimento = dataLayer.getDipartimentoDAO().getDipartimento(dipKey);
-             List<Evento> listaEventi = dataLayer.getEventoDAO().getEventiByTreOre(dipartimento);
+      Dipartimento dipartimento = dataLayer.getDipartimentoDAO().getDipartimento(dipKey);
+      List<Evento> listaEventi = dataLayer.getEventoDAO().getEventiByTreOre(dipartimento);
 
-             request.setAttribute("eventi",listaEventi);
+      request.setAttribute("eventi", listaEventi);
 
-             res.activate("eventiTreOre.ftl.html", request, response);
+      res.activate("eventiTreOre.ftl.html", request, response);
 
-        } catch (DataException e) {
-            //TODO da gestire
-        }
-
+    } catch (DataException ex) {
+      handleError("Data access exception: " + ex.getMessage(), request, response);
     }
 
-    private void action_default(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, TemplateManagerException{
+  }
 
-           try {
-             TemplateResult res = new TemplateResult(getServletContext());
-             AuleWebDataLayer dataLayer = (AuleWebDataLayer) request.getAttribute("datalayer");
+  private void action_default(HttpServletRequest request, HttpServletResponse response)
+      throws IOException, ServletException, TemplateManagerException {
 
-             List<Dipartimento> listaDipartimenti = dataLayer.getDipartimentoDAO().getAllDipartimenti();
-             Dipartimento dipartimento = listaDipartimenti.get(0);
-             List<Evento> listaEventi = dataLayer.getEventoDAO().getEventiByTreOre(dipartimento);
+    try {
+      TemplateResult res = new TemplateResult(getServletContext());
+      AuleWebDataLayer dataLayer = (AuleWebDataLayer) request.getAttribute("datalayer");
 
-             request.setAttribute("eventi",listaEventi);
+      List<Dipartimento> listaDipartimenti = dataLayer.getDipartimentoDAO().getAllDipartimenti();
+      Dipartimento dipartimento = listaDipartimenti.get(0);
+      List<Evento> listaEventi = dataLayer.getEventoDAO().getEventiByTreOre(dipartimento);
 
-             res.activate("eventiTreOre.ftl.html", request, response);
+      request.setAttribute("eventi", listaEventi);
 
-        } catch (DataException e) {
-            //TODO da gestire
-        }
+      res.activate("eventiTreOre.ftl.html", request, response);
+
+    } catch (DataException ex) {
+      handleError("Data access exception: " + ex.getMessage(), request, response);
     }
+  }
 
+  @Override
+  protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+      throws ServletException {
+    request.setAttribute("page_title", "Eventi Per Ore");
 
-    @Override
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException {
-        request.setAttribute("page_title","Eventi Per Ore");
+    try {
+      if (request.getParameter("dip_key") != null) {
+        int dipKey = SecurityHelpers.checkNumeric(request.getParameter("dip_key"));
+        action_eventi_tre_ore(request, response, dipKey);
+      } else {
+        action_default(request, response);
+      }
 
-        try {
-            if(request.getParameter("d_key")!= null){
-                int dipKey = SecurityHelpers.checkNumeric(request.getParameter("d_key"));
-                action_eventi_tre_ore(request, response, dipKey);
-            }
-            else{
-                action_default(request,response);
-            }
-
-        } catch (NumberFormatException e) {
-            //TODO da gestire
-        }
-        catch (IOException | TemplateManagerException ex) {
-            //TODO da gestire
-        }
+    } catch (NumberFormatException ex) {
+      handleError(ex.getMessage(), request, response);
+    } catch (IOException | TemplateManagerException ex) {
+      handleError(ex.getMessage(), request, response);
     }
+  }
 }

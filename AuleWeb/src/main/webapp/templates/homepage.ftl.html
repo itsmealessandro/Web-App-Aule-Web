@@ -1,17 +1,5 @@
 
-<!DOCTYPE html>
 
-<html lang="it">
-    <head>
-        <link rel="stylesheet" href="../style/layoutStyle.css" type="text/css"/>
-        <link rel="stylesheet" href="../style/homepageStyle.css" type="text/css">
-
-
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Home Page</title>
-    </head>
-    <body>
         <section class="main-content">
             <div class="container">
                 <h2>Benvenuti sulla Homepage</h2>
@@ -23,13 +11,13 @@
             <div class="image-row">
                 <div class="image-item">
                     <a href="SceltaCriterio?dip_key=${dipartimento1.key}">
-                        <img src="\AuleWeb\target\AuleWeb-version\images\img_1.jpg" alt="Immagine 1">
+                        <img src="images/img_1.jpg" alt="Immagine 1">
                         <p>Matematica</p>
                     </a>
                 </div>
                 <div class="image-item">
                     <a href="SceltaCriterio?dip_key=${dipartimento2.key}">
-                        <img src="AuleWeb\target\AuleWeb-version\images\img_2.png" alt="Immagine 2">
+                        <img src="images/img_2.png" alt="Immagine 2">
                         <p>Fisica</p>
                     </a>
                 </div>
@@ -41,11 +29,7 @@
                 </div>
             </div>
         </div>
-
-
-
-    </body>
-</html>
+ 
 <#if papera?exists && papera == "as">
 <p><a href="GestioneDipartimenti">Gestione Dipartimenti</a></p>
 <p><a href="GestioneAule">Gestione Aule</a></p>

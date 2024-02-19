@@ -1,7 +1,5 @@
 <h1>Eventi del Giorno</h1>
-<#list eventi as evento>
-<p>Evento: ${evento.nome}</p>
-</#list>
+<#if eventi?has_content>
 
 <table>
     <tr>
@@ -11,24 +9,28 @@
         <th>Descrizione</th>
         <th>Tipologia Evento</th>
         <th>Data</th>
+        <th>Responsabile</th>
+        <th>Corso</th>
+        <th>Aula</th>
     </tr>
     <!-- Qui inserisci i dati della tabella -->
-    <tr>
-        <td>Evento 1</td>
-        <td>10:00</td>
-        <td>12:00</td>
-        <td>Descrizione dell'evento 1</td>
-        <td>Conferenza</td>
-        <td>2024-01-05</td>
+
+    <#list eventi as evento>
+     <tr>
+        <td>${evento.nome}</td>
+        <td>${evento.oraInizio}</td>
+        <td>${evento.oraFine}</td>
+        <td>${evento.descrizione}</td>
+        <td>${evento.tipologiaEvento}</td>
+        <td>${evento.data}</td>
+        <td>${evento.responsabile.nome}</td>
+        <td>${evento.corso.nome}</td>
+        <td>${evento.aula.nome}</td>
     </tr>
-    <tr>
-        <td>Evento 2</td>
-        <td>14:00</td>
-        <td>16:00</td>
-        <td>Descrizione dell'evento 2</td>
-        <td>Incontro</td>
-        <td>2024-01-06</td>
-    </tr>
-    <!-- Aggiungi altre righe per più eventi -->
+    </#list>
+    
 </table>
+<#else>
+<h2>Nessun Evento Trovato</h2>
+</#if>
 

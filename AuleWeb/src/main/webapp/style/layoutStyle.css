@@ -3,7 +3,7 @@ body {
     margin: 0;
     padding: 0;
     text-align: center;
-    background-color: #363b4a;
+    background-color: #4b4b4b;
     color: #fff;
     padding-bottom: 5%; /* Altezza uguale a quella del footer */
 }
@@ -13,7 +13,6 @@ body {
     margin: 0 auto;
     padding: 20px;
     text-align: center;
-    background-color: #635d73;
     border-radius: 5px;
 }
 
@@ -46,15 +45,14 @@ nav ul li a:link {
 }
 
 #header {
-    background-color: #46679c;
-    color: #264224;
+    background-color: #212121;
     padding: 20px 0;
     text-align: center;
 }
 
 #footer {
-    background-color: #46679c;/* Colore di sfondo del footer */
-    color: #264224;/* Colore del testo del footer */
+    background-color: #212121;/* Colore di sfondo del footer */
+    color: #ffd700;/* Colore del testo del footer */
     position: fixed; /* Posizionamento fisso per il footer */
     bottom: 0; /* Lo posizioniamo in basso */
     width: 100%; /* Occupa tutta la larghezza della finestra */
@@ -106,12 +104,24 @@ hr {
     flex: 1;
     margin-right: 10px;
     margin: 0 10px; /* Aggiunge spazio tra le immagini */
+    background-color: #212121;
+    border: 2px solid;
+    border-radius: 5%;
+    border-color: #212121;
+    border-width: 5px;
+}
+
+.image-item p{
+    color: #ffd700;
 }
 
 .image-item img {
     max-width: 100%;
     height: auto;
     display: block; /* Impedisce l'aggiunta di spazi vuoti sotto le immagini */
+    border-bottom: 2px solid;
+    border-width: 5px;
+    border-color: #212121;
 }
 
 .image-item p {
