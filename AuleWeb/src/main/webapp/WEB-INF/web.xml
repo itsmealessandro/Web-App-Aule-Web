@@ -31,10 +31,10 @@
         <servlet-name>GestioneDipartimenti</servlet-name>
         <servlet-class>controllers.GestioneDipartimenti</servlet-class>
     </servlet>
+
     <servlet>
         <servlet-name>logout</servlet-name>
         <servlet-class>controllers.Logout</servlet-class>
-
     </servlet> 
     
     <servlet>
@@ -87,10 +87,6 @@
         <servlet-class>controllers.EventiTreOre</servlet-class>
     </servlet>
 
-    <servlet>
-        <servlet-name>EsportaEventiCSV</servlet-name>
-        <servlet-class>controllers.EsportaEventiCSV</servlet-class>
-    </servlet>
 
     <servlet>
         <servlet-name>EsportaAuleCSV</servlet-name>
@@ -192,13 +188,6 @@
         <servlet-name>EsportaAuleCSV</servlet-name>
         <url-pattern>/EsportaAuleCSV</url-pattern>
     </servlet-mapping>
-    
-    <servlet-mapping>
-        <servlet-name>EsportaEventoCSV</servlet-name>
-        <url-pattern>/EsportaEventoCSV</url-pattern>
-    </servlet-mapping>
-    
-    
 
     <!-- Template Configuration Parameters -->
     <!--- __________________ Parametri per il Template __________________ -->
