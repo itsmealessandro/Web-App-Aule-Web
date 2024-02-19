@@ -4,11 +4,12 @@
 Il progetto AuleWeb è una versione semplificata e migliorata visivamente del sistema di gestione delle aule presso il nostro Ateneo. Il sistema consente la gestione delle informazioni relative alle aule, agli eventi e agli utenti-amministratori.
 
 ## Funzionalità Principali
-1. Gestione delle aule, comprensiva di nome, posizione, capienza, dettagli sulle attrezzature disponibili e altre informazioni pertinenti.
-2. Suddivisione delle aule in gruppi configurabili.
-3. Allocazione degli eventi alle aule, con specifiche dettagliate come data, ora di inizio e fine, descrizione, tipologia e corso associato.
-4. Gestione degli eventi ricorrenti con possibilità di specificare il tipo di ricorrenza e la data di termine.
-5. Accesso in lettura libero al front-end del sito senza autenticazione.
+1. ADMIN:Gestione delle Aule, comprensiva di nome, posizione, capienza, dettagli sulle attrezzature disponibili e altre informazioni pertinenti.
+2. ADMIN:Gestione dei Diparatimenti, comprensiva di nome e descrizione.
+3. ADMIN:Gestione degli Eventi, con specifiche dettagliate come data, ora di inizio e fine, descrizione, tipologia. In più corso,aula, e responsabile associati.  
+4. Accesso in lettura libero al front-end del sito senza autenticazione.
+5. Visualizzazione degli eventi associati ad una specifica aula, in una specifica settimana.
+6. Visualizzazione degli eventi associati ad uno specifico corso, in una specifica settimana.
 6. Visualizzazione dello stato di allocazione delle aule in varie modalità, come eventi associati a una specifica aula in una settimana, eventi per ogni aula in un giorno specifico, eventi attuali e prossimi tre ore, e eventi associati a un corso in una settimana determinata.
 7. Possibilità per gli utenti di esportare gli eventi in formato CSV o iCalendar.
 8. Accesso e gestione riservati agli utenti-amministratori per la modifica dei dati, inclusa la configurazione delle aule e dei gruppi, la gestione degli eventi e l'esportazione/importazione dei dati in formato CSV.
