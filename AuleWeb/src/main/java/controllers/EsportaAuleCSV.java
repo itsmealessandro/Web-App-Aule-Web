@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Administrator
  */
 
-public class EsportaCSV extends AuleWebBaseController {
+public class EsportaAuleCSV extends AuleWebBaseController {
 
     private void action_expCSV(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
@@ -38,8 +38,7 @@ public class EsportaCSV extends AuleWebBaseController {
 
             List<Aula> listaAule = ((AuleWebDataLayer) request.getAttribute("datalayer")).getAulaDAO().getAllAule();
 
-            //scorriamo tutte le aule e scriviamo, una riga alla volta, una aula per riga
-            //scorriamo tutte le aule e scriviamo, una riga alla volta, una aula per riga
+           
             for (Aula a : listaAule) {
 
                 String dati = a.getNome() + ";" + a.getLuogo() + ";" + a.getEdificio() + ";"
