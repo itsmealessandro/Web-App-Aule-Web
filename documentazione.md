@@ -26,4 +26,9 @@ Il sistema AuleWeb è stato sviluppato utilizzando le seguenti tecnologie:
 ## Conclusioni
 Il progetto AuleWeb offre una soluzione efficace per la gestione delle informazioni sulle aule e gli eventi presso l'Ateneo. Con funzionalità intuitive e accesso riservato agli amministratori per la gestione dei dati, il sistema si propone di migliorare l'efficienza e la trasparenza nella pianificazione e nell'utilizzo delle risorse disponibili.
 
-Per eventuali domande o supporto, contattare il team di sviluppo del progetto.
+## Contributo dei Membri del Gruppo di Lavoro
+Il progetto è stato sviluppato da un gruppo di lavoro composto da quattro membri. Di seguito viene riportato il contributo effettivo offerto da ciascun componente alla realizzazione finale del progetto:
+- [Nome del Membro]: [Descrizione del contributo, ad esempio programmazione server, realizzazione del layout, programmazione lato client, ecc.]
+- [Nome del Membro]: [Descrizione del contributo]
+- [Nome del Membro]: [Descrizione del contributo]
+- [Nome del Membro]: [Descrizione del contributo]
