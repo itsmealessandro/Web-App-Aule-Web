@@ -70,22 +70,24 @@ public class ModificaEvento extends AuleWebBaseController {
 
     try {
 
-      System.out.println(ricorrenza + "______________________________________________________________");
+      Evento evento = dataLayer.getEventoDAO().createEvento(); // Creazione di un nuovo evento
       if (!ricorrenza.equals("NESSUNA")) {
-        throw new IOException("Evento Ricorrente non gestito");
+        evento.setIDMaster(IDMaster);
+        evento.setDataFineRicorrenza(dataFineRicorrenza);
+        evento.setRicorrenza(Ricorrenza.valueOf(ricorrenza));
+      } else {
+
+        evento.setIDMaster(null); // null nel caso di eventi NON ricorrenti
+        evento.setRicorrenza(Ricorrenza.NESSUNA);
+        evento.setDataFineRicorrenza(null);
       }
 
-      Evento evento = dataLayer.getEventoDAO().createEvento(); // Creazione di un nuovo evento
-
       evento.setKey(e_key);
-      evento.setIDMaster(null); // null nel caso di eventi NON ricorrenti
       evento.setNome(nome);
       evento.setOraInizio(oraInizio);
       evento.setOraFine(oraFine);
       evento.setDescrizione(descrizione);
-      evento.setRicorrenza(Ricorrenza.NESSUNA);
       evento.setData(giorno);
-      evento.setDataFineRicorrenza(null);
       evento.setTipologiaEvento(TipologiaEvento.valueOf(tipologiaEvento));
 
       // Recupero del responsabile, aula e corso dall'input dell'utente
@@ -147,10 +149,6 @@ public class ModificaEvento extends AuleWebBaseController {
     }
   }
 
-  private void action_no_evento() {
-    // TODO gestire caso senza aula passata
-  }
-
   private void action_delete(HttpServletRequest request, HttpServletResponse response, int e_key)
       throws IOException, ServletException, TemplateManagerException {
 
@@ -167,17 +165,39 @@ public class ModificaEvento extends AuleWebBaseController {
     }
   }
 
+  private void action_delete_ricorrenti(HttpServletRequest request, HttpServletResponse response, int e_key)
+      throws IOException, ServletException, TemplateManagerException {
+
+    TemplateResult res = new TemplateResult(getServletContext());
+    AuleWebDataLayer dataLayer = (AuleWebDataLayer) request.getAttribute("datalayer");
+
+    try {
+      Evento evento = dataLayer.getEventoDAO().getEventoByID(e_key);
+      dataLayer.getEventoDAO().deleteEventiRicorrenti(evento);
+
+      res.activate("operazioneEseguita.ftl.html", request, response);
+    } catch (DataException e) {
+      handleError("Data access exception: " + e.getMessage(), request, response);
+    }
+  }
+
   @Override
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
       throws ServletException {
 
     int e_key;
-    if (request.getParameter("e_key") == null) {
-      action_no_evento();
-    }
-    e_key = SecurityHelpers.checkNumeric(request.getParameter("e_key"));
     try {
-      if (request.getParameter("IDMaster") != null
+      if (request.getParameter("e_key") == null) {
+        throw new DataException("Nessun Evento Selezionato");
+      }
+      e_key = SecurityHelpers.checkNumeric(request.getParameter("e_key"));
+      if (request.getParameter("delete") != null) {
+        // Premuto Elimina
+        action_delete(request, response, e_key);
+      } else if (request.getParameter("deleteRicorrenti") != null) {
+        // Premuto Elimina
+        action_delete_ricorrenti(request, response, e_key);
+      } else if (request.getParameter("IDMaster") != null
           && request.getParameter("oraInizio") != null
           && request.getParameter("oraFine") != null
           && request.getParameter("descrizione") != null
@@ -186,17 +206,27 @@ public class ModificaEvento extends AuleWebBaseController {
           && request.getParameter("a_name") != null
           && request.getParameter("corso") != null
           && request.getParameter("emailR") != null
-          && request.getParameter("giorno") != null
-          && request.getParameter("dataFineRicorrenza") != null
-          && request.getParameter("ricorrenza") != null) {
+          && request.getParameter("ricorrenza") != null
+          && request.getParameter("giorno") != null) {
 
+        // Controllo Ricorrenza
+        String ricorrenza = request.getParameter("ricorrenza");
+        String dataFineRicorrenza = "0";
+        if (!ricorrenza.equals("NESSUNA")) {
+          dataFineRicorrenza = request.getParameter("dataFineRicorrenza");
+        }
+
+        // SE NON RICORRENTE VALORE ZERO
+        Date dataFineRicorrenza_sql = null;
+        if (!dataFineRicorrenza.equals("0")) {
+          dataFineRicorrenza_sql = Date.valueOf(dataFineRicorrenza);
+        }
         // SE NON RICORRENTE VALORE ZERO
         Integer IDMaster = SecurityHelpers.checkNumeric(request.getParameter("IDMaster"));
         if (IDMaster == 0) {
           IDMaster = null;
         }
 
-        // TODO INSERIRE CONTROLLO DATI VALIDI
         String oraInizio = request.getParameter("oraInizio");
         String oraFine = request.getParameter("oraFine");
         String giorno = request.getParameter("giorno");
@@ -212,21 +242,13 @@ public class ModificaEvento extends AuleWebBaseController {
         }
         if (!trovato) {
           throw new DataException("Input TipologiaEvento non Valido");
-
         }
 
         String descrizione = request.getParameter("descrizione");
         String nome = request.getParameter("nome");
-        String ricorrenza = request.getParameter("ricorrenza");
         String aula = request.getParameter("a_name");
         String corso = request.getParameter("corso");
         String responsabile = request.getParameter("emailR");
-        String dataFineRicorrenza = request.getParameter("dataFineRicorrenza");
-        // SE NON RICORRENTE VALORE ZERO
-        Date dataFineRicorrenza_sql = null;
-        if (!dataFineRicorrenza.equals("0")) {
-          dataFineRicorrenza_sql = Date.valueOf(dataFineRicorrenza);
-        }
 
         // Conversione a sql
         String timeWithSecOI = oraInizio + ":00";
@@ -254,9 +276,6 @@ public class ModificaEvento extends AuleWebBaseController {
       } else if (e_key == 0) {
         // Modalità Creazione
         action_prepare_creation(request, response);
-      } else if (request.getParameter("delete") != null) {
-        // Premuto Elimina
-        action_delete(request, response, e_key);
       } else {
         // Mostra Evento
         action_default(request, response, e_key);

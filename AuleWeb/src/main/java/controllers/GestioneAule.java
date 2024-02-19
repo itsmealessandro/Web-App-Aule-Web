@@ -28,7 +28,7 @@ public class GestioneAule extends AuleWebBaseController {
 
       res.activate("adminGestioneAule.ftl.html", request, response);
     } catch (DataException ex) {
-      // TODO gestire l'eccezione
+      handleError(ex.getMessage(), request, response);
     }
   }
 
@@ -37,6 +37,7 @@ public class GestioneAule extends AuleWebBaseController {
       throws ServletException {
 
     request.setAttribute("page_title", "Gestione Aule");
+    System.out.println("__________________________");
     try {
       action_default(request, response);
     } catch (IOException | TemplateManagerException ex) {

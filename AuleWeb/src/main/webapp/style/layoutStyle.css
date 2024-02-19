@@ -1,17 +1,130 @@
-.content{
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
     text-align: center;
-}
-    
-#header{
-    right: 0;
-    height:70px;
-    font-size: 20pt;
-    font-weight: bold;
-    text-align: center;
-    background-color: #53829D;
-    color: white;ackground-color: gray; 
+    background-color: #4b4b4b;
+    color: #fff;
+    padding-bottom: 5%; /* Altezza uguale a quella del footer */
 }
 
-#footer{
-    background-color: gray; 
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+header h1 {
+    margin: 0;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav ul li a:visited {
+    display: inline;
+    margin-right: 20px;
+    color: #ff7800;
+}
+
+nav ul li a:link {
+    color: #ffd700;
+}
+
+.main-content {
+    padding: 40px 0;
+}
+
+#header {
+    background-color: #212121;
+    padding: 20px 0;
+    text-align: center;
+}
+
+#footer {
+    background-color: #212121;/* Colore di sfondo del footer */
+    color: #ffd700;/* Colore del testo del footer */
+    position: fixed; /* Posizionamento fisso per il footer */
+    bottom: 0; /* Lo posizioniamo in basso */
+    width: 100%; /* Occupa tutta la larghezza della finestra */
+    height: 5%; /* Altezza del footer */
+    text-align: center; /* Allineamento del testo al centro */
+    margin-top: -5%; /* Margine superiore negativo pari all'altezza del footer */
+}
+
+.link a{
+    margin-left: 20%;
+}
+
+.link a:visited{
+    color: #ff7800;
+}
+
+.link a:link {
+    color: #ffd700;
+}
+
+input[type="date"],
+input[type="text"],
+input[type="submit"] {
+    margin: 10px 0;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+input[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #ccc;
+    margin: 20px auto;
+    width: 80%;
+}
+
+.image-row {
+    display: flex;
+    justify-content: center; /* Centra orizzontalmente le immagini */
+}
+
+.image-item {
+    flex: 1;
+    margin-right: 10px;
+    margin: 0 10px; /* Aggiunge spazio tra le immagini */
+    background-color: #212121;
+    border: 2px solid;
+    border-radius: 5%;
+    border-color: #212121;
+    border-width: 5px;
+}
+
+.image-item p{
+    color: #ffd700;
+}
+
+.image-item img {
+    max-width: 100%;
+    height: auto;
+    display: block; /* Impedisce l'aggiunta di spazi vuoti sotto le immagini */
+    border-bottom: 2px solid;
+    border-width: 5px;
+    border-color: #212121;
+}
+
+.image-item p {
+    text-align: center;
+    margin-top: 10px;
 }

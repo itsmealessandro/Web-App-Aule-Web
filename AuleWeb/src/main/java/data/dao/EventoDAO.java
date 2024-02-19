@@ -17,12 +17,8 @@ public interface EventoDAO {
 
   // Restituisce l'evento corrente
   Evento getEventoByID(int evento_key) throws DataException;
-  
-    
+
   List<Evento> getAllEventi() throws DataException;
-  
-  // TODO da vedere se rimuovere
-  List<Evento> getEventiRicorrenti(String nome, int IDresponsabile) throws DataException;
 
   List<Evento> getEventiByAula(Aula aula) throws DataException;
 
@@ -34,14 +30,17 @@ public interface EventoDAO {
   // Restituisce tutti gli eventi associati a un corso specifico
   List<Evento> getEventiSettimanaliByCorso(Corso corso, LocalDate data, int dip_key) throws DataException;
 
-  // TODO da rimuovere
-  List<Evento> getEventiByNome(String nome) throws DataException;
-  
+  // Restituisce tutti gli eventi delle prossime 3 ore
   List<Evento> getEventiByTreOre(Dipartimento dipartimento) throws DataException;
+
+  // Restituisce tutte le istanze di un evento ricorrente dato un ID master
+  List<Evento> getEventiRicorrentiByIDMaster(Integer IDMaster) throws DataException;
 
   // Salva l'evento corrente
   void storeEvento(Evento evento) throws DataException;
-  
-  void deleteEvento(Evento evento) throws DataException; 
- 
+
+  void deleteEvento(Evento evento) throws DataException;
+
+  void deleteEventiRicorrenti(Evento evento) throws DataException;
+
 }

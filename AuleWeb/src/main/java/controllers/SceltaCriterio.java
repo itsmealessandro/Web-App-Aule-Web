@@ -1,3 +1,4 @@
+
 package controllers;
 
 import framework.data.DataException;
@@ -53,7 +54,7 @@ public class SceltaCriterio extends AuleWebBaseController {
       url.append("&&");
       // url.append("c_key=" + corso.getKey());
       url.append("&&");
-      url.append("data=" + data);
+      url.append("date=" + data);
     } catch (DataException ex) {
       handleError("Data access exception: " + ex.getMessage(), request, response);
     }
@@ -74,7 +75,7 @@ public class SceltaCriterio extends AuleWebBaseController {
       url.append("&&");
       url.append("aula_key=" + aula.getKey());
       url.append("&&");
-      url.append("data=" + data);
+      url.append("date=" + data);
 
       response.sendRedirect(url.toString());
 
