@@ -1,4 +1,4 @@
-<div class="container">
+<div class="containerAD">
 
     <h1>Modifica Evento</h1>
 
@@ -6,24 +6,31 @@
     <form method="post" action="ModificaEvento">
         <input type="hidden" name="e_key" value="0">
         <input type="hidden" name="IDMaster" value="0">
+       <div class="rowAD">
+    <div class="label-container">
         <p>Ora Inizio:</p>
-        <input type="time" name="oraInizio" id="oraInizio" oninput="arrotondaOra(this)" step=900>
         <p>Ora Fine:</p>
-        <input type="time" name="oraFine" id="oraFine" oninput="arrotondaOra(this)" step=900>
         <p>Descrizione:</p>
-        <input type="text" name="descrizione">
         <p>Tipologia Evento:</p>
-        <input type="text" name="tipologiaEvento">
         <p>Nome:</p>
-        <input type="text" name="nome">
         <p>Nome Aula:</p>
-        <input type="text" name="a_name">
         <p>Corso:</p>
-        <input type="text" name="corso">
         <p>Email Responsabile:</p>
-        <input type="text" name="emailR">
         <p>Data:</p>
+    </div>
+    <div class="input-container">
+        <input type="time" name="oraInizio" id="oraInizio" oninput="arrotondaOra(this)" step="900">
+        <input type="time" name="oraFine" id="oraFine" oninput="arrotondaOra(this)" step="900">
+        <input type="text" name="descrizione">
+        <input type="text" name="tipologiaEvento">
+        <input type="text" name="nome">
+        <input type="text" name="a_name">
+        <input type="text" name="corso">
+        <input type="text" name="emailR">
         <input type="date" name="giorno">
+    </div>
+</div>
+            
 
         <label for="ricorrenza">Seleziona la ricorrenza:</label>
         <select id="ricorrenza" onchange="gestisciRicorrenza()" value="NESSUNA" name="ricorrenza">
@@ -118,7 +125,7 @@
         var ricorrenza;
         <#if evento.ricorrenza?? && evento.ricorrenza != "NESSUNA" >
         // Inizializza il valore del menu a discesa con il valore di ricorrenza
-        window.onload = function () {
+            window.onload = function () {
                 document.getElementById("ricorrenza").value = "${evento.ricorrenza}";
         gestisciRicorrenza(); // Chiama la funzione per assicurarti che l'interfaccia rifletta lo stato iniziale correttamente
         document.getElementById("dataFineRicorrenza").value = "${evento.dataFineRicorrenza}";
