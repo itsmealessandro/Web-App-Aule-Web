@@ -43,7 +43,7 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
       uAula = connection.prepareStatement(
           "UPDATE Aula SET nome = ?, luogo = ?, edificio = ?, piano = ?, capienza = ?, preseElettriche = ?, preseRete = ?, note = ?, "
               + "IDAttrezzatura = ?, IDDipartimento = ?, IDResponsabile = ?, version = ? WHERE ID = ? and version=?");
-      dAula = connection.prepareStatement("DELETE FROM aula WHERE ID=?");
+      dAula = connection.prepareStatement("DELETE FROM Aula WHERE ID=?");
     } catch (SQLException ex) {
       throw new DataException("Error initializing auleweb data layer", ex);
     }
@@ -310,7 +310,7 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
       dAula.setInt(1, aula.getKey());
       dAula.executeUpdate();
     } catch (SQLException e) {
-      throw new DataException("Unable to Delete Aula", e);
+      throw new DataException("Richiede Eliminare prima gli Eventi Associati");
     }
   }
 
