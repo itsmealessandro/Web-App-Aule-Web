@@ -42,31 +42,8 @@ body {
     max-width: 60%;
     margin: 0 auto;
     padding: 20px;
-    border-radius: 5px;  
+    border-radius: 5px;
 }
-
-
-.rowAD {
-    display: flex;
-    align-items: center;
-}
-
-
-.input-container {
-    display: flex;
-   
-}
-
-.label-container {
-    display: flex;
-   
-}
-
-.label-container p {
-    margin: 0;
-    padding-right: 10px;
-}
-
 
 header h1 {
     margin: 0;
