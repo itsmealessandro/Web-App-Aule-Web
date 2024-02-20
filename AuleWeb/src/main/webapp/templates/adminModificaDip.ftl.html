@@ -4,7 +4,9 @@
 
     <form method="post" action="ModificaDipartimento">
         <input type="hidden" name="dip_key" value="${dipartimento.key}">
+        <p>Nome Dipartimento</p>
         <input type="text" name="name" placeholder="Nome dipartimento" value="${dipartimento.nome}">
+        <p>Descrizione</p>
         <input type="text" name="descr" placeholder="Descrizione" value="${dipartimento.descrizione}">
         <input type="submit" name="conf" value="Conferma">
     </form>

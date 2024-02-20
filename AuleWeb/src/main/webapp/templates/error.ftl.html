@@ -1,23 +1,43 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8">
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
 <html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <!-- Definizione del titolo della pagina -->
-        <title>Errore</title>
-        <!-- Collegamento al foglio di stile "default.css" -->
-        <link rel="stylesheet" href="style/default.css" type="text/css"/>
-    </head>
-    <body>
-        <!-- Inizio del corpo della pagina -->
-        <div class="body">
-            <!-- Link per tornare alla homepage -->
-            <div><a href="Homepage">Return to homepage</a></div>
-            <!-- Intestazione della sezione di errore -->
-            <h1>Error</h1>
-            <!-- Messaggio di errore, con fallback a "Unknown error" se la variabile "error" � nulla -->
-            <p>The system encountered the following error while handling your request:</p>
-            <p><b>${error!"Unknown error"}</b></p>
-        </div>
-        <!-- Fine del corpo della pagina -->
-    </body>
+<head>
+    <!-- Definizione del titolo della pagina -->
+    <title>Errore</title>
+    <!-- CSS per lo stile della pagina -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            background-color: #4b4b4b;
+            color: #fff;
+            padding-bottom: 5%; /* Altezza uguale a quella del footer */
+        }
+        .body {
+            margin: auto;
+            width: 80%;
+            padding-top: 20px; /* Aggiungiamo uno spazio sopra il corpo */
+        }
+        a {
+            color: #ff7800; /* Cambiamo il colore dei link */
+        }
+    </style>
+</head>
+<body>
+    <!-- Inizio del corpo della pagina -->
+    <div class="body">
+        <!-- Link per tornare alla homepage -->
+        <div><a href="Homepage">Return to homepage</a></div>
+        <!-- Intestazione della sezione di errore -->
+        <h1>Error</h1>
+        <!-- Messaggio di errore, con fallback a "Unknown error" se la variabile "error" è nulla -->
+        <p>The system encountered the following error while handling your request:</p>
+        <p><b>Qualcosa è andato storto...</b></p>
+    </div>
+    <!-- Fine del corpo della pagina -->
+</body>
 </html>
+

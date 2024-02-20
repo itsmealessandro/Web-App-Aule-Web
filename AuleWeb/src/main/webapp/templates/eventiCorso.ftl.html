@@ -1,8 +1,8 @@
 <h1>Eventi del Giorno</h1>
 <#if eventi?has_content>
 
-  <table>
-    <tr>
+  <table class="tableStyle">
+    <tr class="tableTitle">
       <th>Nome</th>
       <th>Ora Inizio</th>
       <th>Ora Fine</th>
@@ -16,7 +16,7 @@
     <!-- Qui inserisci i dati della tabella -->
 
     <#list eventi as evento>
-      <tr>
+      <tr class="tableContent">
         <td>${evento.nome}</td>
         <td>${evento.oraInizio}</td>
         <td>${evento.oraFine}</td>
