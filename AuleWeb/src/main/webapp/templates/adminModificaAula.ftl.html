@@ -1,53 +1,62 @@
 <h1>Modifica Aula</h1>
 
 <div class="container">
-    
-    <#if aula.key == 0>
-  <form method="post" action="ModificaAula">
-    <input type="hidden" name="a_key" value=0>
-    <input type="text" name="dipartimento">
-    <input type="text" name="nome">
-    <input type="text" name="edificio">
-    <input type="text" name="luogo">
-    <input type="text" name="piano">
-    <input type="text" name="capienza">
-    <input type="text" name="preseElettriche">
-    <input type="text" name="preseRete">
-    <input type="text" name="note">
-    <input type="text" name="attrezzatura">
-    <input type="text" name="emailR">
-    <input type="submit" name="conf" value="conferma">
-  </form>
-<#else>
-  <form method="post" action="ModificaAula">
-    <input type="hidden" name="a_key" value="${aula.key}">
-     <p>Dipartimento</p>
-  <input type="text" name="dipartimento" value="${aula.dipartimento.nome}">
-   <p>Aula</p>
-    <input type="text" name="nome" value="${aula.nome}">
-     <p>Edificio</p>
-    <input type="text" name="edificio" value="${aula.edificio}">
-    <p>Luogo</p>
-    <input type="text" name="luogo" value="${aula.luogo}">
-    <p>Piano</p>
-    <input type="text" name="piano" value="${aula.piano}">
-    <p>Capienza</p>
-    <input type="text" name="capienza" value="${aula.capienza}">
-    <p>Prese Elettriche</p>
-    <input type="text" name="preseElettriche" value="${aula.preseElettriche}">
-    <p>Prese di Rete</p>
-    <input type="text" name="preseRete" value="${aula.preseRete}">
-    <p>Note Aggiuntive</p>
-    <input type="text" name="note" value="${aula.note}">
-    <p>Attrezzatura Disponibile</p>
-    <input type="text" name="attrezzatura" value="${aula.attrezzatura.nome}">
-    <p>Email Responsabile</p>
-    <input type="text" name="emailR" value="${aula.responsabile.email}">
-    <input type="submit" name="conf" value="Conferma">
-    <input type="submit" name="delete" value="Elimina">
-  </form>
-</#if>
-    
+
+  <#if aula.key==0>
+    <form method="post" action="ModificaAula">
+      <input type="hidden" name="a_key" value=0>
+      <p>Dipartimento</p>
+      <input type="text" name="dipartimento">
+      <p>Nome Aula</p>
+      <input type="text" name="nome">
+      <p>Edificio</p>
+      <input type="text" name="edificio">
+      <p>Luogo</p>
+      <input type="text" name="luogo">
+      <p>Piano</p>
+      <input type="text" name="piano">
+      <p>Capienza</p>
+      <input type="text" name="capienza">
+      <p>Prese Elettriche</p>
+      <input type="text" name="preseElettriche">
+      <p>Prese di Rete</p>
+      <input type="text" name="preseRete">
+      <p>Note Aggiuntive</p>
+      <input type="text" name="note">
+      <p>Attrezzatura Disponibile</p>
+      <input type="text" name="attrezzatura">
+      <input type="text" name="emailR">
+      <p>Email Responsabile</p>
+      <input type="submit" name="conf" value="conferma">
+    </form>
+    <#else>
+      <form method="post" action="ModificaAula">
+        <input type="hidden" name="a_key" value="${aula.key}">
+        <p>Dipartimento</p>
+        <input type="text" name="dipartimento" value="${aula.dipartimento.nome}">
+        <p>Nome Aula</p>
+        <input type="text" name="nome" value="${aula.nome}">
+        <p>Edificio</p>
+        <input type="text" name="edificio" value="${aula.edificio}">
+        <p>Luogo</p>
+        <input type="text" name="luogo" value="${aula.luogo}">
+        <p>Piano</p>
+        <input type="text" name="piano" value="${aula.piano}">
+        <p>Capienza</p>
+        <input type="text" name="capienza" value="${aula.capienza}">
+        <p>Prese Elettriche</p>
+        <input type="text" name="preseElettriche" value="${aula.preseElettriche}">
+        <p>Prese di Rete</p>
+        <input type="text" name="preseRete" value="${aula.preseRete}">
+        <p>Note Aggiuntive</p>
+        <input type="text" name="note" value="${aula.note}">
+        <p>Attrezzatura Disponibile</p>
+        <input type="text" name="attrezzatura" value="${aula.attrezzatura.nome}">
+        <p>Email Responsabile</p>
+        <input type="text" name="emailR" value="${aula.responsabile.email}">
+        <input type="submit" name="conf" value="Conferma">
+        <input type="submit" name="delete" value="Elimina">
+      </form>
+  </#if>
+
 </div>
-
-
