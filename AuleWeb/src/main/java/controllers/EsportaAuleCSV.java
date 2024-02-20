@@ -1,11 +1,5 @@
 package controllers;
 
-import data.dao.AuleWebDataLayer;
-import data.domain.Aula;
-import framework.data.DataException;
-import framework.result.StreamResult;
-import framework.result.TemplateManagerException;
-import framework.result.TemplateResult;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -13,67 +7,65 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author Administrator
- */
+import data.dao.AuleWebDataLayer;
+import data.domain.Aula;
+import framework.data.DataException;
+import framework.result.StreamResult;
 
 public class EsportaAuleCSV extends AuleWebBaseController {
 
-    private void action_expCSV(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        
-        try {
-            
-            StreamResult result = new StreamResult(getServletContext());
+  private void action_expCSV(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-            File in = new File(getServletContext().getRealPath("") + File.separatorChar + "aule.csv");
+    try {
 
-            BufferedWriter writer = new BufferedWriter(new FileWriter(in));
+      StreamResult result = new StreamResult(getServletContext());
 
-            String header = "nome;luogo;edificio;piano;capienza;preseElettriche;preseRete;note;IDAttrezzature;IDDipartimento;IDResponsabile";
-            writer.write(header);
-            writer.newLine();
+      File in = new File(getServletContext().getRealPath("") + File.separatorChar + "aule.csv");
 
-            List<Aula> listaAule = ((AuleWebDataLayer) request.getAttribute("datalayer")).getAulaDAO().getAllAule();
+      BufferedWriter writer = new BufferedWriter(new FileWriter(in));
 
-           
-            for (Aula a : listaAule) {
+      String header = "nome;luogo;edificio;piano;capienza;preseElettriche;preseRete;note;IDAttrezzature;IDDipartimento;IDResponsabile";
+      writer.write(header);
+      writer.newLine();
 
-                String dati = a.getNome() + ";" + a.getLuogo() + ";" + a.getEdificio() + ";"
-                        + a.getPiano() + ";" + String.valueOf(a.getCapienza()) + ";"
-                        + String.valueOf(a.getPreseElettriche()) + ";" + String.valueOf(a.getPreseRete())
-                        + ";" + a.getNote() + ";" + String.valueOf(a.getAttrezzatura()) + ";"
-                        + String.valueOf(a.getDipartimento().getKey()) + ";" + String.valueOf(a.getResponsabile().getKey());
+      List<Aula> listaAule = ((AuleWebDataLayer) request.getAttribute("datalayer")).getAulaDAO().getAllAule();
 
-                writer.write(dati);
+      for (Aula a : listaAule) {
 
-                writer.newLine();
-            }
-         
+        String dati = a.getNome() + ";" + a.getLuogo() + ";" + a.getEdificio() + ";"
+            + a.getPiano() + ";" + String.valueOf(a.getCapienza()) + ";"
+            + String.valueOf(a.getPreseElettriche()) + ";" + String.valueOf(a.getPreseRete())
+            + ";" + a.getNote() + ";" + String.valueOf(a.getAttrezzatura()) + ";"
+            + String.valueOf(a.getDipartimento().getKey()) + ";" + String.valueOf(a.getResponsabile().getKey());
 
-            writer.flush();
-            writer.close();
-            result.setResource(in);
-            result.activate(request, response);
-        } catch (DataException ex) {
-            // handleError(ex, request, response);
-        } 
+        writer.write(dati);
+
+        writer.newLine();
+      }
+
+      writer.flush();
+      writer.close();
+      result.setResource(in);
+      result.activate(request, response);
+    } catch (DataException ex) {
+      handleError(ex, request, response);
     }
+  }
 
-    @Override
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-        try {
-            
-           
+  @Override
+  protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+    try {
+
       action_expCSV(request, response);
-      
-            throw new UnsupportedOperationException("errore");
-        } catch (IOException ex) {
-            Logger.getLogger(EsportaAuleCSV.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+      throw new UnsupportedOperationException("errore");
+    } catch (IOException ex) {
+      Logger.getLogger(EsportaAuleCSV.class.getName()).log(Level.SEVERE, null, ex);
     }
+  }
 }

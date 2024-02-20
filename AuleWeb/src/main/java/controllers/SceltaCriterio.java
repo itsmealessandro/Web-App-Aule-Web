@@ -113,7 +113,7 @@ public class SceltaCriterio extends AuleWebBaseController {
 
     StringBuffer url = new StringBuffer();
 
-    url.append("EsportaEventiVSC?");
+    url.append("EsportaEventiCSV?");
     url.append("dip_key=" + dip_key);
     url.append("&&");
     url.append("dateI=" + dataI);

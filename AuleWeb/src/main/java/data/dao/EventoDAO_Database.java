@@ -12,13 +12,11 @@ import framework.data.DataException;
 import framework.data.DataItemProxy;
 import framework.data.DataLayer;
 import framework.data.OptimisticLockException;
-
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Time;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
@@ -29,7 +27,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
 
   private PreparedStatement sEventoByID, sEventoByAula, sEventiByDay, sEventiByCorso,
       sAllEventi, sEventiByIDMaster, sEventiSettimanaliByAula, sEventiByTreOre, sEventoByNome, sMAXIDMaster, iEvento,
-      uEvento, dEvento, dEventiByIDMaster, sEventiByOre;
+      uEvento, dEvento, dEventiByIDMaster, sEventiByDate;
 
   public EventoDAO_Database(DataLayer d) {
     super(d);
@@ -62,6 +60,11 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
           " AND e.Data = CURDATE()\n" +
           " AND a.IDDipartimento = ?;");
 
+      sEventiByDate = connection.prepareStatement("SELECT *\n" +
+          "FROM Evento\n" +
+          "WHERE IDAula IN (SELECT ID FROM Aula WHERE IDDipartimento = ?)\n" +
+          "AND Data BETWEEN ? AND ?;");
+
       iEvento = connection.prepareStatement(
           "INSERT INTO Evento (IDMaster, nome, oraInizio, oraFine, descrizione, ricorrenza, Data, dataFineRicorrenza, tipologiaEvento, IDResponsabile, IDCorso, IDAula) "
               + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
@@ -84,8 +87,6 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
               + "    version = ?\n"
               + " WHERE ID = ? AND version = ?");
 
-      sEventiByOre = connection.prepareStatement("SELECT * FROM Evento WHERE oraInizio >= ? AND oraFine <= ?");
-
       dEvento = connection.prepareStatement("DELETE FROM Evento WHERE ID=?");
 
       dEventiByIDMaster = connection.prepareStatement("DELETE FROM Evento WHERE IDMaster=?");
@@ -107,7 +108,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
       sEventoByNome.close();
       sEventiByTreOre.close();
       sAllEventi.close();
-      sEventiByOre.close();
+      sEventiByDate.close();
 
       iEvento.close();
       uEvento.close();
@@ -316,19 +317,21 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
   }
 
   @Override
-  public List<Evento> getEventiByOrario(Time oraInizio, Time oraFine) throws DataException {
+  public List<Evento> getEventiByDate(int dip_key, Date dataI, Date dataF) throws DataException {
     List<Evento> listaEventi = new ArrayList<>();
     try {
 
-      sEventiByTreOre.setTime(1, oraInizio);
-      sEventiByTreOre.setTime(2, oraFine);
-      try (ResultSet resultSet = sEventiByOre.executeQuery()) {
+      sEventiByDate.setInt(1, dip_key);
+      sEventiByDate.setDate(2, dataI);
+      sEventiByDate.setDate(3, dataF);
+
+      try (ResultSet resultSet = sEventiByDate.executeQuery()) {
         while (resultSet.next()) {
           listaEventi.add((Evento) getEventoByID(resultSet.getInt("ID")));
         }
       }
     } catch (SQLException sqlException) {
-      throw new DataException("Unable to load Eventi");
+      throw new DataException("Unable to load Eventi by date");
     }
     return listaEventi;
   }

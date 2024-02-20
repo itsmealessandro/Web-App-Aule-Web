@@ -10,147 +10,147 @@ import java.sql.Date;
 
 public class EventoImpl extends DataItemImpl<Integer> implements Evento {
 
-    private Integer IDMaster;
-    private String nome;
-    private Time oraInizio;
-    private Time oraFine;
-    private String descrizione;
-    private Ricorrenza ricorrenza;
-    private TipologiaEvento tipologiaEvento;
-    private Date giorno;
-    private Date dataFineRicorrenza;
-    private Aula aula;
-    private Responsabile responsabile;
-    private Corso corso;
-    private boolean isRicorrente; // Aggiunto campo isRicorrente
-    
-    @Override
-    public Integer getIDMaster() {
-        return IDMaster;
-    }
-    
-    @Override
-    public void setIDMaster(Integer IDMaster) {
-        this.IDMaster = IDMaster;
-    }
-    
-    @Override
-    public Date getDataFineRicorrenza() {
-        return dataFineRicorrenza;
-    }
-    @Override
-    public void setDataFineRicorrenza(Date dataFineRicorrenza) {
-        this.dataFineRicorrenza = dataFineRicorrenza;
-    }
-    
+  private Integer IDMaster;
+  private String nome;
+  private Time oraInizio;
+  private Time oraFine;
+  private String descrizione;
+  private Ricorrenza ricorrenza;
+  private TipologiaEvento tipologiaEvento;
+  private Date data;
+  private Date dataFineRicorrenza;
+  private Aula aula;
+  private Responsabile responsabile;
+  private Corso corso;
+  private boolean isRicorrente; // Aggiunto campo isRicorrente
 
-    @Override
-    public String getNome() {
-        return nome;
-    }
+  @Override
+  public Integer getIDMaster() {
+    return IDMaster;
+  }
 
-    @Override
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+  @Override
+  public void setIDMaster(Integer IDMaster) {
+    this.IDMaster = IDMaster;
+  }
 
-    @Override
-    public Time getOraInizio() {
-        return oraInizio;
-    }
+  @Override
+  public Date getDataFineRicorrenza() {
+    return dataFineRicorrenza;
+  }
 
-    @Override
-    public void setOraInizio(Time oraInizio) {
-        this.oraInizio = oraInizio;
-    }
+  @Override
+  public void setDataFineRicorrenza(Date dataFineRicorrenza) {
+    this.dataFineRicorrenza = dataFineRicorrenza;
+  }
 
-    @Override
-    public Time getOraFine() {
-        return oraFine;
-    }
+  @Override
+  public String getNome() {
+    return nome;
+  }
 
-    @Override
-    public void setOraFine(Time oraFine) {
-        this.oraFine = oraFine;
-    }
+  @Override
+  public void setNome(String nome) {
+    this.nome = nome;
+  }
 
-    @Override
-    public String getDescrizione() {
-        return descrizione;
-    }
+  @Override
+  public Time getOraInizio() {
+    return oraInizio;
+  }
 
-    @Override
-    public void setDescrizione(String descrizione) {
-        this.descrizione = descrizione;
-    }
+  @Override
+  public void setOraInizio(Time oraInizio) {
+    this.oraInizio = oraInizio;
+  }
 
-    @Override
-    public Aula getAula() {
-        return aula;
-    }
+  @Override
+  public Time getOraFine() {
+    return oraFine;
+  }
 
-    @Override
-    public void setAula(Aula aula) {
-        this.aula = aula;
-    }
+  @Override
+  public void setOraFine(Time oraFine) {
+    this.oraFine = oraFine;
+  }
 
-    @Override
-    public Ricorrenza getRicorrenza() {
-        return ricorrenza;
-    }
+  @Override
+  public String getDescrizione() {
+    return descrizione;
+  }
 
-    @Override
-    public void setRicorrenza(Ricorrenza ricorrenza) {
-        this.ricorrenza = ricorrenza;
-    }
+  @Override
+  public void setDescrizione(String descrizione) {
+    this.descrizione = descrizione;
+  }
 
-    @Override
-    public Date getData() {
-        return giorno;
-    }
+  @Override
+  public Aula getAula() {
+    return aula;
+  }
 
-    @Override
-    public void setData(Date giorno) {
-        this.giorno = giorno;
-    }
+  @Override
+  public void setAula(Aula aula) {
+    this.aula = aula;
+  }
 
-    @Override
-    public Responsabile getResponsabile() {
-        return responsabile;
-    }
+  @Override
+  public Ricorrenza getRicorrenza() {
+    return ricorrenza;
+  }
 
-    @Override
-    public void setResponsabile(Responsabile responsabile) {
-        this.responsabile = responsabile;
-    }
+  @Override
+  public void setRicorrenza(Ricorrenza ricorrenza) {
+    this.ricorrenza = ricorrenza;
+  }
 
-    @Override
-    public Corso getCorso() {
-        return corso;
-    }
+  @Override
+  public Date getData() {
+    return data;
+  }
 
-    @Override
-    public void setCorso(Corso corso) {
-        this.corso = corso;
-    }
+  @Override
+  public void setData(Date giorno) {
+    this.data = giorno;
+  }
 
-    @Override
-    public TipologiaEvento getTipologiaEvento() {
-        return tipologiaEvento;
-    }
+  @Override
+  public Responsabile getResponsabile() {
+    return responsabile;
+  }
 
-    @Override
-    public void setTipologiaEvento(TipologiaEvento tipologiaEvento) {
-        this.tipologiaEvento = tipologiaEvento;
-    }
-    
-    // Aggiunti metodi getter e setter per isRicorrente
-    public boolean isRicorrente() {
-        return isRicorrente;
-    }
+  @Override
+  public void setResponsabile(Responsabile responsabile) {
+    this.responsabile = responsabile;
+  }
 
-    public void setRicorrente(boolean isRicorrente) {
-        this.isRicorrente = isRicorrente;
-    }
+  @Override
+  public Corso getCorso() {
+    return corso;
+  }
+
+  @Override
+  public void setCorso(Corso corso) {
+    this.corso = corso;
+  }
+
+  @Override
+  public TipologiaEvento getTipologiaEvento() {
+    return tipologiaEvento;
+  }
+
+  @Override
+  public void setTipologiaEvento(TipologiaEvento tipologiaEvento) {
+    this.tipologiaEvento = tipologiaEvento;
+  }
+
+  // Aggiunti metodi getter e setter per isRicorrente
+  public boolean isRicorrente() {
+    return isRicorrente;
+  }
+
+  public void setRicorrente(boolean isRicorrente) {
+    this.isRicorrente = isRicorrente;
+  }
 
 }

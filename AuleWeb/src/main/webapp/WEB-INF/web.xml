@@ -93,6 +93,10 @@
         <servlet-class>controllers.EsportaAuleCSV</servlet-class>
     </servlet>
   
+    <servlet>
+        <servlet-name>EsportaEventiCSV</servlet-name>
+        <servlet-class>controllers.EsportaEventiCSV</servlet-class>
+    </servlet>
     <!-- Servlet Mapping -->
     <servlet-mapping>
         <servlet-name>Homepage</servlet-name>
@@ -187,6 +191,11 @@
      <servlet-mapping>
         <servlet-name>EsportaAuleCSV</servlet-name>
         <url-pattern>/EsportaAuleCSV</url-pattern>
+    </servlet-mapping>
+
+     <servlet-mapping>
+        <servlet-name>EsportaEventiCSV</servlet-name>
+        <url-pattern>/EsportaEventiCSV</url-pattern>
     </servlet-mapping>
 
     <!-- Template Configuration Parameters -->
