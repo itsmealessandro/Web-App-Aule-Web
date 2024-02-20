@@ -27,7 +27,7 @@ public class GestioneEventi extends AuleWebBaseController {
 
       res.activate("adminGestioneEventi.ftl.html", request, response);
     } catch (DataException ex) {
-      // TODO gestire l'eccezione
+      handleError(ex, request, response);
     }
   }
 

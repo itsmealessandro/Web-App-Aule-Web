@@ -1,5 +1,9 @@
 <h1>Gestione Aule</h1>
 
 <#list aule as aula>
-<a href="ModificaAula?a_key=${aula.key}">${aula.nome}</a>
+  <a href="ModificaAula?a_key=${aula.key}">${aula.nome}</a>
 </#list>
+
+<form action="ModificaAula?e_key=0" method="POST">
+  <button type="submit">Crea Nuova Aula</button>
+</form>
