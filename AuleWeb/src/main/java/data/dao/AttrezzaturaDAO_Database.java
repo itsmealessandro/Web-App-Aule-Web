@@ -31,9 +31,7 @@ public class AttrezzaturaDAO_Database extends DAO implements AttrezzaturaDAO {
       super.init();
 
       sAttrezzaturaByID = connection.prepareStatement("SELECT * FROM AttrezzaturaDisponibile WHERE ID=?");
-      sAttrezzature = connection.prepareStatement("SELECT ID AS attrezzaturaID FROM AttrezzaturaDisponibile");
-      sAttrezzatureByAula = connection
-          .prepareStatement("SELECT attrezzaturaID AS attrezzaturaID FROM Fornito WHERE aulaID=?");
+      sAttrezzature = connection.prepareStatement("SELECT ID AS AttrezzaturaID FROM AttrezzaturaDisponibile");
       sAttrezzaturaByName = connection.prepareStatement("SELECT * FROM AttrezzaturaDisponibile WHERE Nome=?");
       iAttrezzatura = connection.prepareStatement("INSERT INTO AttrezzaturaDisponibile (nome) VALUES(?)",
           Statement.RETURN_GENERATED_KEYS);
@@ -50,7 +48,6 @@ public class AttrezzaturaDAO_Database extends DAO implements AttrezzaturaDAO {
     try {
 
       sAttrezzaturaByID.close();
-      sAttrezzatureByAula.close();
       sAttrezzaturaByName.close();
       sAttrezzature.close();
       iAttrezzatura.close();
@@ -111,23 +108,6 @@ public class AttrezzaturaDAO_Database extends DAO implements AttrezzaturaDAO {
       }
     } catch (SQLException ex) {
       throw new DataException("Unable to load attrezzature", ex);
-    }
-    return result;
-  }
-
-  @Override
-  public List<Attrezzatura> getAttrezzaturePerAula(Aula aula) throws DataException {
-    List<Attrezzatura> result = new ArrayList<>();
-
-    try {
-      sAttrezzatureByAula.setInt(1, aula.getKey());
-      try (ResultSet rs = sAttrezzatureByAula.executeQuery()) {
-        while (rs.next()) {
-          result.add((Attrezzatura) getAttrezzatura(rs.getInt("attrezzaturaID")));
-        }
-      }
-    } catch (SQLException ex) {
-      throw new DataException("Unable to load attrezzature by aula", ex);
     }
     return result;
   }

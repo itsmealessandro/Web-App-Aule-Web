@@ -31,8 +31,6 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
     try {
       super.init();
 
-      // precompiliamo tutte le query utilizzate nella classe
-      // precompile all the queries uses in this class
       sAulaPerID = connection.prepareStatement("SELECT * FROM Aula WHERE ID=?");
       sAulaByName = connection.prepareStatement("SELECT * FROM Aula WHERE Nome=?");
       sAule = connection.prepareStatement("SELECT ID FROM Aula");

@@ -18,9 +18,6 @@ public interface AttrezzaturaDAO {
   // Restituisce tutte le attrezzature disponibili
   List<Attrezzatura> getTutteLeAttrezzature() throws DataException;
 
-  // Restituisce tutte le attrezzature associate a un'aula specifica
-  List<Attrezzatura> getAttrezzaturePerAula(Aula aula) throws DataException;
-
   // Salva l'attrezzatura corrente
   void storeAttrezzatura(Attrezzatura attrezzatura) throws DataException;
 }
