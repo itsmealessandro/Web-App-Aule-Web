@@ -39,7 +39,7 @@ public class EsportaEventiCSV extends AuleWebBaseController {
 
         String dati = a.getNome() + ";" + String.valueOf(a.getOraInizio()) + ";" + String.valueOf(a.getOraFine()) + ";"
             + a.getDescrizione() + ";" + String.valueOf(a.getRicorrenza()) + ";"
-            + a.getData().toString() + ";" + a.getDataFineRicorrenza().toString()
+            + String.valueOf(a.getData()) + ";" + String.valueOf(a.getDataFineRicorrenza())
             + ";" + String.valueOf(a.getTipologiaEvento()) + ";" + String.valueOf(a.getResponsabile().getKey()) + ";"
             + String.valueOf(a.getCorso().getKey()) + ";" + String.valueOf(a.getAula().getKey());
 

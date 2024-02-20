@@ -31,8 +31,6 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
     try {
       super.init();
 
-      // precompiliamo tutte le query utilizzate nella classe
-      // precompile all the queries uses in this class
       sAulaPerID = connection.prepareStatement("SELECT * FROM Aula WHERE ID=?");
       sAulaByName = connection.prepareStatement("SELECT * FROM Aula WHERE Nome=?");
       sAule = connection.prepareStatement("SELECT ID FROM Aula");
@@ -45,7 +43,7 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
       uAula = connection.prepareStatement(
           "UPDATE Aula SET nome = ?, luogo = ?, edificio = ?, piano = ?, capienza = ?, preseElettriche = ?, preseRete = ?, note = ?, "
               + "IDAttrezzatura = ?, IDDipartimento = ?, IDResponsabile = ?, version = ? WHERE ID = ? and version=?");
-      dAula = connection.prepareStatement("DELETE FROM aula WHERE ID=?");
+      dAula = connection.prepareStatement("DELETE FROM Aula WHERE ID=?");
     } catch (SQLException ex) {
       throw new DataException("Error initializing auleweb data layer", ex);
     }
@@ -53,8 +51,6 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
 
   @Override
   public void destroy() throws DataException {
-    // anche chiudere i PreparedStamenent � una buona pratica...
-    // also closing PreparedStamenents is a good practice...
     try {
 
       sAulaPerID.close();
@@ -66,7 +62,7 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
       dAula.close();
 
     } catch (SQLException ex) {
-      // TODO da gestire
+      throw new DataException("Error in destroy", ex);
     }
     super.destroy();
   }
@@ -314,7 +310,7 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
       dAula.setInt(1, aula.getKey());
       dAula.executeUpdate();
     } catch (SQLException e) {
-      throw new DataException("Unable to Delete Aula", e);
+      throw new DataException("Richiede Eliminare prima gli Eventi Associati");
     }
   }
 

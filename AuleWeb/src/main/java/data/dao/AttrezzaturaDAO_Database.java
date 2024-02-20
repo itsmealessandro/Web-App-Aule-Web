@@ -15,12 +15,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.naming.spi.DirStateFactory.Result;
-
-/**
- *
- * @author emanu
- */
 public class AttrezzaturaDAO_Database extends DAO implements AttrezzaturaDAO {
 
   private PreparedStatement sAttrezzaturaByID;
@@ -37,9 +31,7 @@ public class AttrezzaturaDAO_Database extends DAO implements AttrezzaturaDAO {
       super.init();
 
       sAttrezzaturaByID = connection.prepareStatement("SELECT * FROM AttrezzaturaDisponibile WHERE ID=?");
-      sAttrezzature = connection.prepareStatement("SELECT ID AS attrezzaturaID FROM AttrezzaturaDisponibile");
-      sAttrezzatureByAula = connection
-          .prepareStatement("SELECT attrezzaturaID AS attrezzaturaID FROM Fornito WHERE aulaID=?");
+      sAttrezzature = connection.prepareStatement("SELECT ID AS AttrezzaturaID FROM AttrezzaturaDisponibile");
       sAttrezzaturaByName = connection.prepareStatement("SELECT * FROM AttrezzaturaDisponibile WHERE Nome=?");
       iAttrezzatura = connection.prepareStatement("INSERT INTO AttrezzaturaDisponibile (nome) VALUES(?)",
           Statement.RETURN_GENERATED_KEYS);
@@ -56,7 +48,6 @@ public class AttrezzaturaDAO_Database extends DAO implements AttrezzaturaDAO {
     try {
 
       sAttrezzaturaByID.close();
-      sAttrezzatureByAula.close();
       sAttrezzaturaByName.close();
       sAttrezzature.close();
       iAttrezzatura.close();
@@ -64,7 +55,7 @@ public class AttrezzaturaDAO_Database extends DAO implements AttrezzaturaDAO {
       dAttrezzatura.close();
 
     } catch (SQLException ex) {
-      //
+      throw new DataException("errore nella Destroy");
     }
     super.destroy();
   }
@@ -89,20 +80,14 @@ public class AttrezzaturaDAO_Database extends DAO implements AttrezzaturaDAO {
   @Override
   public Attrezzatura getAttrezzatura(int attrezzatura_key) throws DataException {
     Attrezzatura a = null;
-    // prima vediamo se l'oggetto è già stato caricato
-    // first look for this object in the cache
     if (dataLayer.getCache().has(Attrezzatura.class, attrezzatura_key)) {
       a = dataLayer.getCache().get(Attrezzatura.class, attrezzatura_key);
     } else {
-      // altrimenti lo carichiamo dal database
-      // otherwise load it from database
       try {
         sAttrezzaturaByID.setInt(1, attrezzatura_key);
         try (ResultSet rs = sAttrezzaturaByID.executeQuery()) {
           if (rs.next()) {
             a = creaNuovaAttrezzatura(rs);
-            // e lo mettiamo anche nella cache
-            // and put it also in the cache
             dataLayer.getCache().add(Attrezzatura.class, a);
           }
         }
@@ -128,23 +113,6 @@ public class AttrezzaturaDAO_Database extends DAO implements AttrezzaturaDAO {
   }
 
   @Override
-  public List<Attrezzatura> getAttrezzaturePerAula(Aula aula) throws DataException {
-    List<Attrezzatura> result = new ArrayList<>();
-
-    try {
-      sAttrezzatureByAula.setInt(1, aula.getKey());
-      try (ResultSet rs = sAttrezzatureByAula.executeQuery()) {
-        while (rs.next()) {
-          result.add((Attrezzatura) getAttrezzatura(rs.getInt("attrezzaturaID")));
-        }
-      }
-    } catch (SQLException ex) {
-      throw new DataException("Unable to load attrezzature by aula", ex);
-    }
-    return result;
-  }
-
-  @Override
   public Attrezzatura getAttrezzaturaByName(String nomeAttrezzatura) throws DataException {
     Attrezzatura attrezzatura = null;
 
@@ -165,10 +133,6 @@ public class AttrezzaturaDAO_Database extends DAO implements AttrezzaturaDAO {
   public void storeAttrezzatura(Attrezzatura attrezzatura) throws DataException {
     try {
       if (attrezzatura.getKey() != null && attrezzatura.getKey() > 0) { // update
-        // non facciamo nulla se l'oggetto è un proxy e indica di non aver subito
-        // modifiche
-        // do not store the object if it is a proxy and does not indicate any
-        // modification
         if (attrezzatura instanceof DataItemProxy && !((DataItemProxy) attrezzatura).isModified()) {
           return;
         }
@@ -190,46 +154,15 @@ public class AttrezzaturaDAO_Database extends DAO implements AttrezzaturaDAO {
         iAttrezzatura.setString(1, attrezzatura.getNome());
 
         if (iAttrezzatura.executeUpdate() == 1) {
-          // per leggere la chiave generata dal database
-          // per il record appena inserito, usiamo il metodo
-          // getGeneratedKeys sullo statement.
-          // to read the generated record key from the database
-          // we use the getGeneratedKeys method on the same statement
           try (ResultSet keys = iAttrezzatura.getGeneratedKeys()) {
-            // il valore restituito è un ResultSet con un record
-            // per ciascuna chiave generata (uno solo nel nostro caso)
-            // the returned value is a ResultSet with a distinct record for
-            // each generated key (only one in our case)
             if (keys.next()) {
-              // i campi del record sono le componenti della chiave
-              // (nel nostro caso, un solo intero)
-              // the record fields are the key componenets
-              // (a single integer in our case)
               int key = keys.getInt(1);
-              // aggiornaimo la chiave in caso di inserimento
-              // after an insert, uopdate the object key
               attrezzatura.setKey(key);
-              // inseriamo il nuovo oggetto nella cache
-              // add the new object to the cache
               dataLayer.getCache().add(Attrezzatura.class, attrezzatura);
             }
           }
         }
       }
-
-      // //se possibile, restituiamo l'oggetto appena inserito RICARICATO
-      // //dal database tramite le API del modello. In tal
-      // //modo terremo conto di ogni modifica apportata
-      // //durante la fase di inserimento
-      // //if possible, we return the just-inserted object RELOADED from the
-      // //database through our API. In this way, the resulting
-      // //object will ambed any data correction performed by
-      // //the DBMS
-      // if (key > 0) {
-      // article.copyFrom(getArticle(key));
-      // }
-      // se abbiamo un proxy, resettiamo il suo attributo dirty
-      // if we have a proxy, reset its dirty attribute
       if (attrezzatura instanceof DataItemProxy) {
         ((DataItemProxy) attrezzatura).setModified(false);
       }

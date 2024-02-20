@@ -52,8 +52,10 @@ public class EventiPerCorso extends AuleWebBaseController {
         data = request.getParameter("date");
         LocalDate localDate = LocalDate.parse(data);
         action_eventi_per_corso(request, response, c_key, dip_key, localDate);
+      } else {
+        handleError("Nessun Parametro", request, response);
       }
-      // TODO Gestire caso senza parametri
+
     } catch (IOException | TemplateManagerException ex) {
       handleError(ex, request, response);
     }

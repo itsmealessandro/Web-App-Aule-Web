@@ -1,6 +1,12 @@
 package data.dao;
 
-import data.domain.Evento;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
 import data.domain.Responsabile;
 import data.proxy.ResponsabileProxy;
 import framework.data.DAO;
@@ -8,15 +14,10 @@ import framework.data.DataException;
 import framework.data.DataItemProxy;
 import framework.data.DataLayer;
 import framework.data.OptimisticLockException;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.List;
 
 public class ResponsabileDAO_Database extends DAO implements ResponsabileDAO {
 
-  private PreparedStatement iResponsabile, uResponsabile, sResponsabileByID, sResponsabileByEmail;
+  private PreparedStatement iResponsabile, uResponsabile, sResponsabileByID, sResponsabileByEmail, sAllResponsabili;
 
   public ResponsabileDAO_Database(DataLayer d) {
     super(d);
@@ -28,6 +29,7 @@ public class ResponsabileDAO_Database extends DAO implements ResponsabileDAO {
       super.init();
 
       sResponsabileByID = connection.prepareStatement("SELECT * FROM Responsabile WHERE ID=?");
+      sAllResponsabili = connection.prepareStatement("SELECT * FROM Responsabile");
       sResponsabileByEmail = connection.prepareStatement("SELECT * FROM Responsabile WHERE Email=?");
       iResponsabile = connection.prepareStatement("INSERT INTO Responsabile (nome,cognome,email) VALUES(?,?,?)",
           Statement.RETURN_GENERATED_KEYS);
@@ -42,12 +44,13 @@ public class ResponsabileDAO_Database extends DAO implements ResponsabileDAO {
   public void destroy() throws DataException {
     try {
       sResponsabileByID.close();
+      sAllResponsabili.close();
       sResponsabileByEmail.close();
       iResponsabile.close();
       uResponsabile.close();
 
     } catch (SQLException ex) {
-      // TODO gestire l'eccezione
+      throw new DataException("Errore nella Destroy", ex);
     }
     super.destroy();
   }
@@ -97,13 +100,6 @@ public class ResponsabileDAO_Database extends DAO implements ResponsabileDAO {
     return a;
   }
 
-  // TODO implementare il metodo
-  @Override
-  public Responsabile getResponsabileByEvento(Evento evento) throws DataException {
-    throw new UnsupportedOperationException("Not supported yet."); // Generated from
-                                                                   // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-  }
-
   @Override
   public Responsabile getResponsabileByEmail(String email) throws DataException {
     Responsabile responsabile = null;
@@ -123,11 +119,19 @@ public class ResponsabileDAO_Database extends DAO implements ResponsabileDAO {
 
   }
 
-  // TODO implementare il metodo
   @Override
   public List<Responsabile> getAllResponsabili() throws DataException {
-    throw new UnsupportedOperationException("Not supported yet."); // Generated from
-                                                                   // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
+    List<Responsabile> result = new ArrayList<>();
+
+    try (ResultSet rs = sAllResponsabili.executeQuery()) {
+      while (rs.next()) {
+        result.add((Responsabile) getResponsabile(rs.getInt("ID")));
+      }
+    } catch (SQLException ex) {
+      throw new DataException("Unable to load responsabile", ex);
+    }
+    return result;
   }
 
   @Override

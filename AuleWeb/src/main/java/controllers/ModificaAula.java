@@ -29,7 +29,7 @@ public class ModificaAula extends AuleWebBaseController {
       res.activate("adminModificaAula.ftl.html", request, response);
 
     } catch (DataException ex) {
-      handleError("Data access exception: " + ex.getMessage(), request, response);
+      throw new ServletException("Operazione Fallita:", ex);
     }
   }
 
