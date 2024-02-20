@@ -53,8 +53,6 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
 
   @Override
   public void destroy() throws DataException {
-    // anche chiudere i PreparedStamenent � una buona pratica...
-    // also closing PreparedStamenents is a good practice...
     try {
 
       sAulaPerID.close();
@@ -66,7 +64,7 @@ public class AulaDAO_Database extends DAO implements AulaDAO {
       dAula.close();
 
     } catch (SQLException ex) {
-      // TODO da gestire
+      throw new DataException("Error in destroy", ex);
     }
     super.destroy();
   }

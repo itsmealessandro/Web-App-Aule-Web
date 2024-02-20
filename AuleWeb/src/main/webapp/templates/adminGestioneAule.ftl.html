@@ -3,35 +3,34 @@
 
 
 <table class="tableStyle">
-    <thead>
-        <tr class="tableTitle">           
-            <th>Nome</th>
-            <th>Luogo</th>
-            <th>Edificio</th>
-            <th>Piano</th> 
-            <th>Capienza</th>
-            <th>Prese Elettriche</th>
-            <th>Prese Rete</th> 
-            <th>Note</th>             
-        </tr>
-    </thead>
-    <tbody>
-        <#list aule as aula>
-        <tr class="tableContent">
-            <td><a href="ModificaAula?a_key=${aula.key}">${aula.nome}</a></td>
-            <td>${aula.luogo}</td>
-            <td>${aula.edificio}</td>
-            <td>${aula.piano}</td>
-            <td>${aula.capienza}</td>
-            <td>${aula.preseElettriche}</td>
-            <td>${aula.preseRete}</td>
-            <td>${aula.note}</td>             
-        </tr>
-        </#list>
-    </tbody>
+  <thead>
+    <tr class="tableTitle">
+      <th>Nome</th>
+      <th>Luogo</th>
+      <th>Edificio</th>
+      <th>Piano</th>
+      <th>Capienza</th>
+      <th>Prese Elettriche</th>
+      <th>Prese Rete</th>
+      <th>Note</th>
+    </tr>
+  </thead>
+  <tbody>
+    <#list aule as aula>
+      <tr class="tableContent">
+        <td><a href="ModificaAula?a_key=${aula.key}">${aula.nome}</a></td>
+        <td>${aula.luogo}</td>
+        <td>${aula.edificio}</td>
+        <td>${aula.piano}</td>
+        <td>${aula.capienza}</td>
+        <td>${aula.preseElettriche}</td>
+        <td>${aula.preseRete}</td>
+        <td>${aula.note}</td>
+      </tr>
+    </#list>
+  </tbody>
 </table>
 
-<form action="ModificaAula?e_key=0" method="POST">
+<form action="ModificaAula?a_key=0" method="POST">
   <button type="submit">Crea Nuova Aula</button>
 </form>
-

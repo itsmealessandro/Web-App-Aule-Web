@@ -1,9 +1,9 @@
 package data.dao;
 
-import data.domain.Evento;
+import java.util.List;
+
 import data.domain.Responsabile;
 import framework.data.DataException;
-import java.util.List;
 
 public interface ResponsabileDAO {
 
@@ -12,9 +12,6 @@ public interface ResponsabileDAO {
 
   // Restituisce il responsabile corrente
   Responsabile getResponsabile(int resp_key) throws DataException;
-
-  // Restituisce il responsabile associato a un evento specifico
-  Responsabile getResponsabileByEvento(Evento evento) throws DataException;
 
   // Restituice il responsabile con quella email
   Responsabile getResponsabileByEmail(String email) throws DataException;

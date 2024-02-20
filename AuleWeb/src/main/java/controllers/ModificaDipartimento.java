@@ -74,8 +74,7 @@ public class ModificaDipartimento extends AuleWebBaseController {
         action_default(request, response, dip_key);
 
       }
-      // TODO Gestire caso senza parametri
-
+      handleError("Nessun Parametro", request, response);
     } catch (NumberFormatException ex) {
       handleError("Invalid number submitted", request, response);
     } catch (IOException | TemplateManagerException ex) {

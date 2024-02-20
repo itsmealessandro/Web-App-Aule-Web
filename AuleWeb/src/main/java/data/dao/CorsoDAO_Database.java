@@ -52,7 +52,7 @@ public class CorsoDAO_Database extends DAO implements CorsoDAO {
       uCorso.close();
 
     } catch (SQLException ex) {
-      // TODO gestire l'eccezione
+      throw new DataException("Error In Destroy", ex);
     }
     super.destroy();
   }

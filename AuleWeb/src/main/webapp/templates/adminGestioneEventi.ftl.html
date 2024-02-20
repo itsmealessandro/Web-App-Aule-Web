@@ -2,39 +2,40 @@
 
 
 <table class="tableStyle">
-    <thead>
-        <tr class="tableTitle">           
-            <th>Nome</th>
-            <th>Ora Inizio</th>
-            <th>Ora Fine</th>
-            <th>Descrizione</th> 
-            <th>Data</th>
-            <th>Ricorrenza</th>
-            <th>Data Fine Ricorrenza</th> 
-            <th>Tipologia Evento</th>             
-        </tr>
-    </thead>
-    <tbody>
-        <#list eventi as evento>
-        <tr class="tableContent">
-            <td><a href="ModificaEvento?e_key=${evento.key}">${evento.nome}</a></td>
-            <td>${evento.oraInizio}</td>
-            <td>${evento.oraFine}</td>
-            <td>${evento.descrizione}</td>
-            <td>${evento.data}</td>
-            <td>${evento.ricorrenza}</td>
-            <td> <#if evento.dataFineRicorrenza?has_content>
-                ${evento.dataFineRicorrenza}
-                <#else>
-                Nessuna
-                </#if></td>
-            <td>${evento.tipologiaEvento}</td>             
-        </tr>
-        </#list>
-    </tbody>
+  <thead>
+    <tr class="tableTitle">
+      <th>Nome</th>
+      <th>Ora Inizio</th>
+      <th>Ora Fine</th>
+      <th>Descrizione</th>
+      <th>Data</th>
+      <th>Ricorrenza</th>
+      <th>Data Fine Ricorrenza</th>
+      <th>Tipologia Evento</th>
+    </tr>
+  </thead>
+  <tbody>
+    <#list eventi as evento>
+      <tr class="tableContent">
+        <td><a href="ModificaEvento?e_key=${evento.key}">${evento.nome}</a></td>
+        <td>${evento.oraInizio}</td>
+        <td>${evento.oraFine}</td>
+        <td>${evento.descrizione}</td>
+        <td>${evento.data}</td>
+        <td>${evento.ricorrenza}</td>
+        <td>
+          <#if evento.dataFineRicorrenza?has_content>
+            ${evento.dataFineRicorrenza}
+            <#else>
+              Nessuna
+          </#if>
+        </td>
+        <td>${evento.tipologiaEvento}</td>
+      </tr>
+    </#list>
+  </tbody>
 </table>
 
-<form action="ModificaEvento?a_key=0" method="POST">
+<form action="ModificaEvento?e_key=0" method="POST">
   <button type="submit">Crea Nuovo Evento</button>
 </form>
-
