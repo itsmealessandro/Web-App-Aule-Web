@@ -12,7 +12,6 @@ import framework.data.DataException;
 import framework.data.DataItemProxy;
 import framework.data.DataLayer;
 import framework.data.OptimisticLockException;
-
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,7 +27,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
 
   private PreparedStatement sEventoByID, sEventoByAula, sEventiByDay, sEventiByCorso,
       sAllEventi, sEventiByIDMaster, sEventiSettimanaliByAula, sEventiByTreOre, sEventoByNome, sMAXIDMaster, iEvento,
-      uEvento, dEvento, dEventiByIDMaster;
+      uEvento, dEvento, dEventiByIDMaster, sEventiByDate;
 
   public EventoDAO_Database(DataLayer d) {
     super(d);
@@ -49,7 +48,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
       sEventiSettimanaliByAula = connection.prepareStatement(
           "SELECT *FROM Evento AS ev INNER JOIN Aula AS au ON ev.IDAula = au.ID INNER JOIN Dipartimento AS d ON au.IDDipartimento = d.ID WHERE d.ID = ?  AND au.ID = ? AND ev.Data BETWEEN ? AND ?");
       sEventiByDay = connection.prepareStatement(
-          " SELECT e.* FROM Evento e JOIN Aula a ON e.IDAula = a.ID JOIN Dipartimento d ON a.IDDipartimento = d.ID WHERE d.ID = ? AND e.dataInizio <= ? AND e.dataFine >= ?");
+          " SELECT e.* FROM Evento e JOIN Aula a ON e.IDAula = a.ID JOIN Dipartimento d ON a.IDDipartimento = d.ID WHERE d.ID = ? AND e.data = ?");
       sEventiByCorso = connection.prepareStatement(
           " SELECT e.* FROM Evento e JOIN Aula a ON e.IDAula = a.ID JOIN Corso c ON e.IDCorso = c.ID "
               + " WHERE c.ID = ? AND a.IDDipartimento = ? "
@@ -60,6 +59,11 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
           " WHERE e.oraInizio BETWEEN CURRENT_TIME() AND ADDTIME(CURRENT_TIME(), '03:00:00')\n" +
           " AND e.Data = CURDATE()\n" +
           " AND a.IDDipartimento = ?;");
+
+      sEventiByDate = connection.prepareStatement("SELECT *\n" +
+          "FROM Evento\n" +
+          "WHERE IDAula IN (SELECT ID FROM Aula WHERE IDDipartimento = ?)\n" +
+          "AND Data BETWEEN ? AND ?;");
 
       iEvento = connection.prepareStatement(
           "INSERT INTO Evento (IDMaster, nome, oraInizio, oraFine, descrizione, ricorrenza, Data, dataFineRicorrenza, tipologiaEvento, IDResponsabile, IDCorso, IDAula) "
@@ -104,6 +108,7 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
       sEventoByNome.close();
       sEventiByTreOre.close();
       sAllEventi.close();
+      sEventiByDate.close();
 
       iEvento.close();
       uEvento.close();
@@ -211,7 +216,6 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
     try {
       sEventiByDay.setInt(1, dip_key);
       sEventiByDay.setDate(2, data);
-      sEventiByDay.setDate(3, data);
 
       try (ResultSet rSet = sEventiByDay.executeQuery()) {
         while (rSet.next()) {
@@ -308,6 +312,26 @@ public class EventoDAO_Database extends DAO implements EventoDAO {
       }
     } catch (SQLException sqlException) {
       throw new DataException("Unable to load Eventi by IDMaster");
+    }
+    return listaEventi;
+  }
+
+  @Override
+  public List<Evento> getEventiByDate(int dip_key, Date dataI, Date dataF) throws DataException {
+    List<Evento> listaEventi = new ArrayList<>();
+    try {
+
+      sEventiByDate.setInt(1, dip_key);
+      sEventiByDate.setDate(2, dataI);
+      sEventiByDate.setDate(3, dataF);
+
+      try (ResultSet resultSet = sEventiByDate.executeQuery()) {
+        while (resultSet.next()) {
+          listaEventi.add((Evento) getEventoByID(resultSet.getInt("ID")));
+        }
+      }
+    } catch (SQLException sqlException) {
+      throw new DataException("Unable to load Eventi by date");
     }
     return listaEventi;
   }

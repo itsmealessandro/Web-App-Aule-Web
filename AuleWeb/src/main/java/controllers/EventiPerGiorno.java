@@ -62,7 +62,6 @@ public class EventiPerGiorno extends AuleWebBaseController {
         action_eventi_per_giorno(request, response, sqlDate, dip_key);
       }
     } catch (ParseException pe) {
-      // TODO Gestire l'eccezione
       throw new ServletException("bad date format", pe);
 
     } catch (IOException | TemplateManagerException ex) {
