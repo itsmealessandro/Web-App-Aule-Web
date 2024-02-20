@@ -1,157 +1,144 @@
-<h1>Modifica Evento</h1>
-<style>
-  #dataFineRicorrenza {
-    display: none;
-    /* Nascondi il campo di input per la dataFineRicorrenza all'avvio */
-  }
+<div class="container">
 
-  #labelDataFineRicorrenza {
-    display: none;
-    /* Nascondi il campo di input per la dataFineRicorrenza all'avvio */
-  }
-</style>
+    <h1>Modifica Evento</h1>
 
-<#if evento.key==0>
-  <form method="post" action="ModificaEvento">
-    <input type="hidden" name="e_key" value="0">
-    <input type="hidden" name="IDMaster" value="0">
-    <p>Ora Inizio:</p>
-    <input type="time" name="oraInizio" id="oraInizio" oninput="arrotondaOra(this)" step=900>
-    <p>Ora Fine:</p>
-    <input type="time" name="oraFine" id="oraFine" oninput="arrotondaOra(this)" step=900>
-    <p>Descrizione:</p>
-    <input type="text" name="descrizione">
-    <p>Tipologia Evento:</p>
-    <input type="text" name="tipologiaEvento">
-    <p>Nome:</p>
-    <input type="text" name="nome">
-    <p>Nome Aula:</p>
-    <input type="text" name="a_name">
-    <p>Corso:</p>
-    <input type="text" name="corso">
-    <p>Email Responsabile:</p>
-    <input type="text" name="emailR">
-    <p>Data:</p>
-    <input type="date" name="giorno">
+    <#if evento.key==0>
+    <form method="post" action="ModificaEvento">
+        <input type="hidden" name="e_key" value="0">
+        <input type="hidden" name="IDMaster" value="0">
+        <p>Ora Inizio:</p>
+        <input type="time" name="oraInizio" id="oraInizio" oninput="arrotondaOra(this)" step=900>
+        <p>Ora Fine:</p>
+        <input type="time" name="oraFine" id="oraFine" oninput="arrotondaOra(this)" step=900>
+        <p>Descrizione:</p>
+        <input type="text" name="descrizione">
+        <p>Tipologia Evento:</p>
+        <input type="text" name="tipologiaEvento">
+        <p>Nome:</p>
+        <input type="text" name="nome">
+        <p>Nome Aula:</p>
+        <input type="text" name="a_name">
+        <p>Corso:</p>
+        <input type="text" name="corso">
+        <p>Email Responsabile:</p>
+        <input type="text" name="emailR">
+        <p>Data:</p>
+        <input type="date" name="giorno">
 
-    <label for="ricorrenza">Seleziona la ricorrenza:</label>
-    <select id="ricorrenza" onchange="gestisciRicorrenza()" value="NESSUNA" name="ricorrenza">
-      <option value="NESSUNA">NESSUNA</option>
-      <option value="GIORNALIERA">GIORNALIERA</option>
-      <option value="SETTIMANALE">SETTIMANALE</option>
-      <option value="MENSILE">MENSILE</option>
-    </select>
-    <label for="dataFineRicorrenza" id="labelDataFineRicorrenza">Data Fine Ricorrenza:</label>
-    <input type="date" id="dataFineRicorrenza" name="dataFineRicorrenza">
-    <input type="submit" name="conf" value="Conferma">
-  </form>
-  <#else>
+        <label for="ricorrenza">Seleziona la ricorrenza:</label>
+        <select id="ricorrenza" onchange="gestisciRicorrenza()" value="NESSUNA" name="ricorrenza">
+            <option value="NESSUNA">NESSUNA</option>
+            <option value="GIORNALIERA">GIORNALIERA</option>
+            <option value="SETTIMANALE">SETTIMANALE</option>
+            <option value="MENSILE">MENSILE</option>
+        </select>
+        <label for="dataFineRicorrenza" id="labelDataFineRicorrenza">Data Fine Ricorrenza:</label>
+        <input type="date" id="dataFineRicorrenza" name="dataFineRicorrenza">
+        <input type="submit" name="conf" value="Conferma">
+    </form>
+    <#else>
 
 
 
     <form method="post" action="ModificaEvento">
-      <#if evento.ricorrenza=="NESSUNA">
+        <#if evento.ricorrenza=="NESSUNA">
         <input type="hidden" name="IDMaster" value=0>
         <#else>
-          <input type="hidden" name="IDMaster" value="${evento.IDMaster}">
-      </#if>
-      <input type="hidden" name="e_key" value="${evento.key}">
-      <p>Ora Inizio:</p>
-      <input type="time" name="oraInizio" id="oraInizio" step=900 value="${evento.oraInizio?string('HH:mm:ss')}"
-        oninput="arrotondaOra(this)">
-      <p>Ora Fine:</p>
-      <input type="time" name="oraFine" id="oraFine" step=900 value="${evento.oraFine?string('HH:mm:ss')}"
-        oninput="arrotondaOra(this)">
-      <p>Descrizione:</p>
-      <input type="text" name="descrizione" value="${evento.descrizione}">
-      <p>Tipologia Evento:</p>
-      <input type="text" name="tipologiaEvento" value="${evento.tipologiaEvento}">
-      <p>Nome:</p>
-      <input type="text" name="nome" value="${evento.nome}">
-      <p>Nome Aula:</p>
-      <input type="text" name="a_name" value="${evento.aula.nome}">
-      <p>Corso:</p>
-      <input type="text" name="corso" value="${evento.corso.nome}">
-      <p>Email Responsabile:</p>
-      <input type="text" name="emailR" value="${evento.responsabile.email}">
-      <p>Giorno:</p>
-      <input type="date" name="giorno" value="${evento.data?string('yyyy-MM-dd')}">
-      <#if evento.ricorrenza !="NESSUNA">
+        <input type="hidden" name="IDMaster" value="${evento.IDMaster}">
+        </#if>
+        <input type="hidden" name="e_key" value="${evento.key}">
+        <p>Ora Inizio:</p>
+        <input type="time" name="oraInizio" id="oraInizio" step=900 value="${evento.oraInizio?string('HH:mm:ss')}"
+               oninput="arrotondaOra(this)">
+        <p>Ora Fine:</p>
+        <input type="time" name="oraFine" id="oraFine" step=900 value="${evento.oraFine?string('HH:mm:ss')}"
+               oninput="arrotondaOra(this)">
+        <p>Descrizione:</p>
+        <input type="text" name="descrizione" value="${evento.descrizione}">
+        <p>Tipologia Evento:</p>
+        <input type="text" name="tipologiaEvento" value="${evento.tipologiaEvento}">
+        <p>Nome:</p>
+        <input type="text" name="nome" value="${evento.nome}">
+        <p>Nome Aula:</p>
+        <input type="text" name="a_name" value="${evento.aula.nome}">
+        <p>Corso:</p>
+        <input type="text" name="corso" value="${evento.corso.nome}">
+        <p>Email Responsabile:</p>
+        <input type="text" name="emailR" value="${evento.responsabile.email}">
+        <p>Giorno:</p>
+        <input type="date" name="giorno" value="${evento.data?string('yyyy-MM-dd')}">
+        <#if evento.ricorrenza !="NESSUNA">
         <label for="ricorrenza">Seleziona la ricorrenza:</label>
         <input type="hidden" name="ricorrenza" value="${evento.ricorrenza}" />
         <select id="ricorrenza" onchange="gestisciRicorrenza()" disabled>
-          <option value="NESSUNA">NESSUNA</option>
-          <option value="GIORNALIERA">GIORNALIERA</option>
-          <option value="SETTIMANALE">SETTIMANALE</option>
-          <option value="MENSILE">MENSILE</option>
+            <option value="NESSUNA">NESSUNA</option>
+            <option value="GIORNALIERA">GIORNALIERA</option>
+            <option value="SETTIMANALE">SETTIMANALE</option>
+            <option value="MENSILE">MENSILE</option>
         </select>
         <p>Data Fine Ricorrenza:</p>
         <label for="dataFineRicorrenza" id="labelDataFineRicorrenza">Data Fine Ricorrenza:</label>
         <input type="hidden" name="dataFineRicorrenza" value="${evento.dataFineRicorrenza?string('yyyy-MM-dd')}" />
         <input type="date" id="dataFineRicorrenza" value="${evento.dataFineRicorrenza?string('yyyy-MM-dd')}" readonly>
         <#else>
-          <input type=" hidden" name="dataFineRicorrenza" value="0">
-          <input type="hidden" name="ricorrenza" value="NESSUNA">
-      </#if>
-      <input type="submit" name="conf" value="Conferma">
-      <input type="submit" name="delete" value="Elimina">
-      <#if evento.ricorrenza !="NESSUNA">
+        <input type="hidden" name="dataFineRicorrenza" value="0">
+        <input type="hidden" name="ricorrenza" value="NESSUNA">
+        </#if>
+        <input type="submit" name="conf" value="Conferma">
+        <input type="submit" name="delete" value="Elimina">
+        <#if evento.ricorrenza !="NESSUNA">
         <input type="submit" name="deleteRicorrenti" value="Elimina Tutti Eventi Associati">
-      </#if>
+        </#if>
     </form>
-</#if>
+    </#if>
 
-<script>
-  function arrotondaOra(input) {
-    // Ottieni il valore dell'input
-    var ora = input.value;
+    <script>
+        function arrotondaOra(input) {
+        // Ottieni il valore dell'input
+        var ora = input.value;
+        // Dividi l'orario in ore e minuti
+        var [ore, minuti] = ora.split(':').map(Number);
+        // Arrotonda i minuti al multiplo di 15 più vicino
+        var minutiArrotondati = Math.round(minuti / 15) * 15;
+        // Se il numero è 60, arrotonda anche le ore
+        if (minutiArrotondati === 60) {
+        ore++;
+        minutiArrotondati = 0;
+        }
 
-    // Dividi l'orario in ore e minuti
-    var [ore, minuti] = ora.split(':').map(Number);
+        // Formatta l'orario arrotondato
+        var oraArrotondata = ('0' + ore).slice( - 2) + ':' + ('0' + minutiArrotondati).slice( - 2);
+        // Imposta il valore dell'input all'orario arrotondato
+        input.value = oraArrotondata;
+        }
+    </script>
 
-    // Arrotonda i minuti al multiplo di 15 più vicino
-    var minutiArrotondati = Math.round(minuti / 15) * 15;
+    <script>
 
-    // Se il numero è 60, arrotonda anche le ore
-    if (minutiArrotondati === 60) {
-      ore++;
-      minutiArrotondati = 0;
-    }
+        var ricorrenza;
+        <#if evento.ricorrenza?? && evento.ricorrenza != "NESSUNA" >
+        // Inizializza il valore del menu a discesa con il valore di ricorrenza
+        window.onload = function () {
+                document.getElementById("ricorrenza").value = "${evento.ricorrenza}";
+        gestisciRicorrenza(); // Chiama la funzione per assicurarti che l'interfaccia rifletta lo stato iniziale correttamente
+        document.getElementById("dataFineRicorrenza").value = "${evento.dataFineRicorrenza}";
+        gestisciRicorrenza(); // Chiama la funzione per assicurarti che l'interfaccia rifletta lo stato iniziale correttamente
+        };
+        </#if >
 
-    // Formatta l'orario arrotondato
-    var oraArrotondata = ('0' + ore).slice(-2) + ':' + ('0' + minutiArrotondati).slice(-2);
+                function gestisciRicorrenza() {
+                ricorrenza = document.getElementById("ricorrenza").value;
+                var dataFineRicorrenzaInput = document.getElementById("dataFineRicorrenza");
+                var labelDataFineRicorrenza = document.getElementById("labelDataFineRicorrenza");
+                if (ricorrenza === "NESSUNA") {
+                dataFineRicorrenzaInput.value = ""; // Azzera il valore del campo data
+                dataFineRicorrenzaInput.style.display = "none"; // Nascondi il campo di input
+                labelDataFineRicorrenza.style.display = "none"; // Nascondi l'etichetta del campo
+                } else {
 
-    // Imposta il valore dell'input all'orario arrotondato
-    input.value = oraArrotondata;
-  }
-</script>
-
-<script>
-
-  var ricorrenza;
-  <#if evento.ricorrenza?? && evento.ricorrenza != "NESSUNA" >
-    // Inizializza il valore del menu a discesa con il valore di ricorrenza
-    window.onload = function () {
-      document.getElementById("ricorrenza").value = "${evento.ricorrenza}";
-      gestisciRicorrenza(); // Chiama la funzione per assicurarti che l'interfaccia rifletta lo stato iniziale correttamente
-      document.getElementById("dataFineRicorrenza").value = "${evento.dataFineRicorrenza}";
-      gestisciRicorrenza(); // Chiama la funzione per assicurarti che l'interfaccia rifletta lo stato iniziale correttamente
-    };
-  </#if >
-
-    function gestisciRicorrenza() {
-      ricorrenza = document.getElementById("ricorrenza").value;
-      var dataFineRicorrenzaInput = document.getElementById("dataFineRicorrenza");
-      var labelDataFineRicorrenza = document.getElementById("labelDataFineRicorrenza");
-
-      if (ricorrenza === "NESSUNA") {
-        dataFineRicorrenzaInput.value = ""; // Azzera il valore del campo data
-        dataFineRicorrenzaInput.style.display = "none"; // Nascondi il campo di input
-        labelDataFineRicorrenza.style.display = "none"; // Nascondi l'etichetta del campo
-      } else {
-
-        dataFineRicorrenzaInput.style.display = "inline"; // Mostra il campo di input
-        labelDataFineRicorrenza.style.display = "inline"; // Mostra l'etichetta del campo
-      }
-    }
-</script>
+                dataFineRicorrenzaInput.style.display = "inline"; // Mostra il campo di input
+                labelDataFineRicorrenza.style.display = "inline"; // Mostra l'etichetta del campo
+                }
+                }
+    </script>
+</div>
