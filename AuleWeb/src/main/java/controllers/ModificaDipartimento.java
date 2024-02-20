@@ -73,8 +73,9 @@ public class ModificaDipartimento extends AuleWebBaseController {
         int dip_key = SecurityHelpers.checkNumeric(request.getParameter("dip_key"));
         action_default(request, response, dip_key);
 
+      } else {
+        handleError("Nessun Parametro", request, response);
       }
-      handleError("Nessun Parametro", request, response);
     } catch (NumberFormatException ex) {
       handleError("Invalid number submitted", request, response);
     } catch (IOException | TemplateManagerException ex) {
