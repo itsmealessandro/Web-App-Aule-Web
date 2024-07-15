@@ -1,27 +1,38 @@
-# ReadMe - Progetto Web App per Web Engineering (UNIVAQ)
+# Department Class Management System
 
-Questo repository contiene il codice sorgente per una Web App sviluppata come parte del corso di Web Engineering presso l'Università degli Studi dell'Aquila (UNIVAQ).
+This web application provides a comprehensive solution for managing classes across different departments. It's built using Java for the backend, with Maven as the build tool and MySQL as the database. The frontend is developed using Freemarker, JavaScript, HTML, and CSS.
 
-## Descrizione del Progetto
+## Features
 
-Il progetto è una Web App progettata per consentire la gestione e la visualizzazione delle aule di diversi dipartimenti. L'applicazione offre funzionalità per la gestione e la visualizzazione delle disponibilità delle aule, semplificando la pianificazione e l'utilizzo efficiente delle risorse dell'università.
+- User authentication and authorization
+- Department management
+- Class scheduling and management
+- Event tracking and organization
+- Intuitive user interface
 
-## Tecnologie Utilizzate
+## Technologies Used
 
-Il progetto fa ampio uso delle seguenti tecnologie:
+- Backend:
+  - Java
+  - Maven
+  - MySQL
+- Frontend:
+  - Freemarker
+  - JavaScript
+  - HTML
+  - CSS
 
-- **JavaEE7**: La Web App è basata su Java Enterprise Edition 7, una piattaforma robusta per lo sviluppo di applicazioni web aziendali.
+## Screenshots
 
-- **Tomcat 9**: Tomcat 9 è il server web e servlet container utilizzato per ospitare l'applicazione, fornendo un ambiente affidabile per l'esecuzione della Web App.
+### Homepage
+![Homepage](images/HomepageExample.png)
 
-- **Maven**: Maven è utilizzato come sistema di gestione delle dipendenze e di build per semplificare il processo di compilazione e distribuzione del progetto.
+### Event Management Page
+![Event Management](images/EventsExample.png)
 
-- **Database**: La Web App fa ampio uso di un database per la memorizzazione dei dati relativi alle aule, alle prenotazioni e alle informazioni dei dipartimenti.
+This page allows users to manage various events, including classes and seminars. Users can view event details such as name, time, description, recurrence, and event type.
 
-- **FreeMarker**: Libreria utilizzata per gestire layout e templates.
 
-L'uso combinato di queste tecnologie permette una realizzazione efficace e scalabile della Web App.
 
-Per ulteriori dettagli sulla configurazione e l'installazione delle tecnologie, si prega di fare riferimento alla documentazione specifica di ciascuna.
+The homepage welcomes users and provides quick access to different departments, allowing them to start their search or navigation.
 
-Grazie per l'interesse nel progetto!
