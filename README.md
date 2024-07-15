@@ -25,10 +25,10 @@ This web application provides a comprehensive solution for managing classes acro
 ## Screenshots
 
 ### Homepage
-![Homepage](images/HomepageExample.png)
+![Homepage](HomepageExample.png)
 
 ### Event Management Page
-![Event Management](images/EventsExample.png)
+![Event Management](EventsExample.png)
 
 This page allows users to manage various events, including classes and seminars. Users can view event details such as name, time, description, recurrence, and event type.
 
